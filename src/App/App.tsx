@@ -1,28 +1,26 @@
-import React, { useContext, useState } from 'react'
-import ButtonPanel from './components/ButtonPanel/ButtonPanel'
-import Table from './components/Table/Table'
-import Context from './stores/context'
+import React, { useContext, useEffect, useReducer, useState } from 'react'
+import { selectTaskContext } from './stores/SelectTaskContext';
+
+const Test = () => {
+	const { data, setValue } = selectTaskContext.useContext();
+
+	const setId = (id: string) => setValue("id", id);
+
+	return <input type="text" value={data.id} onChange={(ev) => setId(ev.target.value)} />
+}
 
 export default function App() {
-	const store = useContext(Context)
-	const [dataRender, setDataRender] = useState(store.dataRender)
+	const [data, setValue] = selectTaskContext.useState()
 
-	async function buttonSearchHandler() {
-		store.dataRender = store.dataRender.filter(
-			(project) => project.projectManager?.name === 'User 1'
-		)
-
-		setDataRender(store.dataRender)
-		console.log('data:')
-		console.log(store.data)
-		console.log('data_render:')
-		console.log(store.dataRender)
-	}
+	// Подгрузка данных
+	React.useLayoutEffect(() => {
+	}, [])
 
 	return (
-		<>
-			<ButtonPanel searchHandler={buttonSearchHandler} />
-			<Table />
-		</>
+		<selectTaskContext.Provider value={{ data, setValue }}>
+			{/* Хедер */}
+			{/* Столбец с фильтрами */}
+			{/* Столбец с таблицей */}
+		</selectTaskContext.Provider>
 	)
 }

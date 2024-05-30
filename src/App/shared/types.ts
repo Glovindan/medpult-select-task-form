@@ -1,20 +1,9 @@
-export interface IProject {
-	projectName: string
-	id: string
-	projectManager?: IPeople
-	team?: IPeople[]
+export interface IInputData<DataType = any> {
+	value: string
+	data?: DataType
 }
 
-interface IPeople {
-	name: string
-	id: string
-}
-
-export interface IStore {
-	data: IProject[]
-	dataRender: IProject[]
-}
-
-export interface IPropsForTable {
-	data: IProject[]
+const data: IInputData<number> = {
+	value: '',
+	data: 124124,
 }
