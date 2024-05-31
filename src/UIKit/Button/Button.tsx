@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, ReactNode, useEffect, useReducer, useRef, useState } from 'react'
+import React, { ReactNode, useRef, useState } from 'react';
 import Loader from '../Loader/Loader';
 
 interface ButtonData extends React.ComponentProps<'button'> {
@@ -35,9 +35,9 @@ function Button(props: ButtonData) {
 	return (
 		<button
 			className={
-				buttonType == ""
-					? `button`
-					: `button button_${buttonType}`
+				buttonType
+					? `button button_${buttonType}`
+					: `button`
 			}
 			disabled={isLoading}
 			onClick={loadOnClick}
