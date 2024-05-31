@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import CustomSelectRow from './CustomSelectRow/CustomSelectRow';
 import CustomInput from '../CustomInput/CustomInput';
-import { IInputData } from '../shared/types';
+import { IInputData } from '../shared/types/types';
 import { CustomSelectProps } from './CustomSelectTypes';
 import InputButton from '../InputButton/InputButton';
 import icons from '../shared/icons';

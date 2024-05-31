@@ -1,7 +1,7 @@
 import React from 'react'
 import CustomListRowColumn from '../CustomListRowColumn/CustomListRowColumn'
 import { ListColumnData, getDetailsLayoutAttributes } from '../CustomListTypes'
-import { IInputData } from '../../shared/types'
+import { IInputData } from '../../shared/types/types'
 
 interface ListRowProps {
 	/** Настройки строки (обязательно) */

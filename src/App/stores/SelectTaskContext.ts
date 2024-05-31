@@ -1,5 +1,11 @@
 import React from 'react'
 import { initGlobalContext } from './GlobalContext'
+import {
+	DateFilter,
+	FiltersData,
+	ListFilter,
+	StringFilter,
+} from '../../UIKit/shared/types/filterTypes'
 
 /** Данные обращения */
 class SelectTaskData {
@@ -13,57 +19,33 @@ class SelectTaskData {
 	}
 }
 
-// TODO: Вынести отдельно
-
-/** Интерфейс фильтров */
-interface IFilter {
-	/** Сброс фильтра */
-	reset(): void
-}
-
-/** Операторы фильтров по строке */
-enum StringFilterOperator {
-	/** Равно */
-	eq = 'eq',
-	/** Неравно */
-	neq = 'neq',
-	/** Содержит */
-	like = 'like',
-}
-
-/** Фильтр по строке */
-class StringFilter implements IFilter {
-	/** Значение */
-	value: string
-	/** Оператор (по умолчанию Содержит) */
-	operator: StringFilterOperator
-
-	constructor() {
-		this.reset()
-	}
-
-	reset(): void {
-		this.value = ''
-		this.operator = StringFilterOperator.like
-	}
-}
-
-// TODO: Вынести отдельно ^^^^
-
-class SelectTaskFilters {
+/** Значения фильтров формы отбора задач */
+class SelectTaskFilters extends FiltersData {
 	// Номер задачи - строчька
 	number: StringFilter
 	// Статус задачи - флажки
+	status: ListFilter
 	// Тип задачи - флажки
+	type: ListFilter
 	// Вид задачи - хрень какая-то
+	sort: ListFilter
 	// Дата создания - дата с по
+	createdAt: DateFilter
 	// Дата контроля - дата с по
+	controledAt: DateFilter
 	// Автор - хрень какая-то
+	author: ListFilter
 	// Исполнитель - хрень какая-то
+	executor: ListFilter
 	// Обращение - ваще хз спросить надо
+	request: any
 	// Застрахованный - ваще хз спросить надо
+	insured: any
 
-	constructor() {}
+	constructor() {
+		super()
+		this.reset()
+	}
 }
 
 export const selectTaskContext = initGlobalContext<SelectTaskData>(new SelectTaskData())

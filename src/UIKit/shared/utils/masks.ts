@@ -1,4 +1,7 @@
-const applyDateMask = (value: string): string => {
+/** Маски для полей ввода */
+
+/** Маска дат */
+export const applyDateMask = (value: string): string => {
 	const match = value.match(/(\d{1,2})?\D*(\d{1,2})?\D*(\d{1,4})?/m)?.slice(1)
 	if (!match) return ''
 
@@ -18,7 +21,8 @@ const applyDateMask = (value: string): string => {
 	return value
 }
 
-const applyNumbersMask = (value: string): string => {
+/** Маска чисел с плавающей точкой */
+export const applyNumbersMask = (value: string): string => {
 	return (
 		value
 			.match(/\d+[,|\.]?\d*/g)

@@ -1,0 +1,13 @@
+.filter-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+}
+
+.indicator {
+	z-index: 1;
+	position: absolute;
+	right: -6px;
+	top: -6px;
+}

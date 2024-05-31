@@ -1,5 +1,5 @@
 import React from 'react'
-import { IInputData } from '../../shared/types'
+import { IInputData } from '../../shared/types/types'
 import { ListColumnData } from '../CustomListTypes'
 
 interface ListColumnProps extends ListColumnData {

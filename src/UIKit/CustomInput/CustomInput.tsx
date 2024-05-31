@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { CustomInputProps } from '../shared/types';
+import { CustomInputProps } from '../shared/types/types';
 
 function CustomInput(props: CustomInputProps) {
 	const {
