@@ -2,7 +2,7 @@ import React from 'react'
 import { initGlobalContext } from './GlobalContext'
 import {
 	DateFilter,
-	FiltersData,
+	IFiltersData,
 	ListFilter,
 	StringFilter,
 } from '../components/Filters/FiltersTypes'
@@ -20,7 +20,7 @@ class SelectTaskData {
 }
 
 /** Значения фильтров формы отбора задач */
-class SelectTaskFilters extends FiltersData {
+class SelectTaskFilters implements IFiltersData {
 	// Номер задачи - строчька
 	number: StringFilter
 	// Статус задачи - флажки
@@ -38,23 +38,38 @@ class SelectTaskFilters extends FiltersData {
 	// Исполнитель - хрень какая-то
 	executor: ListFilter
 	// Обращение - ваще хз спросить надо
-	request: any
+	request: StringFilter
 	// Застрахованный - ваще хз спросить надо
-	insured: any
+	insured: StringFilter
 
 	constructor() {
-		super()
+		this.number = new StringFilter('number')
+		this.status = new ListFilter('status')
+		this.type = new ListFilter('type')
+		this.sort = new ListFilter('sort')
+		this.createdAt = new DateFilter('createdAt')
+		this.controledAt = new DateFilter('controledAt')
+		this.author = new ListFilter('author')
+		this.executor = new ListFilter('executor')
+		this.request = new StringFilter('request')
+		this.insured = new StringFilter('insured')
 
-		this.number = new StringFilter()
-		this.status = new ListFilter()
-		this.type = new ListFilter()
-		this.sort = new ListFilter()
-		this.createdAt = new DateFilter()
-		this.controledAt = new DateFilter()
-		this.author = new ListFilter()
-		this.executor = new ListFilter()
-		this.request = undefined
-		this.insured = undefined
+		console.log(this)
+	}
+
+	reset(): SelectTaskFilters {
+		this.number.reset()
+		this.status.reset()
+		this.type.reset()
+		this.sort.reset()
+		this.createdAt.reset()
+		this.controledAt.reset()
+		this.author.reset()
+		this.executor.reset()
+		this.request.reset()
+		this.insured.reset()
+
+		return this
 	}
 }
 

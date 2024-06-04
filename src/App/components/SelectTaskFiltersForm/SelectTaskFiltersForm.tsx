@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import FiltersWrapper from '../Filters/FiltersWrapper/FiltersWrapper';
 import FilterItemWrapper from '../Filters/FilterItems/FilterItemWrapper/FilterItemWrapper';
 import FilterItemString from '../Filters/FilterItems/FilterItemString/FilterItemString';
 import { selectTaskContext } from '../../stores/SelectTaskContext';
-import { FilterValue, IFilter, ListFilter, StringFilter } from '../Filters/FiltersTypes';
-import CustomInputCheckbox from '../../../UIKit/CustomInputCheckbox/CustomInputCheckbox';
+import { ObjectItem, IFilter, StringFilter } from '../Filters/FiltersTypes';
 import FilterItemCategory from '../Filters/FilterItems/FilterItemCategory/FilterItemCategory';
+import Scripts from '../../shared/utils/clientScripts';
 
 interface SelectTaskFiltersProps {
 
@@ -15,18 +15,14 @@ interface SelectTaskFiltersProps {
 export default function SelectTaskFiltersForm({ }: SelectTaskFiltersProps) {
 	const { data, setValue } = selectTaskContext.useContext();
 	const filters = data.filters;
-	useEffect(() => {
-		changeValueConstructor("number")(new StringFilter("afsfs"))
-	}, [])
 
 	useEffect(() => {
-		console.log(data.filters.status)
-		// changeFilterValue("number")("afsfs")
+		console.log(data.filters)
 	}, [data])
 
 	/** Изменение значения конкретного фильтра */
 	const changeFilterValue = (key: string, value: IFilter) => {
-		const currentFilters = JSON.parse(JSON.stringify(filters));
+		const currentFilters = filters;
 		currentFilters[key] = value;
 		setValue("filters", currentFilters)
 	}
@@ -35,24 +31,31 @@ export default function SelectTaskFiltersForm({ }: SelectTaskFiltersProps) {
 		return (value: IFilter) => changeFilterValue(key, value);
 	}
 
-	const statuses = [
-		new FilterValue({ code: "test", value: "В очереди" }),
-		new FilterValue({ code: "test1", value: "В работе" }),
-		new FilterValue({ code: "test2", value: "Контроль" }),
-		new FilterValue({ code: "test3", value: "Отложено" }),
-		new FilterValue({ code: "test4", value: "Выполнено" }),
-	]
+	/** Статусы */
+	const [statuses, setStatuses] = useState<ObjectItem[]>([]);
+	/** Типы */
+	const [types, setTypes] = useState<ObjectItem[]>([]);
+	/** Виды */
+	const [sorts, setSorts] = useState<ObjectItem[]>([]);
+
+	/** Получение вариантов категорий */
+	React.useLayoutEffect(() => {
+		Scripts.getStatuses().then(items => setStatuses(items))
+		Scripts.getTypes().then(items => setTypes(items))
+		Scripts.getSorts().then(items => setSorts(items))
+	}, [])
+
+	/** Сброс фильтров */
+	const resetFilters = () => {
+		setValue("filters", data.filters.reset())
+	}
 
 	return (
-		<FiltersWrapper>
-			<FilterItemString title='Номер задачи' filterValue={data.filters.number} setFilterValue={changeValueConstructor("number")} />
-			<FilterItemCategory title={'Статус задачи'} variants={statuses} filterValue={data.filters.status} setFilterValue={changeValueConstructor("status")} />
-			<FilterItemWrapper title='Тип задачи'>
-				test
-			</FilterItemWrapper>
-			<FilterItemWrapper title='Вид задачи'>
-				test
-			</FilterItemWrapper>
+		<FiltersWrapper resetHandler={resetFilters}>
+			<FilterItemString title='Номер задачи' filterValue={data.filters.number} setFilterValue={changeValueConstructor(data.filters.number.fieldCode)} />
+			<FilterItemCategory title={'Статус задачи'} variants={statuses} filterValue={data.filters.status} setFilterValue={changeValueConstructor(data.filters.status.fieldCode)} />
+			<FilterItemCategory title={'Тип задачи'} variants={types} filterValue={data.filters.type} setFilterValue={changeValueConstructor(data.filters.type.fieldCode)} />
+			<FilterItemCategory title={'Вид задачи'} variants={sorts} filterValue={data.filters.sort} setFilterValue={changeValueConstructor(data.filters.sort.fieldCode)} />
 			<FilterItemWrapper title='Дата создания'>
 				test
 			</FilterItemWrapper>
@@ -65,12 +68,8 @@ export default function SelectTaskFiltersForm({ }: SelectTaskFiltersProps) {
 			<FilterItemWrapper title='Исполнитель'>
 				test
 			</FilterItemWrapper>
-			<FilterItemWrapper title='Обращение'>
-				test
-			</FilterItemWrapper>
-			<FilterItemWrapper title='Застрахованный'>
-				test
-			</FilterItemWrapper>
+			<FilterItemString title='Обращение' filterValue={data.filters.request} setFilterValue={changeValueConstructor(data.filters.request.fieldCode)} />
+			<FilterItemString title='Застрахованный' filterValue={data.filters.insured} setFilterValue={changeValueConstructor(data.filters.insured.fieldCode)} />
 		</FiltersWrapper>
 	)
 }

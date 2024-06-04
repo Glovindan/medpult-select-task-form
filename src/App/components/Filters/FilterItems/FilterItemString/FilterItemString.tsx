@@ -11,7 +11,7 @@ interface FilterItemStringProps extends FilterItemProps<StringFilter> {
 export default function FilterItemString({ title, filterValue, setFilterValue }: FilterItemStringProps) {
 
     const inputHandler = (value: string) => {
-        const currentValue: StringFilter = JSON.parse(JSON.stringify(filterValue));
+        const currentValue: StringFilter = filterValue;
         currentValue.value = value;
         setFilterValue(currentValue);
     }

@@ -1,32 +1,36 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react'
 import CustomInput from '../../../../../UIKit/CustomInput/CustomInput'
 import FilterItemWrapper from '../FilterItemWrapper/FilterItemWrapper';
-import { FilterItemProps, FilterValue, ListFilter } from '../../FiltersTypes';
+import { FilterItemProps, ObjectItem, ListFilter } from '../../FiltersTypes';
 import CustomInputCheckbox from '../../../../../UIKit/CustomInputCheckbox/CustomInputCheckbox';
+import Loader from '../../../../../UIKit/Loader/Loader';
 
 interface FilterItemCategoryProps extends FilterItemProps<ListFilter> {
 	/** Название фильтра */
 	title: string
 	/** Список вариантов */
-	variants: FilterValue[]
+	variants: ObjectItem[]
 }
 
 /** Обертка элемента фильтров для строчного поиска */
 export default function FilterItemCategory({ title, filterValue, setFilterValue, variants }: FilterItemCategoryProps) {
+	/** Разметка чекбоксов */
 	const [checkboxes, setCheckboxes] = useState<React.JSX.Element[]>([]);
 
+	/** Получение чекбоксов по текущим фильтрам и вариантам */
 	const getCheckboxes = () => variants.map(variant => {
 		const checked = isVariantChecked(variant)
 
 		return <CustomInputCheckbox title={variant.value} checked={checked} setValue={toggleChecked(variant.code)} />
 	})
 
+	/** Отрисовка чекбоксов */
 	useEffect(() => {
 		setCheckboxes(getCheckboxes());
-	}, [filterValue.values.length])
+	}, [filterValue.values.length, variants])
 
 	/** Проверка является ли вариант отмеченным */
-	const isVariantChecked = (variant: FilterValue): boolean => {
+	const isVariantChecked = (variant: ObjectItem): boolean => {
 		return Boolean(filterValue.values.find(value => value.code == variant.code))
 	}
 
@@ -37,7 +41,7 @@ export default function FilterItemCategory({ title, filterValue, setFilterValue,
 			if (!value) {
 				currentValues.values = currentValues.values.filter(value => value.code != code);
 			} else {
-				currentValues.values.push(new FilterValue({ code: code }))
+				currentValues.values.push(new ObjectItem({ code: code }))
 			}
 
 			setFilterValue(currentValues)
@@ -47,7 +51,10 @@ export default function FilterItemCategory({ title, filterValue, setFilterValue,
 	return (
 		<FilterItemWrapper title={title}>
 			<div className="filter-item-variants">
-				{checkboxes}
+				{checkboxes.length
+					? checkboxes
+					: <Loader />
+				}
 			</div>
 		</FilterItemWrapper>
 	)
