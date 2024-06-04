@@ -4,15 +4,22 @@ import CustomSelectList from '../CustomSelect/CustomSelectList/CustomSelectList'
 import CustomSelectRow from '../CustomSelect/CustomSelectRow/CustomSelectRow';
 import InputButton from '../InputButton/InputButton';
 import icons from '../shared/icons';
-import { CustomInputProps, IInputData } from '../shared/types';
+import { CustomInputProps } from '../shared/types/types';
 
 interface CustomInputSearch extends CustomInputProps {
+	/** Код значения поля ввода */
+	code: string
+	/** Измение состояния */
+	setValue: (value: string, code: string) => any
+	/** Получение данных выпадающего списка */
 	getDataHandler: (query?: any) => Promise<any>,
-	isViewMode: boolean
+	/** Флажок режима просмотра */
+	isViewMode: boolean,
 }
 
 function CustomInputSearch(props: CustomInputSearch) {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [isFull, setIsFull] = useState<boolean>(true);
 	const [listWidth, setListWidth] = useState<number>(100);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [values, setValues] = useState<any[]>([]);
@@ -20,11 +27,13 @@ function CustomInputSearch(props: CustomInputSearch) {
 	const rootRef = useRef<HTMLDivElement>(null);
 	const wrapperRef = useRef<HTMLDivElement>(null);
 
+	/** Нажатие на поле ввода */
 	const clickHandler = async () => {
 		// Записать в буфер и очистить в поле
 		setBuffer("")
 	}
 
+	/** Загрузить данные выпадающего списка */
 	const loadData = async (query: string) => {
 		// Показать лоадер
 		setIsLoading(true)
@@ -38,31 +47,34 @@ function CustomInputSearch(props: CustomInputSearch) {
 		setIsLoading(false)
 	}
 
-	const inputHandler = async (name: string, data: IInputData) => {
-		if (!props.inputHandler) return
-		props.inputHandler(props.name, data)
+	/** При изменении значения в поле ввода */
+	const inputHandler = async (ev) => {
+		const value = ev.target.value;
+		props.setValue(value, "");
+
 		// Показать список
 		setIsOpen(true)
 
-		await loadData(data.value);
+		await loadData(value);
 	}
 
-	const handleOptionClick = async ({ value, data }: { value: string, data?: any }) => {
-		console.log(data);
+	/** Выбор значения выпадающего списка */
+	const handleOptionClick = async ({ value, code, isFull }: { value: string, code: string, isFull: boolean }) => {
 		setIsOpen(false)
 
-		if (!props.inputHandler) return
-		props.inputHandler(props.name, { value: value, data: data })
+		setIsFull(isFull);
+		props.setValue(value, code);
 	}
 
 	/** Не закрывать список подсказок, если адрес неполный */
 	React.useLayoutEffect(() => {
-		if (props.values[props.name].data && !props.values[props.name].data.isFull) {
+		if (props.value && !isFull) {
 			setIsOpen(true)
-			loadData(props.values[props.name].value)
+			loadData(props.value)
 		}
-	}, [props.values[props.name]])
+	}, [props.value, isFull])
 
+	/** Вычисление размера выпадающего списка */
 	useEffect(() => {
 		const wrapper = wrapperRef.current!;
 		setListWidth(wrapper.getBoundingClientRect().width);
@@ -73,15 +85,13 @@ function CustomInputSearch(props: CustomInputSearch) {
 	return (
 		<div className="custom-select" ref={rootRef}>
 			<CustomInput
-				values={props.values}
-				name={props.name}
+				{...props}
+				onInput={inputHandler}
 				clickHandler={clickHandler}
-				inputHandler={inputHandler}
 				wrapperRef={wrapperRef}
 				cursor={props.isViewMode ? 'text' : 'pointer'}
 				isOpen={isOpen}
 				buttons={[<InputButton svg={buttonSvg} clickHandler={clickHandler} />]}
-				isViewMode={props.isViewMode}
 			/>
 			{isOpen &&
 				<CustomSelectList
@@ -94,7 +104,7 @@ function CustomInputSearch(props: CustomInputSearch) {
 					{values.map(value =>
 						<CustomSelectRow
 							value={value.value}
-							data={{ isFull: value.isFull }}
+							isFull={value.isFull}
 							clickHandler={handleOptionClick}
 						/>
 					)}

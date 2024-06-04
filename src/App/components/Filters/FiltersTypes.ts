@@ -21,8 +21,9 @@ export class StringFilter implements IFilter {
 	/** Оператор (по умолчанию Содержит) */
 	operator: StringFilterOperator
 
-	constructor() {
+	constructor(value?: string) {
 		this.reset()
+		if (value) this.value = value
 	}
 
 	reset(): void {
@@ -37,6 +38,11 @@ export class FilterValue {
 	value: string
 	/** Код / Идентификатор */
 	code: string
+
+	constructor({ value, code }: { value?: string; code?: string }) {
+		this.value = value ?? ''
+		this.code = code ?? ''
+	}
 }
 
 /** Фильтр по списку */
@@ -79,4 +85,11 @@ export class FiltersData {
 			if (this[key].reset) this[key].reset()
 		}
 	}
+}
+
+export interface FilterItemProps<FilterType> {
+	/** Значение фильтра */
+	filterValue: FilterType
+	/** Изменение значения фильтра */
+	setFilterValue: (value: FilterType, ...args: any) => any
 }

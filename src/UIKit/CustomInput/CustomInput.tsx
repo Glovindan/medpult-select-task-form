@@ -3,11 +3,11 @@ import { CustomInputProps } from '../shared/types/types';
 
 function CustomInput(props: CustomInputProps) {
 	const {
-		values,
+		value = "",
+		setValue,
 		name,
 		buttons,
 		cursor = "text",
-		inputHandler,
 		clickHandler,
 		isOpen = false,
 		wrapperRef = useRef<HTMLDivElement>(null),
@@ -15,41 +15,21 @@ function CustomInput(props: CustomInputProps) {
 		isViewMode = false,
 		placeholder = "",
 		maskFunction,
-		getValueHandler,
 		isInvalid,
 		customClassname,
 		...inputStyles
 	} = props;
 
-	/** Поулчение значения поля */
-	const getValue = () => {
-		// Если есть кастомная функция получения значения - выполнить ее
-		if (getValueHandler) {
-			return getValueHandler(props)
-		}
-
-		// Иначе стандартный путь
-		return getValueByName();
-	}
-
-	/** Поулчение значения поля по имени */
-	const getValueByName = () => {
-		const value = values[name];
-		if (!value) return "";
-
-		return value.value
-	}
-
 	/** Обработчик ввода в поле */
 	const onInput = (ev) => {
-		if (!inputHandler) return;
+		if (!setValue) return;
 
 		let value = ev.target.value;
 		// Обработка текста по маске
 		if (maskFunction) value = maskFunction(ev.target.value)
 
 		// Запись значения в состояние
-		inputHandler(name, { value: value })
+		setValue(value)
 	}
 
 	// Кнопки поля ввода
@@ -81,7 +61,7 @@ function CustomInput(props: CustomInputProps) {
 				}}
 				onInput={onInput}
 				onClick={clickHandler}
-				value={getValue()}
+				value={value}
 				readOnly={readOnly || isViewMode}
 				placeholder={placeholder}
 				{...inputStyles}

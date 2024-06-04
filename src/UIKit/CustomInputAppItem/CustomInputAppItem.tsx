@@ -1,19 +1,26 @@
 import React from 'react'
-import { redirectSPA } from '../shared/utils'
+import { redirectSPA } from '../shared/utils/utils'
 import CustomInput from '../CustomInput/CustomInput'
 import InputButton from '../InputButton/InputButton'
 import icons from '../shared/icons'
+import { CustomInputProps } from '../shared/types/types'
 
-function CustomInputAppItem(props) {
-	const { href, values, name, inputHandler, saveStateHandler, getValueHandler = undefined, removeValueHandler = undefined, isInvalid, clickHandler } = props
+interface CustomInputAppItemProps extends CustomInputProps {
+	/** Ссылка на страницу поиска элемента */
+	href: string,
+	/** Значение поля */
+	value: string,
+	/** Сохранение текущих данных формы в localStorage */
+	saveStateHandler: (...args: any) => any
+	/** Идентификатор элемента приложения */
+	code?: string,
+	/** Сброс значения поля */
+	removeValueHandler?: (...args: any) => any
+}
 
-	const getValueByName = () => {
-		if (getValueHandler) return getValueHandler();
-		const value = values[name];
-		if (!value) return "";
-
-		return value.value
-	}
+/** Поле выбора элемента приложения */
+function CustomInputAppItem(props: CustomInputAppItemProps) {
+	const { href, value = "", saveStateHandler, removeValueHandler = undefined, isInvalid } = props
 
 	const searchButtonSvg = icons.Search;
 	const removeButtonSvg = icons.Cross;
@@ -30,16 +37,13 @@ function CustomInputAppItem(props) {
 	const onClickRemoveButton = (ev) => {
 		ev.stopPropagation();
 		if (removeValueHandler) return removeValueHandler()
-		if (!inputHandler) return;
-
-		inputHandler(name, { value: "", data: { code: "" } })
 	}
 
 	const searchButton = <InputButton svg={searchButtonSvg} clickHandler={onClickSearchButton} />
 	const removeButton = <InputButton svg={removeButtonSvg} clickHandler={onClickRemoveButton} />
 
 	const button =
-		getValueByName()
+		value
 			? removeButton
 			: searchButton
 

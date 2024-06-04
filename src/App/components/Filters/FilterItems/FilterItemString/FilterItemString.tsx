@@ -1,17 +1,24 @@
 import React, { PropsWithChildren, useState } from 'react'
 import CustomInput from '../../../../../UIKit/CustomInput/CustomInput'
 import FilterItemWrapper from '../FilterItemWrapper/FilterItemWrapper';
+import { FilterItemProps, StringFilter } from '../../FiltersTypes';
 
-interface FilterItemStringProps {
-	title: string
+interface FilterItemStringProps extends FilterItemProps<StringFilter> {
+    title: string
 }
 
 /** Обертка панели фильтров */
-export default function FilterItemString({ title }: FilterItemStringProps) {
+export default function FilterItemString({ title, filterValue, setFilterValue }: FilterItemStringProps) {
 
-	return (
-		<FilterItemWrapper title={title}>
-			<CustomInput values={{ "test": "test" }} name={'test'} />
-		</FilterItemWrapper>
-	)
+    const inputHandler = (value: string) => {
+        const currentValue: StringFilter = JSON.parse(JSON.stringify(filterValue));
+        currentValue.value = value;
+        setFilterValue(currentValue);
+    }
+
+    return (
+        <FilterItemWrapper title={title}>
+            <CustomInput value={filterValue.value} setValue={inputHandler} />
+        </FilterItemWrapper>
+    )
 }

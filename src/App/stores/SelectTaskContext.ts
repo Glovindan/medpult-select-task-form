@@ -5,7 +5,7 @@ import {
 	FiltersData,
 	ListFilter,
 	StringFilter,
-} from '../../UIKit/shared/types/filterTypes'
+} from '../components/Filters/FiltersTypes'
 
 /** Данные обращения */
 class SelectTaskData {
@@ -44,7 +44,17 @@ class SelectTaskFilters extends FiltersData {
 
 	constructor() {
 		super()
-		this.reset()
+
+		this.number = new StringFilter()
+		this.status = new ListFilter()
+		this.type = new ListFilter()
+		this.sort = new ListFilter()
+		this.createdAt = new DateFilter()
+		this.controledAt = new DateFilter()
+		this.author = new ListFilter()
+		this.executor = new ListFilter()
+		this.request = undefined
+		this.insured = undefined
 	}
 }
 

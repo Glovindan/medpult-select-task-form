@@ -172,6 +172,29 @@ const SortArrow = (
 	</svg>
 )
 
+const Unchecked = (
+	<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<rect
+			x="0.625"
+			y="0.625"
+			width="18.75"
+			height="18.75"
+			rx="1.875"
+			fill="white"
+			stroke="#BFBFC2"
+			stroke-width="1.25"
+		/>
+	</svg>
+)
+
+const Checked = (
+	<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+		<rect width="20" height="20" rx="3" fill="#2F91E3" />
+		<line x1="3.87177" y1="9.77934" x2="10.4172" y2="14.4539" stroke="#F2F4F6" stroke-width="3" />
+		<line x1="16.2678" y1="3.8929" x2="8.20653" y2="14.7745" stroke="#F2F4F6" stroke-width="3" />
+	</svg>
+)
+
 export default {
 	/** Лупа */
 	Search,
@@ -193,4 +216,8 @@ export default {
 	Deny,
 	/** Кнопка сортировки */
 	SortArrow,
+	/** Чекбокс отмечено */
+	Checked,
+	/** Чекбокс не отмечено */
+	Unchecked
 }

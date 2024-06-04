@@ -12,7 +12,6 @@ interface CustomSelectListProps {
 /** Список элементов выпадающего списка */
 function CustomSelectList({
 	rootRef,
-	isOpen,
 	closeHandler,
 	isLoading,
 	listWidth,

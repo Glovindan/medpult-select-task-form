@@ -33,7 +33,7 @@ let path = {
     // scss: ['src/**/*.css', 'src/**/*.scss'],
     scss: 'src/style.scss',
     ts: 'src/main.tsx',
-    allTs: 'src/**/*.ts',
+    scripts: 'src/**/*.{ts,tsx}',
     allTsx: 'src/**/*.tsx',
     js: 'src/main.js',
   },
@@ -156,14 +156,14 @@ async function replaceFuncNames() {
 
 async function deleteImport() {
   return gulp
-    .src([path.src.allTs, path.src.allTsx])
+    .src(path.src.scripts)
     .pipe(replace('import Scripts', '//import Scripts'))
     .pipe(gulp.dest('src'))
   }
   
   async function returnImport() {
     return gulp
-    .src([path.src.allTs, path.src.allTsx])
+    .src(path.src.scripts)
     .pipe(replace('//import Scripts', 'import Scripts'))
     .pipe(gulp.dest('src'))
 }

@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import CustomSelectRow from './CustomSelectRow/CustomSelectRow';
 import CustomInput from '../CustomInput/CustomInput';
-import { IInputData } from '../shared/types/types';
-import { CustomSelectProps } from './CustomSelectTypes';
+import { CustomSelectOption, CustomSelectProps } from './CustomSelectTypes';
 import InputButton from '../InputButton/InputButton';
 import icons from '../shared/icons';
 import CustomSelectList from './CustomSelectList/CustomSelectList';
@@ -12,17 +11,14 @@ function CustomSelect(props: CustomSelectProps) {
 	const {
 		isViewMode,
 		getDataHandler,
-		inputHandler,
-		name,
-		values,
-		isInvalid,
-		...customInputProps
+		value,
+		setValue
 	} = props;
 
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [listWidth, setListWidth] = useState<number>(100);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [listValues, setListValues] = useState<IInputData[]>([]);
+	const [listValues, setListValues] = useState<CustomSelectOption[]>([]);
 	const rootRef = useRef<HTMLDivElement>(null);
 	const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -46,8 +42,7 @@ function CustomSelect(props: CustomSelectProps) {
 
 	const handleOptionClick = ({ value, code }: { value: string, code: string }) => {
 		setIsOpen(false)
-		if (!inputHandler) return;
-		inputHandler(name, { value: value, data: { code: code } })
+		setValue(value, code);
 	}
 
 	useEffect(() => {
@@ -60,16 +55,12 @@ function CustomSelect(props: CustomSelectProps) {
 	return (
 		<div className="custom-select" ref={rootRef}>
 			<CustomInput
-				values={values}
-				name={name}
+				{...props}
 				clickHandler={clickHandler}
 				wrapperRef={wrapperRef}
 				cursor={isViewMode ? 'text' : 'pointer'}
 				isOpen={isOpen}
 				buttons={[<InputButton svg={buttonSvg} clickHandler={clickHandler} />]}
-				isViewMode={isViewMode}
-				isInvalid={isInvalid}
-				{...customInputProps}
 				readOnly
 			/>
 			{isOpen &&
@@ -83,7 +74,7 @@ function CustomSelect(props: CustomSelectProps) {
 					{listValues.map(value =>
 						<CustomSelectRow
 							value={value.value}
-							code={value.data?.code}
+							code={value.code}
 							clickHandler={handleOptionClick}
 						/>
 					)}
