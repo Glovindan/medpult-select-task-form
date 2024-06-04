@@ -5,6 +5,8 @@ import CustomSelectRow from '../CustomSelect/CustomSelectRow/CustomSelectRow';
 import InputButton from '../InputButton/InputButton';
 import icons from '../shared/icons';
 import { CustomInputProps } from '../shared/types/types';
+import { FetchData } from '../CustomList/CustomListTypes';
+import { ObjectItem } from '../../App/components/Filters/FiltersTypes';
 
 interface CustomInputSearch extends CustomInputProps {
 	/** Код значения поля ввода */
@@ -12,9 +14,11 @@ interface CustomInputSearch extends CustomInputProps {
 	/** Измение состояния */
 	setValue: (value: string, code: string) => any
 	/** Получение данных выпадающего списка */
-	getDataHandler: (query?: any) => Promise<any>,
+	getDataHandler: (query?: any) => Promise<ObjectItem[]>,
 	/** Флажок режима просмотра */
 	isViewMode: boolean,
+	/** Обработчик выбора элемента списка */
+	optionClickHandler?: ({ value, code, isFull }: { value: string, code: string, isFull: boolean }) => void
 }
 
 function CustomInputSearch(props: CustomInputSearch) {
@@ -29,6 +33,8 @@ function CustomInputSearch(props: CustomInputSearch) {
 
 	/** Нажатие на поле ввода */
 	const clickHandler = async () => {
+		setIsOpen(true)
+		await loadData();
 		// Записать в буфер и очистить в поле
 		setBuffer("")
 	}
@@ -60,6 +66,10 @@ function CustomInputSearch(props: CustomInputSearch) {
 
 	/** Выбор значения выпадающего списка */
 	const handleOptionClick = async ({ value, code, isFull }: { value: string, code: string, isFull: boolean }) => {
+		if (props.optionClickHandler) {
+			return props.optionClickHandler({ value, code, isFull })
+		}
+
 		setIsOpen(false)
 
 		setIsFull(isFull);
