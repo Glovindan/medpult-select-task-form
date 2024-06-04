@@ -34,7 +34,6 @@ let path = {
     scss: 'src/style.scss',
     ts: 'src/main.tsx',
     scripts: 'src/**/*.{ts,tsx}',
-    allTsx: 'src/**/*.tsx',
     js: 'src/main.js',
   },
   watch: {
@@ -147,23 +146,23 @@ function cleanDeploy() {
   return del(path.cleanDeploy)
 }
 
-async function replaceFuncNames() {
+function replaceFuncNames() {
   return gulp
     .src(path.deploy + '/index.html')
     .pipe(replace('Scripts', '<%= Scripts%>'))
     .pipe(gulp.dest(path.deploy))
 }
 
-async function deleteImport() {
+function deleteImport() {
   return gulp
-    .src(path.src.scripts)
+    .src([path.src.scripts])
     .pipe(replace('import Scripts', '//import Scripts'))
     .pipe(gulp.dest('src'))
   }
   
-  async function returnImport() {
+function returnImport() {
     return gulp
-    .src(path.src.scripts)
+    .src([path.src.scripts])
     .pipe(replace('//import Scripts', 'import Scripts'))
     .pipe(gulp.dest('src'))
 }
