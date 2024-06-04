@@ -6,6 +6,7 @@ import { selectTaskContext } from '../../stores/SelectTaskContext';
 import { ObjectItem, IFilter, StringFilter } from '../Filters/FiltersTypes';
 import FilterItemCategory from '../Filters/FilterItems/FilterItemCategory/FilterItemCategory';
 import Scripts from '../../shared/utils/clientScripts';
+import FilterItemDates from '../Filters/FilterItems/FilterItemDates/FilterItemDates';
 
 interface SelectTaskFiltersProps {
 
@@ -56,12 +57,8 @@ export default function SelectTaskFiltersForm({ }: SelectTaskFiltersProps) {
 			<FilterItemCategory title={'Статус задачи'} variants={statuses} filterValue={data.filters.status} setFilterValue={changeValueConstructor(data.filters.status.fieldCode)} />
 			<FilterItemCategory title={'Тип задачи'} variants={types} filterValue={data.filters.type} setFilterValue={changeValueConstructor(data.filters.type.fieldCode)} />
 			<FilterItemCategory title={'Вид задачи'} variants={sorts} filterValue={data.filters.sort} setFilterValue={changeValueConstructor(data.filters.sort.fieldCode)} />
-			<FilterItemWrapper title='Дата создания'>
-				test
-			</FilterItemWrapper>
-			<FilterItemWrapper title='Дата контроля'>
-				test
-			</FilterItemWrapper>
+			<FilterItemDates title={'Дата создания'} filterValue={data.filters.createdAt} setFilterValue={changeValueConstructor(data.filters.createdAt.fieldCode)} />
+			<FilterItemDates title={'Дата контроля'} filterValue={data.filters.controledAt} setFilterValue={changeValueConstructor(data.filters.controledAt.fieldCode)} />
 			<FilterItemWrapper title='Автор'>
 				test
 			</FilterItemWrapper>

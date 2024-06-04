@@ -22,7 +22,7 @@ const applyDateMask = (value: string): string => {
 }
 
 /** Маска чисел с плавающей точкой */
-exportconst applyNumbersMask = (value: string): string => {
+export const applyNumbersMask = (value: string): string => {
 	return (
 		value
 			.match(/\d+[,|\.]?\d*/g)

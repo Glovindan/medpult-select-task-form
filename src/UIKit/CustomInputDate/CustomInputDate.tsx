@@ -63,6 +63,7 @@ function CustomInputDate(props: CustomInputDateProps) {
 			<input type={type} onChange={onChangePickerValue} className='custom-input-date__picker' ref={pickerRef} />
 			<CustomInput
 				{...props}
+				type='text'
 				buttons={<InputButton svg={buttonSvg} clickHandler={openPicker} />}
 				placeholder={props.placeholder ?? "ДД.ММ.ГГГГ"}
 				maskFunction={Masks.applyDateMask}

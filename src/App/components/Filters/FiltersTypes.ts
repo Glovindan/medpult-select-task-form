@@ -69,9 +69,9 @@ export class ListFilter implements IFilter {
 /** Фильтр по датам */
 export class DateFilter implements IFilter {
 	/** Дата от */
-	valueFrom?: Date
+	valueFrom?: string
 	/** Дата до */
-	valueTo?: Date
+	valueTo?: string
 	fieldCode: string
 
 	constructor(code: string, value?: string) {
