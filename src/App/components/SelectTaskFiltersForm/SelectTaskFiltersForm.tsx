@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import FiltersWrapper from '../Filters/FiltersWrapper/FiltersWrapper';
-import FilterItemWrapper from '../Filters/FilterItems/FilterItemWrapper/FilterItemWrapper';
-import FilterItemString from '../Filters/FilterItems/FilterItemString/FilterItemString';
+import FiltersWrapper from '../../../UIKit/Filters/FiltersWrapper/FiltersWrapper';
+import FilterItemWrapper from '../../../UIKit/Filters/FilterItems/FilterItemWrapper/FilterItemWrapper';
+import FilterItemString from '../../../UIKit/Filters/FilterItems/FilterItemString/FilterItemString';
 import { selectTaskContext } from '../../stores/SelectTaskContext';
-import { ObjectItem, IFilter, StringFilter } from '../Filters/FiltersTypes';
-import FilterItemCategory from '../Filters/FilterItems/FilterItemCategory/FilterItemCategory';
+import { ObjectItem, IFilter, StringFilter } from '../../../UIKit/Filters/FiltersTypes';
+import FilterItemCategory from '../../../UIKit/Filters/FilterItems/FilterItemCategory/FilterItemCategory';
 import Scripts from '../../shared/utils/clientScripts';
-import FilterItemDates from '../Filters/FilterItems/FilterItemDates/FilterItemDates';
-import FilterItemSearch from '../Filters/FilterItems/FilterItemSearch/FilterItemSearch';
+import FilterItemDates from '../../../UIKit/Filters/FilterItems/FilterItemDates/FilterItemDates';
+import FilterItemSearch from '../../../UIKit/Filters/FilterItems/FilterItemSearch/FilterItemSearch';
 
 interface SelectTaskFiltersProps {
 

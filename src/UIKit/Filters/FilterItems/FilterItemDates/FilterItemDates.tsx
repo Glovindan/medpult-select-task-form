@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import FilterItemWrapper from '../FilterItemWrapper/FilterItemWrapper';
-import { FilterItemProps, ObjectItem, DateFilter } from '../../FiltersTypes';
-import CustomInputCheckbox from '../../../../../UIKit/CustomInputCheckbox/CustomInputCheckbox';
-import CustomInputDate from '../../../../../UIKit/CustomInputDate/CustomInputDate'
-import { InputDateType } from '../../../../../UIKit/CustomInputDate/CustomInputDateTypes'
-import moment, { Moment } from 'moment';
-import masks from '../../../../../UIKit/shared/utils/masks';
+import { FilterItemProps, DateFilter } from '../../FiltersTypes';
+import CustomInputDate from '../../../CustomInputDate/CustomInputDate';
+import { InputDateType } from '../../../CustomInputDate/CustomInputDateTypes';
+import masks from '../../../shared/utils/masks';
 
 interface FilterItemDatesProps extends FilterItemProps<DateFilter> {
 	/** Название фильтра */

@@ -195,6 +195,42 @@ const Checked = (
 	</svg>
 )
 
+const DeleteSearchItem = (
+	<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path d="M16.2426 7.75827L7.75736 16.2435M16.2426 16.2435L7.75736 7.75827" stroke="#AAAAAD" stroke-width="2" stroke-linecap="round" />
+	</svg>
+)
+
+const FilterIcon = (
+	<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path
+			d="M1 3H15M3 8H13M6 13H10"
+			stroke="#21A038"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		/>
+	</svg>
+)
+
+const redCircle = (
+	<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<circle cx="8" cy="8" r="8" fill="#FF3333" />
+	</svg>
+)
+
+const filterItemArrow = (
+	<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path
+			d="M6 15L12 9L18 15"
+			stroke="#6B6B6F"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		/>
+	</svg>
+)
+
 export default {
 	/** Лупа */
 	Search,
@@ -219,5 +255,13 @@ export default {
 	/** Чекбокс отмечено */
 	Checked,
 	/** Чекбокс не отмечено */
-	Unchecked
+	Unchecked,
+	/** Иконка удаления элемента фильтра с поиском */
+	DeleteSearchItem,
+	/** Иконка фильтра */
+	FilterIcon,
+	/** Красный круг */
+	redCircle,
+	/** Кнопка раскрытия фильтра */
+	filterItemArrow
 }

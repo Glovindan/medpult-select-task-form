@@ -5,7 +5,7 @@ import CustomSelectRow from '../CustomSelect/CustomSelectRow/CustomSelectRow';
 import InputButton from '../InputButton/InputButton';
 import icons from '../shared/icons';
 import { CustomInputProps } from '../shared/types/types';
-import { ObjectItem } from '../../App/components/Filters/FiltersTypes';
+import { ObjectItem } from '../Filters/FiltersTypes';
 
 interface CustomInputSearchProps<DataType = string> extends CustomInputProps {
 	/** Измение состояния */
@@ -122,10 +122,10 @@ function CustomInputSearch<DataType>(props: CustomInputSearchProps<DataType>) {
 					isLoading={isLoading}
 					listWidth={listWidth}
 				>
-					{values.map(value =>
+					{values.map(item =>
 						<CustomSelectRow
-							value={value.value}
-							clickHandler={handleOptionClick}
+							value={item.value}
+							clickHandler={() => handleOptionClick(item.value, item.code as any)}
 						/>
 					)}
 				</CustomSelectList>

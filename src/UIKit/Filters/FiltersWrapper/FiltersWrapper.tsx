@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react'
-import Button from '../../../../UIKit/Button/Button'
-import { ButtonType } from '../../../../UIKit/Button/ButtonTypes'
+import Button from '../../Button/Button'
+import { ButtonType } from '../../Button/ButtonTypes'
 
 interface FiltersWrapperProps {
 	resetHandler?: () => void

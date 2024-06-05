@@ -5,7 +5,7 @@ import {
 	IFiltersData,
 	ListFilter,
 	StringFilter,
-} from '../components/Filters/FiltersTypes'
+} from '../../UIKit/Filters/FiltersTypes'
 
 /** Данные обращения */
 class SelectTaskData {

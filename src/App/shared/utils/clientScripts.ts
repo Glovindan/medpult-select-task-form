@@ -1,5 +1,5 @@
 import { FetchData, SortData } from '../../../UIKit/CustomList/CustomListTypes'
-import { ObjectItem } from '../../components/Filters/FiltersTypes'
+import { ObjectItem } from '../../../UIKit/Filters/FiltersTypes'
 import { SelectTaskData } from '../types'
 
 /** Заглушка ожидания ответа сервера */

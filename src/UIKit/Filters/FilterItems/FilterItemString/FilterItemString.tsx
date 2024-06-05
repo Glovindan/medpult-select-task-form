@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useState } from 'react'
-import CustomInput from '../../../../../UIKit/CustomInput/CustomInput'
+import CustomInput from '../../../CustomInput/CustomInput'
 import FilterItemWrapper from '../FilterItemWrapper/FilterItemWrapper';
 import { FilterItemProps, StringFilter } from '../../FiltersTypes';
 

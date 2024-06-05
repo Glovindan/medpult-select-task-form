@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useState } from 'react'
-import icons from '../../../../shared/icons'
+import icons from '../../../shared/icons'
 
 interface FilterItemWrapperProps {
     title: string
@@ -7,7 +7,7 @@ interface FilterItemWrapperProps {
 
 /** Обертка панели фильтров */
 export default function FilterItemWrapper({ title, children }: PropsWithChildren<FilterItemWrapperProps>) {
-    const [isOpen, setIsOpen] = useState<boolean>(true);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const toggleIsOpen = () => {
         setIsOpen(!isOpen);
     }

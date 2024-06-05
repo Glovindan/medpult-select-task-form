@@ -1,9 +1,8 @@
-import React, { PropsWithChildren, useEffect, useState } from 'react'
-import CustomInput from '../../../../../UIKit/CustomInput/CustomInput'
+import React, { useState } from 'react';
 import FilterItemWrapper from '../FilterItemWrapper/FilterItemWrapper';
 import { FilterItemProps, ObjectItem, ListFilter } from '../../FiltersTypes';
-import CustomInputCheckbox from '../../../../../UIKit/CustomInputCheckbox/CustomInputCheckbox';
-import Loader from '../../../../../UIKit/Loader/Loader';
+import CustomInputCheckbox from '../../../CustomInputCheckbox/CustomInputCheckbox';
+import Loader from '../../../Loader/Loader';
 
 interface FilterItemCategoryProps extends FilterItemProps<ListFilter> {
 	/** Название фильтра */
@@ -25,7 +24,7 @@ export default function FilterItemCategory({ title, filterValue, setFilterValue,
 	})
 
 	/** Отрисовка чекбоксов */
-	useEffect(() => {
+	React.useLayoutEffect(() => {
 		setCheckboxes(getCheckboxes());
 	}, [filterValue.values.length, variants])
 
