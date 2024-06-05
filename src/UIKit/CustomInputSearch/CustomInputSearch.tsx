@@ -5,84 +5,95 @@ import CustomSelectRow from '../CustomSelect/CustomSelectRow/CustomSelectRow';
 import InputButton from '../InputButton/InputButton';
 import icons from '../shared/icons';
 import { CustomInputProps } from '../shared/types/types';
-import { FetchData } from '../CustomList/CustomListTypes';
 import { ObjectItem } from '../../App/components/Filters/FiltersTypes';
 
-interface CustomInputSearch extends CustomInputProps {
-	/** Код значения поля ввода */
-	code: string
+interface CustomInputSearchProps<DataType = string> extends CustomInputProps {
 	/** Измение состояния */
-	setValue: (value: string, code: string) => any
+	setValue: (value: string, data?: DataType) => any
 	/** Получение данных выпадающего списка */
-	getDataHandler: (query?: any) => Promise<ObjectItem[]>,
+	getDataHandler: (query?: string) => Promise<ObjectItem[]>,
+	/** Дополнительные данные (напр. идентификатор) */
+	data?: DataType
 	/** Флажок режима просмотра */
-	isViewMode: boolean,
+	isViewMode?: boolean,
 	/** Обработчик выбора элемента списка */
-	optionClickHandler?: ({ value, code, isFull }: { value: string, code: string, isFull: boolean }) => void
+	optionClickHandler?: ({ value, data, closeCallback }: { value: string, data?: DataType, closeCallback: () => void }) => void
 }
 
-function CustomInputSearch(props: CustomInputSearch) {
+/** Выпадающий список с поиском */
+// TODO: Пагинация
+// TODO: Дебаунс
+function CustomInputSearch<DataType>(props: CustomInputSearchProps<DataType>) {
+	const { value, setValue, optionClickHandler, getDataHandler, ...restProps } = props;
+
+	/** Флажок открытости списка */
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const [isFull, setIsFull] = useState<boolean>(true);
-	const [listWidth, setListWidth] = useState<number>(100);
+	/** Флажок загрузки */
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [values, setValues] = useState<any[]>([]);
-	const [buffer, setBuffer] = useState<any>();
+	const [listWidth, setListWidth] = useState<number>(0);
+	const [values, setValues] = useState<ObjectItem[]>([]);
 	const rootRef = useRef<HTMLDivElement>(null);
 	const wrapperRef = useRef<HTMLDivElement>(null);
+	const [query, setQuery] = useState<string>(value);
 
-	/** Нажатие на поле ввода */
-	const clickHandler = async () => {
-		setIsOpen(true)
-		await loadData();
-		// Записать в буфер и очистить в поле
-		setBuffer("")
-	}
-
-	/** Загрузить данные выпадающего списка */
-	const loadData = async (query: string) => {
+	/** Загрузка данных списка */
+	const loadData = async (query?: string) => {
 		// Показать лоадер
 		setIsLoading(true)
-
-		// Показать данные
-		setValues([]);
-		const values = await props.getDataHandler(query);
-		setValues(values);
-
+		// Получение данных
+		const data = await getDataHandler(query);
+		// Запись данных
+		setValues(data);
 		// Скрыть лоадер
 		setIsLoading(false)
 	}
 
-	/** При изменении значения в поле ввода */
-	const inputHandler = async (ev) => {
-		const value = ev.target.value;
-		props.setValue(value, "");
+	/** Обработчик ввода в поле поиска */
+	const inputHandler = (ev) => {
+		setQuery(ev.target.value)
 
-		// Показать список
+		// Открыть список
 		setIsOpen(true)
 
-		await loadData(value);
+		// Загрузить элементы по введенной строке
+		setValues([]);
+		loadData()
 	}
 
-	/** Выбор значения выпадающего списка */
-	const handleOptionClick = async ({ value, code, isFull }: { value: string, code: string, isFull: boolean }) => {
-		if (props.optionClickHandler) {
-			return props.optionClickHandler({ value, code, isFull })
-		}
+	/** Обработчик нажатия на поле ввода */
+	const clickHandler = (ev) => {
+		// Открыть список
+		setIsOpen(true)
 
+		// Стереть текущее значение
+		setQuery("")
+
+		// Загрузить данные
+		setValues([]);
+		loadData()
+	}
+
+	/** Обработчик закрытия списка */
+	const closeHandler = () => {
+		// Закрыть список
 		setIsOpen(false)
-
-		setIsFull(isFull);
-		props.setValue(value, code);
 	}
 
-	/** Не закрывать список подсказок, если адрес неполный */
-	React.useLayoutEffect(() => {
-		if (props.value && !isFull) {
-			setIsOpen(true)
-			loadData(props.value)
-		}
-	}, [props.value, isFull])
+	/** Обработчик нажатия на вариант списка */
+	const handleOptionClick = (value: string, data?: DataType) => {
+		// Функция обратного вызова закрытия списка
+		const closeCallback = () => setIsOpen(false);
+		// Если в пропсах есть обработчик - вернуть его
+		if (optionClickHandler) return optionClickHandler({ value, data, closeCallback })
+
+		// Установить значение
+		setValue(value, data)
+		setQuery(value)
+		// setBuffer(value)
+
+		// Скрыть список
+		closeCallback()
+	}
 
 	/** Вычисление размера выпадающего списка */
 	useEffect(() => {
@@ -90,31 +101,30 @@ function CustomInputSearch(props: CustomInputSearch) {
 		setListWidth(wrapper.getBoundingClientRect().width);
 	}, [isOpen])
 
-	const buttonSvg = icons.Triangle;
-
 	return (
 		<div className="custom-select" ref={rootRef}>
 			<CustomInput
-				{...props}
+				{...restProps}
+				value={isOpen ? query : value}
+				setValue={v => setQuery(v)}
 				onInput={inputHandler}
 				clickHandler={clickHandler}
 				wrapperRef={wrapperRef}
 				cursor={props.isViewMode ? 'text' : 'pointer'}
 				isOpen={isOpen}
-				buttons={[<InputButton svg={buttonSvg} clickHandler={clickHandler} />]}
+				buttons={[<InputButton svg={icons.Triangle} clickHandler={clickHandler} />]}
 			/>
 			{isOpen &&
 				<CustomSelectList
 					rootRef={rootRef}
 					isOpen={isOpen}
-					closeHandler={() => setIsOpen(false)}
+					closeHandler={closeHandler}
 					isLoading={isLoading}
 					listWidth={listWidth}
 				>
 					{values.map(value =>
 						<CustomSelectRow
 							value={value.value}
-							isFull={value.isFull}
 							clickHandler={handleOptionClick}
 						/>
 					)}

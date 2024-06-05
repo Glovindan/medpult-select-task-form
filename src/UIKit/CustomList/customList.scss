@@ -1,6 +1,7 @@
 .custom-list {
 	&__header {
 		display: flex;
+		gap: 8px;
 		flex-direction: row;
 
 		background: #f9f9fa;

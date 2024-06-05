@@ -7,7 +7,7 @@ interface FilterItemWrapperProps {
 
 /** Обертка панели фильтров */
 export default function FilterItemWrapper({ title, children }: PropsWithChildren<FilterItemWrapperProps>) {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState<boolean>(true);
     const toggleIsOpen = () => {
         setIsOpen(!isOpen);
     }
