@@ -1,6 +1,7 @@
 .custom-list {
 	&__header {
 		display: flex;
+		gap: 8px;
 		flex-direction: row;
 
 		background: #f9f9fa;
@@ -20,7 +21,6 @@
 
 	&__body {
 		&_scrollable {
-			height: 500px;
 			overflow-y: scroll;
 		}
 	}

@@ -172,6 +172,65 @@ const SortArrow = (
 	</svg>
 )
 
+const Unchecked = (
+	<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<rect
+			x="0.625"
+			y="0.625"
+			width="18.75"
+			height="18.75"
+			rx="1.875"
+			fill="white"
+			stroke="#BFBFC2"
+			stroke-width="1.25"
+		/>
+	</svg>
+)
+
+const Checked = (
+	<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+		<rect width="20" height="20" rx="3" fill="#2F91E3" />
+		<line x1="3.87177" y1="9.77934" x2="10.4172" y2="14.4539" stroke="#F2F4F6" stroke-width="3" />
+		<line x1="16.2678" y1="3.8929" x2="8.20653" y2="14.7745" stroke="#F2F4F6" stroke-width="3" />
+	</svg>
+)
+
+const DeleteSearchItem = (
+	<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path d="M16.2426 7.75827L7.75736 16.2435M16.2426 16.2435L7.75736 7.75827" stroke="#AAAAAD" stroke-width="2" stroke-linecap="round" />
+	</svg>
+)
+
+const FilterIcon = (
+	<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path
+			d="M1 3H15M3 8H13M6 13H10"
+			stroke="#21A038"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		/>
+	</svg>
+)
+
+const redCircle = (
+	<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<circle cx="8" cy="8" r="8" fill="#FF3333" />
+	</svg>
+)
+
+const filterItemArrow = (
+	<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path
+			d="M6 15L12 9L18 15"
+			stroke="#6B6B6F"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		/>
+	</svg>
+)
+
 export default {
 	/** Лупа */
 	Search,
@@ -193,4 +252,16 @@ export default {
 	Deny,
 	/** Кнопка сортировки */
 	SortArrow,
+	/** Чекбокс отмечено */
+	Checked,
+	/** Чекбокс не отмечено */
+	Unchecked,
+	/** Иконка удаления элемента фильтра с поиском */
+	DeleteSearchItem,
+	/** Иконка фильтра */
+	FilterIcon,
+	/** Красный круг */
+	redCircle,
+	/** Кнопка раскрытия фильтра */
+	filterItemArrow
 }

@@ -61,7 +61,7 @@ export class ListColumnData {
 }
 
 /** Ответ запроса данных с сервера */
-export interface FetchData {
-	data: any
+export interface FetchData<ItemType = any> {
+	data: ItemType[]
 	hasMore: boolean
 }

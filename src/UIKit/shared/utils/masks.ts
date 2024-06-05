@@ -1,7 +1,7 @@
 /** Маски для полей ввода */
 
 /** Маска дат */
-export const applyDateMask = (value: string): string => {
+const applyDateMask = (value: string): string => {
 	const match = value.match(/(\d{1,2})?\D*(\d{1,2})?\D*(\d{1,4})?/m)?.slice(1)
 	if (!match) return ''
 

@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react'
 
+interface CustomSelectRowProps<DataType = string> {
+	value: string,
+	clickHandler: (value: string, data?: DataType) => void,
+	data?: DataType,
+}
+
 /** Элемент выпадающего списка */
-function CustomSelectRow({ value, code, data, clickHandler }: { value: string; code?: string, data?: any, clickHandler: any }) {
+function CustomSelectRow<DataType = string>({ value, data, clickHandler }: CustomSelectRowProps<DataType>) {
 	const onClickRow = (ev) => {
 		ev.stopPropagation();
-		clickHandler({ value, code, data })
+		clickHandler(value, data)
 	}
 	return (
 		<div className="custom-select__row" onClick={onClickRow}>

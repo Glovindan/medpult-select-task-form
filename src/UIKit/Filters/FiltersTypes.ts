@@ -2,6 +2,8 @@
 export interface IFilter {
 	/** Сброс фильтра */
 	reset(): void
+	/** Код поля */
+	fieldCode: string
 }
 
 /** Операторы фильтров по строке */
@@ -20,9 +22,12 @@ export class StringFilter implements IFilter {
 	value: string
 	/** Оператор (по умолчанию Содержит) */
 	operator: StringFilterOperator
+	fieldCode: string
 
-	constructor() {
+	constructor(code: string, value?: string) {
 		this.reset()
+		this.fieldCode = code
+		if (value) this.value = value
 	}
 
 	reset(): void {
@@ -32,19 +37,27 @@ export class StringFilter implements IFilter {
 }
 
 /** Значение элемента списка */
-export class FilterValue {
+export class ObjectItem {
 	/** Значение */
 	value: string
 	/** Код / Идентификатор */
 	code: string
+
+	constructor({ value, code }: { value?: string; code?: string }) {
+		this.value = value ?? ''
+		this.code = code ?? ''
+	}
 }
 
 /** Фильтр по списку */
 export class ListFilter implements IFilter {
 	/** Значения */
-	values: FilterValue[]
+	values: ObjectItem[]
+	fieldCode: string
 
-	constructor() {
+	constructor(code: string, value?: string) {
+		this.reset()
+		this.fieldCode = code
 		this.reset()
 	}
 
@@ -56,12 +69,14 @@ export class ListFilter implements IFilter {
 /** Фильтр по датам */
 export class DateFilter implements IFilter {
 	/** Дата от */
-	valueFrom?: Date
+	valueFrom?: string
 	/** Дата до */
-	valueTo?: Date
+	valueTo?: string
+	fieldCode: string
 
-	constructor() {
+	constructor(code: string, value?: string) {
 		this.reset()
+		this.fieldCode = code
 	}
 
 	reset(): void {
@@ -71,12 +86,14 @@ export class DateFilter implements IFilter {
 }
 
 /** Базовый класс для фильтров */
-export class FiltersData {
+export interface IFiltersData {
 	/** Сброс всех фильтров */
-	reset(): void {
-		const keys = Object.getOwnPropertyNames(this)
-		for (const key of keys) {
-			if (this[key].reset) this[key].reset()
-		}
-	}
+	reset(): void
+}
+
+export interface FilterItemProps<FilterType> {
+	/** Значение фильтра */
+	filterValue: FilterType
+	/** Изменение значения фильтра */
+	setFilterValue: (value: FilterType, ...args: any) => any
 }

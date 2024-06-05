@@ -12,6 +12,8 @@ type ListProps = {
 	getDataHandler: (page: number, sortData?: SortData, searchData?: any) => Promise<FetchData>
 	/** Есть прокрутка? */
 	isScrollable?: boolean
+	/** Высота */
+	height?: string;
 
 	/** Настройки поиска */
 	/** Данные поиска */
@@ -25,7 +27,7 @@ type ListProps = {
 
 /** Список данных в виде таблицы */
 function CustomList(props: ListProps) {
-	const { columnsSettings, getDataHandler, searchData, setSearchHandler, isScrollable = true, getDetailsLayout } = props;
+	const { height = "100%", columnsSettings, getDataHandler, searchData, setSearchHandler, isScrollable = true, getDetailsLayout } = props;
 
 	const [page, setPage] = useState<number>(0);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -110,6 +112,7 @@ function CustomList(props: ListProps) {
 						? "custom-list__body_scrollable"
 						: "custom-list__body"
 				}
+				style={{ height: height }}
 				ref={bodyRef}
 				onScroll={onScroll}
 			>

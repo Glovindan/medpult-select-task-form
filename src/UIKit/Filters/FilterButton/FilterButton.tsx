@@ -1,7 +1,7 @@
 import React from 'react'
-import icons from '../../../shared/icons'
-import Button from '../../../../UIKit/Button/Button'
-import { ButtonType } from '../../../../UIKit/Button/ButtonTypes'
+import Button from '../../Button/Button'
+import { ButtonType } from '../../Button/ButtonTypes'
+import icons from '../../shared/icons'
 
 interface FilterButtonProps {
 	isShowIndicator?: boolean
@@ -9,7 +9,7 @@ interface FilterButtonProps {
 }
 
 /** Кнопка для открытия панель фильтров */
-function FilterButton({ isShowIndicator = false, clickHandler = () => { } }: FilterButtonProps) {
+function FilterButton({ isShowIndicator = false, clickHandler }: FilterButtonProps) {
 	const buttonTitle = (
 		<span className='filter-button'>
 			<span>
