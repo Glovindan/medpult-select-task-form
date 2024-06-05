@@ -15,6 +15,9 @@
 
 	&__filters {
 		flex: 400;
+		&_hidden {
+			display: none;
+		}
 	}
 	&__list {
 		flex: 1500;

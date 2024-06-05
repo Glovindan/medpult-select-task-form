@@ -49,7 +49,8 @@ export default function SelectTaskFiltersForm({ }: SelectTaskFiltersProps) {
 
 	/** Сброс фильтров */
 	const resetFilters = () => {
-		setValue("filters", data.filters.reset())
+		data.filters.reset();
+		setValue("filters", data.filters)
 	}
 
 	return (

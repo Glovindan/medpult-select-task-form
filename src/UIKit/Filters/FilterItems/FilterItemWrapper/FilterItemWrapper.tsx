@@ -3,13 +3,20 @@ import icons from '../../../shared/icons'
 
 interface FilterItemWrapperProps {
     title: string
+    /** Изначальное значение открытости обертки */
+    isOpenInit?: boolean
+    /** Изменение изначального значения открытости обертки */
+    setIsOpenInit?: (isOpen: boolean) => void
 }
 
 /** Обертка панели фильтров */
-export default function FilterItemWrapper({ title, children }: PropsWithChildren<FilterItemWrapperProps>) {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+export default function FilterItemWrapper({ title, children, isOpenInit, setIsOpenInit }: PropsWithChildren<FilterItemWrapperProps>) {
+    const [isOpen, setIsOpen] = useState<boolean>(isOpenInit || false);
     const toggleIsOpen = () => {
-        setIsOpen(!isOpen);
+        const newValue = !isOpen;
+
+        if (setIsOpenInit) setIsOpenInit(newValue)
+        setIsOpen(newValue);
     }
 
     return (

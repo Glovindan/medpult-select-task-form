@@ -11,35 +11,75 @@ import {
 class SelectTaskData {
 	/** Фильтры поиска */
 	filters: SelectTaskFilters
+	/** Состояние оберток фильтров */
+	filterStates: SelectTaskFiltersStates
 	/** Номер обращения */
 	tasksList: string
 
 	constructor() {
 		this.filters = new SelectTaskFilters()
+		this.filterStates = new SelectTaskFiltersStates()
+	}
+}
+
+/** Состояние оберток фильтров */
+class SelectTaskFiltersStates {
+	// Номер задачи
+	number: boolean
+	// Статус задачи
+	status: boolean
+	// Тип задачи
+	type: boolean
+	// Вид задачи
+	sort: boolean
+	// Дата создания
+	createdAt: boolean
+	// Дата контроля
+	controledAt: boolean
+	// Автор
+	author: boolean
+	// Исполнитель
+	executor: boolean
+	// Обращение
+	request: boolean
+	// Застрахованный
+	insured: boolean
+
+	constructor() {
+		this.number = false
+		this.status = false
+		this.type = false
+		this.sort = false
+		this.createdAt = false
+		this.controledAt = false
+		this.author = false
+		this.executor = false
+		this.request = false
+		this.insured = false
 	}
 }
 
 /** Значения фильтров формы отбора задач */
 class SelectTaskFilters implements IFiltersData {
-	// Номер задачи - строчька
+	// Номер задачи
 	number: StringFilter
-	// Статус задачи - флажки
+	// Статус задачи
 	status: ListFilter
-	// Тип задачи - флажки
+	// Тип задачи
 	type: ListFilter
-	// Вид задачи - хрень какая-то
+	// Вид задачи
 	sort: ListFilter
-	// Дата создания - дата с по
+	// Дата создания
 	createdAt: DateFilter
-	// Дата контроля - дата с по
+	// Дата контроля
 	controledAt: DateFilter
-	// Автор - хрень какая-то
+	// Автор
 	author: ListFilter
-	// Исполнитель - хрень какая-то
+	// Исполнитель
 	executor: ListFilter
-	// Обращение - ваще хз спросить надо
+	// Обращение
 	request: StringFilter
-	// Застрахованный - ваще хз спросить надо
+	// Застрахованный
 	insured: StringFilter
 
 	constructor() {
@@ -53,11 +93,9 @@ class SelectTaskFilters implements IFiltersData {
 		this.executor = new ListFilter('executor')
 		this.request = new StringFilter('request')
 		this.insured = new StringFilter('insured')
-
-		console.log(this)
 	}
 
-	reset(): SelectTaskFilters {
+	reset() {
 		this.number.reset()
 		this.status.reset()
 		this.type.reset()
@@ -68,8 +106,6 @@ class SelectTaskFilters implements IFiltersData {
 		this.executor.reset()
 		this.request.reset()
 		this.insured.reset()
-
-		return this
 	}
 }
 
