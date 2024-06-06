@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useDeferredValue, useEffect, useRef, useState } from 'react';
 import CustomInput from '../CustomInput/CustomInput';
 import CustomSelectList from '../CustomSelect/CustomSelectList/CustomSelectList';
 import CustomSelectRow from '../CustomSelect/CustomSelectRow/CustomSelectRow';
@@ -6,6 +6,8 @@ import InputButton from '../InputButton/InputButton';
 import icons from '../shared/icons';
 import { CustomInputProps } from '../shared/types/types';
 import { ObjectItem } from '../Filters/FiltersTypes';
+import { setDebounce } from '../shared/utils/utils';
+import useDebounce from '../shared/utils/hooks';
 
 interface CustomInputSearchProps<DataType = string> extends CustomInputProps {
 	/** Измение состояния */
@@ -22,7 +24,6 @@ interface CustomInputSearchProps<DataType = string> extends CustomInputProps {
 
 /** Выпадающий список с поиском */
 // TODO: Пагинация
-// TODO: Дебаунс
 function CustomInputSearch<DataType>(props: CustomInputSearchProps<DataType>) {
 	const { value, setValue, optionClickHandler, getDataHandler, ...restProps } = props;
 
@@ -34,7 +35,8 @@ function CustomInputSearch<DataType>(props: CustomInputSearchProps<DataType>) {
 	const [values, setValues] = useState<ObjectItem[]>([]);
 	const rootRef = useRef<HTMLDivElement>(null);
 	const wrapperRef = useRef<HTMLDivElement>(null);
-	const [query, setQuery] = useState<string>(value);
+	const [query, setQuery] = useState<string>("");
+	const deferredQuery = useDebounce(query, 500);
 
 	/** Загрузка данных списка */
 	const loadData = async (query?: string) => {
@@ -48,16 +50,25 @@ function CustomInputSearch<DataType>(props: CustomInputSearchProps<DataType>) {
 		setIsLoading(false)
 	}
 
+	/** Перезагрузка данных списка */
+	const reloadData = () => {
+		setValues([]);
+		loadData()
+	}
+
+	// debounce
+	useEffect(() => {
+		// Загрузить элементы по введенной строке
+		reloadData();
+	}, [deferredQuery])
+
+
 	/** Обработчик ввода в поле поиска */
 	const inputHandler = (ev) => {
 		setQuery(ev.target.value)
 
 		// Открыть список
 		setIsOpen(true)
-
-		// Загрузить элементы по введенной строке
-		setValues([]);
-		loadData()
 	}
 
 	/** Обработчик нажатия на поле ввода */
@@ -65,18 +76,17 @@ function CustomInputSearch<DataType>(props: CustomInputSearchProps<DataType>) {
 		// Открыть список
 		setIsOpen(true)
 
-		// Стереть текущее значение
-		setQuery("")
-
 		// Загрузить данные
-		setValues([]);
-		loadData()
+		reloadData()
 	}
 
 	/** Обработчик закрытия списка */
 	const closeHandler = () => {
 		// Закрыть список
 		setIsOpen(false)
+
+		// Стереть текущее значение поискового запроса
+		setQuery("")
 	}
 
 	/** Обработчик нажатия на вариант списка */

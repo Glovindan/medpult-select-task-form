@@ -4,12 +4,12 @@ import Loader from '../Loader/Loader'
 import CustomListRow from './CustomListRow/CustomListRow'
 import { FetchData, ListColumnData, SortData, getDetailsLayoutAttributes } from './CustomListTypes'
 
-type ListProps = {
+type ListProps<SearchDataType = any> = {
 	/** Основные настройки */
 	/** Настройки отображения колонок */
 	columnsSettings: ListColumnData[]
 	/** Получение данных */
-	getDataHandler: (page: number, sortData?: SortData, searchData?: any) => Promise<FetchData>
+	getDataHandler: (page: number, sortData?: SortData, searchData?: SearchDataType) => Promise<FetchData>
 	/** Есть прокрутка? */
 	isScrollable?: boolean
 	/** Высота */
@@ -19,7 +19,7 @@ type ListProps = {
 
 	/** Настройки поиска */
 	/** Данные поиска */
-	searchData?: any
+	searchData?: SearchDataType
 	/** Установка обработчика нажатия на поиск */
 	setSearchHandler?: any
 
@@ -28,18 +28,27 @@ type ListProps = {
 }
 
 /** Список данных в виде таблицы */
-function CustomList(props: ListProps) {
+function CustomList<SearchDataType = any>(props: ListProps<SearchDataType>) {
 	const { height = "100%", listWidth, columnsSettings, getDataHandler, searchData, setSearchHandler, isScrollable = true, getDetailsLayout } = props;
 
+	// Страница
 	const [page, setPage] = useState<number>(0);
+	// Показать лоадер
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	// Параметр остановки подгрузки элементов
 	const [hasMore, setHasMore] = useState<boolean>(true);
+	// Данные сортировки
 	const [sortData, setSortData] = useState<SortData>();
+	// Элементы списка
 	const [items, setItems] = useState<any[]>([]);
+	// Индекс раскрытой строки
 	const [openRowIndex, setOpenRowIndex] = useState<number>();
+	// Ссылка на тело списка
 	const bodyRef = useRef<HTMLDivElement>(null);
+	// Ссылка на шапку списка
 	const headerRef = useRef<HTMLDivElement>(null);
 
+	/** Перезагрузка данных */
 	const reloadData = () => {
 		setIsLoading(false);
 		setItems([])
@@ -47,18 +56,28 @@ function CustomList(props: ListProps) {
 		loadData();
 	}
 
+	/** DEBUG */
 	useEffect(() => {
 		console.log(items);
 	}, [items])
 
+	/** Обработка скролла по горизонтали */
 	useEffect(() => {
-		bodyRef.current?.addEventListener("scroll", () => {
+		// Обработка скролла
+		const handleScroll = () => {
 			if (!bodyRef.current) return;
 			if (!headerRef.current) return;
+
+			// Синхронизация скролла шапки и тела
 			headerRef.current.scrollLeft = bodyRef.current.scrollLeft;
-		})
+		}
+
+		bodyRef.current?.addEventListener("scroll", handleScroll)
+
+		return () => bodyRef.current?.removeEventListener("scroll", handleScroll)
 	}, [])
 
+	/** Загрузка данных списка */
 	const loadData = async (items: any[] = [], page: number = 0, hasMore: boolean = true) => {
 		if (isLoading) return;
 		if (!hasMore) return;
@@ -73,6 +92,7 @@ function CustomList(props: ListProps) {
 		setIsLoading(false);
 	}
 
+	/** Обработчик скролла по вертикали */
 	const onScroll = () => {
 		const body = bodyRef.current!;
 		const height = body.scrollHeight - body.offsetHeight;

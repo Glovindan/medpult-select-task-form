@@ -1,5 +1,6 @@
 import { FetchData, SortData } from '../../../UIKit/CustomList/CustomListTypes'
 import { ObjectItem } from '../../../UIKit/Filters/FiltersTypes'
+import { SelectTaskFilters } from '../../stores/SelectTaskContext'
 import { SelectTaskData } from '../types'
 
 /** Заглушка ожидания ответа сервера */
@@ -14,8 +15,10 @@ function randomDelay() {
 async function getTasks(
 	page: number,
 	sortData?: SortData,
-	searchData?: any
+	searchData?: SelectTaskFilters
 ): Promise<FetchData<SelectTaskData>> {
+	await randomDelay()
+
 	const mockData = {
 		number: 'TS00000001/23',
 		status: 'В работе',
@@ -33,7 +36,7 @@ async function getTasks(
 			.map((data, index) => {
 				return new SelectTaskData(mockData)
 			}),
-		hasMore: false,
+		hasMore: true,
 	}
 }
 

@@ -8,6 +8,22 @@ export const redirectSPA = (href: string) => {
 	element.remove()
 }
 
+/** Установка debounce */
+export const setDebounce = (callback: (...args: any) => any, delay: number = 100) => {
+	console.log('test')
+	/** Идентификатор отложенного вызова */
+	let timeoutId: number | undefined = undefined
+
+	const call = () => {
+		console.log(timeoutId)
+		if (timeoutId) clearTimeout(timeoutId)
+		timeoutId = setTimeout(callback, delay)
+	}
+
+	return call
+}
+
 export default {
 	redirectSPA,
+	setDebounce,
 }

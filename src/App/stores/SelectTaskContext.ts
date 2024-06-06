@@ -8,7 +8,7 @@ import {
 } from '../../UIKit/Filters/FiltersTypes'
 
 /** Данные обращения */
-class SelectTaskData {
+export class SelectTaskData {
 	/** Фильтры поиска */
 	filters: SelectTaskFilters
 	/** Состояние оберток фильтров */
@@ -23,7 +23,7 @@ class SelectTaskData {
 }
 
 /** Состояние оберток фильтров */
-class SelectTaskFiltersStates {
+export class SelectTaskFiltersStates {
 	// Номер задачи
 	number: boolean
 	// Статус задачи
@@ -60,7 +60,7 @@ class SelectTaskFiltersStates {
 }
 
 /** Значения фильтров формы отбора задач */
-class SelectTaskFilters implements IFiltersData {
+export class SelectTaskFilters implements IFiltersData {
 	// Номер задачи
 	number: StringFilter
 	// Статус задачи
