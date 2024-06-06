@@ -14,6 +14,8 @@ type ListProps = {
 	isScrollable?: boolean
 	/** Высота */
 	height?: string;
+	/** Ширина списка в пикселях */
+	listWidth?: number;
 
 	/** Настройки поиска */
 	/** Данные поиска */
@@ -27,7 +29,7 @@ type ListProps = {
 
 /** Список данных в виде таблицы */
 function CustomList(props: ListProps) {
-	const { height = "100%", columnsSettings, getDataHandler, searchData, setSearchHandler, isScrollable = true, getDetailsLayout } = props;
+	const { height = "100%", listWidth, columnsSettings, getDataHandler, searchData, setSearchHandler, isScrollable = true, getDetailsLayout } = props;
 
 	const [page, setPage] = useState<number>(0);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -36,6 +38,7 @@ function CustomList(props: ListProps) {
 	const [items, setItems] = useState<any[]>([]);
 	const [openRowIndex, setOpenRowIndex] = useState<number>();
 	const bodyRef = useRef<HTMLDivElement>(null);
+	const headerRef = useRef<HTMLDivElement>(null);
 
 	const reloadData = () => {
 		setIsLoading(false);
@@ -47,6 +50,14 @@ function CustomList(props: ListProps) {
 	useEffect(() => {
 		console.log(items);
 	}, [items])
+
+	useEffect(() => {
+		bodyRef.current?.addEventListener("scroll", () => {
+			if (!bodyRef.current) return;
+			if (!headerRef.current) return;
+			headerRef.current.scrollLeft = bodyRef.current.scrollLeft;
+		})
+	}, [])
 
 	const loadData = async (items: any[] = [], page: number = 0, hasMore: boolean = true) => {
 		if (isLoading) return;
@@ -89,6 +100,14 @@ function CustomList(props: ListProps) {
 		setSortData(sortDataNew);
 	}
 
+	/** Получение ширины скроллбара */
+	const getScrollbarWidth = (ref: React.RefObject<HTMLDivElement>) => {
+		const element = ref.current;
+		if (!element) return 0;
+
+		return element.offsetWidth - element.clientWidth;
+	}
+
 	return (
 		<div className='custom-list'>
 			<div
@@ -97,14 +116,17 @@ function CustomList(props: ListProps) {
 						? "custom-list__header custom-list__header_scrollable"
 						: "custom-list__header"
 				}
+				ref={headerRef}
 			>
-				{columnsSettings.map(columnSettings =>
-					<CustomListColumn
-						sortData={sortData}
-						handleSortClick={handleSortClick}
-						{...columnSettings}
-					/>
-				)}
+				<div style={listWidth ? { width: `${listWidth - getScrollbarWidth(headerRef)}px` } : {}}>
+					{columnsSettings.map(columnSettings =>
+						<CustomListColumn
+							sortData={sortData}
+							handleSortClick={handleSortClick}
+							{...columnSettings}
+						/>
+					)}
+				</div>
 			</div>
 			<div
 				className={
@@ -116,30 +138,32 @@ function CustomList(props: ListProps) {
 				ref={bodyRef}
 				onScroll={onScroll}
 			>
-				{items.map(data => {
-					/** Обработчик нажатия на строку */
-					const toggleShowDetails = () => {
-						if (data.id === undefined) return;
+				<div className='custom-list__body-wrapper' style={listWidth ? { width: `${listWidth - getScrollbarWidth(bodyRef)}px` } : {}}>
+					{items.map(data => {
+						/** Обработчик нажатия на строку */
+						const toggleShowDetails = () => {
+							if (data.id === undefined) return;
 
-						if (data.id === openRowIndex) {
-							setOpenRowIndex(undefined)
-							return
+							if (data.id === openRowIndex) {
+								setOpenRowIndex(undefined)
+								return
+							}
+
+							setOpenRowIndex(data.id)
 						}
 
-						setOpenRowIndex(data.id)
-					}
-
-					return <CustomListRow
-						key={data.id}
-						data={data}
-						columnsSettings={columnsSettings}
-						getDetailsLayout={getDetailsLayout}
-						isShowDetails={getDetailsLayout && data.id === openRowIndex}
-						setOpenRowIndex={toggleShowDetails}
-						reloadData={reloadData}
-					/>
-				})}
-				{isLoading && <Loader />}
+						return <CustomListRow
+							key={data.id}
+							data={data}
+							columnsSettings={columnsSettings}
+							getDetailsLayout={getDetailsLayout}
+							isShowDetails={getDetailsLayout && data.id === openRowIndex}
+							setOpenRowIndex={toggleShowDetails}
+							reloadData={reloadData}
+						/>
+					})}
+					{isLoading && <Loader />}
+				</div>
 			</div>
 		</div>
 	)

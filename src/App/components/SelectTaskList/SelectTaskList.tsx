@@ -4,11 +4,12 @@ import { ListColumnData } from '../../../UIKit/CustomList/CustomListTypes';
 import Scripts from '../../shared/utils/clientScripts';
 
 interface SelectTaskListProps {
-
+	/** Ширина списка */
+	width: number;
 }
 
 /** Фильтры формы отбра задач */
-export default function SelectTaskList({ }: SelectTaskListProps) {
+export default function SelectTaskList({ width }: SelectTaskListProps) {
 	/** Колонки списка */
 	const columns = [
 		new ListColumnData({ name: "Номер задачи", code: "number", fr: 1, isSortable: true }),
@@ -24,7 +25,7 @@ export default function SelectTaskList({ }: SelectTaskListProps) {
 
 	return (
 		<div className="select-task-list">
-			<CustomList columnsSettings={columns} getDataHandler={Scripts.getTasks} height='70vh' />
+			<CustomList columnsSettings={columns} getDataHandler={Scripts.getTasks} height='70vh' listWidth={width} />
 		</div>
 	)
 }
