@@ -13,12 +13,15 @@ export class SelectTaskData {
 	filters: SelectTaskFilters
 	/** Состояние оберток фильтров */
 	filterStates: SelectTaskFiltersStates
-	/** Номер обращения */
-	tasksList: string
+	/** Обработчик нажатия на кнопку поиск */
+	onClickSearch: () => Promise<void>
 
 	constructor() {
 		this.filters = new SelectTaskFilters()
 		this.filterStates = new SelectTaskFiltersStates()
+		this.onClickSearch = async () => {
+			alert('test')
+		}
 	}
 }
 
@@ -83,16 +86,16 @@ export class SelectTaskFilters implements IFiltersData {
 	insured: StringFilter
 
 	constructor() {
-		this.number = new StringFilter('number')
-		this.status = new ListFilter('status')
-		this.type = new ListFilter('type')
-		this.sort = new ListFilter('sort')
-		this.createdAt = new DateFilter('createdAt')
-		this.controledAt = new DateFilter('controledAt')
-		this.author = new ListFilter('author')
-		this.executor = new ListFilter('executor')
-		this.request = new StringFilter('request')
-		this.insured = new StringFilter('insured')
+		this.number = new StringFilter('number', 'номер задачи')
+		this.status = new ListFilter('status', 'статус задачи')
+		this.type = new ListFilter('type', 'тип задачи')
+		this.sort = new ListFilter('sort', 'вид задачи')
+		this.createdAt = new DateFilter('createdAt', 'дата создания')
+		this.controledAt = new DateFilter('controledAt', 'дата контроля')
+		this.author = new ListFilter('author', 'автор')
+		this.executor = new ListFilter('executor', 'исполнитель')
+		this.request = new StringFilter('request', 'обращение')
+		this.insured = new StringFilter('insured', 'застрахованный')
 	}
 
 	reset() {

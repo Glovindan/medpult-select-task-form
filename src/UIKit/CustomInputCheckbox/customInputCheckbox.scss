@@ -3,6 +3,8 @@
 	gap: 8px;
 	cursor: pointer;
 	&__label {
+		word-break: break-word;
+		width: 100%;
 		font-family: 'Inter';
 		font-style: normal;
 		font-weight: 400;

@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from 'react'
 import CustomListColumn from './CustomListHeaderColumn/CustomListHeaderColumn'
 import Loader from '../Loader/Loader'
 import CustomListRow from './CustomListRow/CustomListRow'
-import { FetchData, ListColumnData, SortData, getDetailsLayoutAttributes } from './CustomListTypes'
+import { FetchData, FetchItem, ListColumnData, SortData, getDetailsLayoutAttributes } from './CustomListTypes'
 
-type ListProps<SearchDataType = any> = {
+type ListProps<SearchDataType = any, ItemType = any> = {
 	/** Основные настройки */
 	/** Настройки отображения колонок */
 	columnsSettings: ListColumnData[]
 	/** Получение данных */
-	getDataHandler: (page: number, sortData?: SortData, searchData?: SearchDataType) => Promise<FetchData>
+	getDataHandler: (page: number, sortData?: SortData, searchData?: SearchDataType) => Promise<FetchData<ItemType>>
 	/** Есть прокрутка? */
 	isScrollable?: boolean
 	/** Высота */
@@ -21,14 +21,14 @@ type ListProps<SearchDataType = any> = {
 	/** Данные поиска */
 	searchData?: SearchDataType
 	/** Установка обработчика нажатия на поиск */
-	setSearchHandler?: any
+	setSearchHandler?: (callback: () => void) => void
 
 	/** Получение формы детальной информации по вкладке */
 	getDetailsLayout?: ({ rowData, onClickRowHandler }: getDetailsLayoutAttributes) => any
 }
 
 /** Список данных в виде таблицы */
-function CustomList<SearchDataType = any>(props: ListProps<SearchDataType>) {
+function CustomList<SearchDataType = any, ItemType = any>(props: ListProps<SearchDataType, ItemType>) {
 	const { height = "100%", listWidth, columnsSettings, getDataHandler, searchData, setSearchHandler, isScrollable = true, getDetailsLayout } = props;
 
 	// Страница
@@ -40,9 +40,9 @@ function CustomList<SearchDataType = any>(props: ListProps<SearchDataType>) {
 	// Данные сортировки
 	const [sortData, setSortData] = useState<SortData>();
 	// Элементы списка
-	const [items, setItems] = useState<any[]>([]);
+	const [items, setItems] = useState<FetchItem<ItemType>[]>([]);
 	// Индекс раскрытой строки
-	const [openRowIndex, setOpenRowIndex] = useState<number>();
+	const [openRowIndex, setOpenRowIndex] = useState<string>();
 	// Ссылка на тело списка
 	const bodyRef = useRef<HTMLDivElement>(null);
 	// Ссылка на шапку списка
@@ -55,11 +55,6 @@ function CustomList<SearchDataType = any>(props: ListProps<SearchDataType>) {
 
 		loadData();
 	}
-
-	/** DEBUG */
-	useEffect(() => {
-		console.log(items);
-	}, [items])
 
 	/** Обработка скролла по горизонтали */
 	useEffect(() => {
@@ -87,7 +82,7 @@ function CustomList<SearchDataType = any>(props: ListProps<SearchDataType>) {
 		const fetchData = await getDataHandler(page, sortData, searchData);
 		setHasMore(fetchData.hasMore)
 
-		setItems([...items, ...fetchData.data])
+		setItems([...items, ...fetchData.items])
 		setPage(page + 1);
 		setIsLoading(false);
 	}
@@ -107,8 +102,8 @@ function CustomList<SearchDataType = any>(props: ListProps<SearchDataType>) {
 	useEffect(() => {
 		if (!setSearchHandler) return;
 
-		setSearchHandler(() => () => { reloadData() });
-	}, [searchData])
+		setSearchHandler(() => { reloadData() });
+	}, [searchData, sortData])
 
 	/** Обновление оглавления при изменении сортировки */
 	useEffect(() => {
@@ -159,25 +154,25 @@ function CustomList<SearchDataType = any>(props: ListProps<SearchDataType>) {
 				onScroll={onScroll}
 			>
 				<div className='custom-list__body-wrapper' style={listWidth ? { width: `${listWidth - getScrollbarWidth(bodyRef)}px` } : {}}>
-					{items.map(data => {
+					{items.map(item => {
 						/** Обработчик нажатия на строку */
 						const toggleShowDetails = () => {
-							if (data.id === undefined) return;
+							if (item.id === undefined) return;
 
-							if (data.id === openRowIndex) {
+							if (item.id === openRowIndex) {
 								setOpenRowIndex(undefined)
 								return
 							}
 
-							setOpenRowIndex(data.id)
+							setOpenRowIndex(item.id)
 						}
 
 						return <CustomListRow
-							key={data.id}
-							data={data}
+							key={item.id}
+							data={item.data}
 							columnsSettings={columnsSettings}
 							getDetailsLayout={getDetailsLayout}
-							isShowDetails={getDetailsLayout && data.id === openRowIndex}
+							isShowDetails={getDetailsLayout && item.id === openRowIndex}
 							setOpenRowIndex={toggleShowDetails}
 							reloadData={reloadData}
 						/>

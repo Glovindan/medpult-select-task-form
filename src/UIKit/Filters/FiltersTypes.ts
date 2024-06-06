@@ -4,6 +4,8 @@ export interface IFilter {
 	reset(): void
 	/** Код поля */
 	fieldCode: string
+	/** Название поля */
+	fieldName: string
 }
 
 /** Операторы фильтров по строке */
@@ -23,10 +25,12 @@ export class StringFilter implements IFilter {
 	/** Оператор (по умолчанию Содержит) */
 	operator: StringFilterOperator
 	fieldCode: string
+	fieldName: string
 
-	constructor(code: string, value?: string) {
+	constructor(code: string, name: string, value?: string) {
 		this.reset()
 		this.fieldCode = code
+		this.fieldName = name
 		if (value) this.value = value
 	}
 
@@ -54,11 +58,12 @@ export class ListFilter implements IFilter {
 	/** Значения */
 	values: ObjectItem[]
 	fieldCode: string
+	fieldName: string
 
-	constructor(code: string, value?: string) {
+	constructor(code: string, name: string) {
 		this.reset()
 		this.fieldCode = code
-		this.reset()
+		this.fieldName = name
 	}
 
 	reset(): void {
@@ -73,10 +78,12 @@ export class DateFilter implements IFilter {
 	/** Дата до */
 	valueTo?: string
 	fieldCode: string
+	fieldName: string
 
-	constructor(code: string, value?: string) {
+	constructor(code: string, name: string) {
 		this.reset()
 		this.fieldCode = code
+		this.fieldName = name
 	}
 
 	reset(): void {

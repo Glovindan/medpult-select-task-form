@@ -1,3 +1,5 @@
+import { ItemData, ItemDataString } from '../../UIKit/CustomList/CustomListTypes'
+
 export interface IInputData<DataType = any> {
 	value: string
 	data?: DataType
@@ -5,25 +7,25 @@ export interface IInputData<DataType = any> {
 
 export class SelectTaskData {
 	// Номер задачи - строчька
-	number?: string
+	number?: ItemData
 	// Статус задачи - флажки
-	status?: string
+	status?: ItemData
 	// Тип задачи - флажки
-	type?: string
+	type?: ItemData
 	// Вид задачи - хрень какая-то
-	sort?: string
+	sort?: ItemData
 	// Дата создания - дата с по
-	createdAt?: string
+	createdAt?: ItemDataString
 	// Дата контроля - дата с по
-	controledAt?: string
+	controledAt?: ItemDataString
 	// Автор - хрень какая-то
-	author?: string
+	author?: ItemData
 	// Исполнитель - хрень какая-то
-	executor?: string
+	executor?: ItemData
 	// Обращение - ваще хз спросить надо
-	request?: string
+	request?: ItemData
 	// Застрахованный - ваще хз спросить надо
-	insured?: string
+	insured?: ItemData
 
 	constructor({
 		number,
@@ -37,15 +39,15 @@ export class SelectTaskData {
 		request,
 		insured,
 	}: SelectTaskData) {
-		this.number = number ?? ''
-		this.status = status ?? ''
-		this.type = type ?? ''
-		this.sort = sort ?? ''
-		this.createdAt = createdAt ?? ''
-		this.controledAt = controledAt ?? ''
-		this.author = author ?? ''
-		this.executor = executor ?? ''
-		this.request = request ?? ''
-		this.insured = insured ?? ''
+		this.number = number
+		this.status = status
+		this.type = type
+		this.sort = sort
+		this.createdAt = createdAt
+		this.controledAt = controledAt
+		this.author = author
+		this.executor = executor
+		this.request = request
+		this.insured = insured
 	}
 }

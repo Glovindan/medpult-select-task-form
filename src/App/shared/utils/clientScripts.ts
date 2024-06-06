@@ -1,4 +1,9 @@
-import { FetchData, SortData } from '../../../UIKit/CustomList/CustomListTypes'
+import {
+	FetchData,
+	ItemData,
+	ItemDataString,
+	SortData,
+} from '../../../UIKit/CustomList/CustomListTypes'
 import { ObjectItem } from '../../../UIKit/Filters/FiltersTypes'
 import { SelectTaskFilters } from '../../stores/SelectTaskContext'
 import { SelectTaskData } from '../types'
@@ -19,22 +24,31 @@ async function getTasks(
 ): Promise<FetchData<SelectTaskData>> {
 	await randomDelay()
 
+	console.log({
+		page,
+		sortData,
+		searchData,
+	})
+
 	const mockData = {
-		number: 'TS00000001/23',
-		status: 'В работе',
-		type: 'Медицинское',
-		sort: 'Запись к врачу',
-		createdAt: '06.12.2023 12:22',
-		controledAt: '06.12.2023 12:22',
-		author: 'Юрасов Сергей Олегович',
-		executor: 'Юрасов Сергей Олегович',
-		request: 'RQ00000025/23',
+		number: new ItemData({ value: 'TS00000001/23', info: 'test' }),
+		status: new ItemData({ value: 'В работе', info: 'test' }),
+		type: new ItemData({ value: 'Медицинское', info: 'test' }),
+		sort: new ItemData({ value: 'Запись к врачу', info: 'test' }),
+		createdAt: new ItemDataString('06.12.2023 12:22'),
+		controledAt: new ItemDataString('06.12.2023 12:22'),
+		author: new ItemData({ value: 'Юрасов Сергей Олегович', info: 'test' }),
+		executor: new ItemData({ value: 'Юрасов Сергей Олегович', info: 'test' }),
+		request: new ItemData({ value: 'RQ00000025/23', info: 'test' }),
 	}
 	return {
-		data: Array(20)
+		items: Array(20)
 			.fill(0)
 			.map((data, index) => {
-				return new SelectTaskData(mockData)
+				return {
+					id: String(index),
+					data: new SelectTaskData(mockData),
+				}
 			}),
 		hasMore: true,
 	}

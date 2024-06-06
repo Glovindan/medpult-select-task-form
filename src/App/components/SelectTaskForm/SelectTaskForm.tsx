@@ -43,8 +43,8 @@ export default function SelectTaskForm() {
 					<div className={`select-task-form__filters${!isShowFilters ? " select-task-form__filters_hidden" : ""}`}>
 						<SelectTaskFiltersForm />
 					</div>
-					<div className="select-task-form__list" style={{ width: "100%", overflowX: "auto" }}>
-						<div /* style={{ width: `${listWidth}px` }} */>
+					<div className="select-task-form__list">
+						<div>
 							<SelectTaskList width={listWidth} />
 						</div>
 					</div>
