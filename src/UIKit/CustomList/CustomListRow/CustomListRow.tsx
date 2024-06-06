@@ -1,14 +1,13 @@
 import React from 'react'
 import CustomListRowColumn from '../CustomListRowColumn/CustomListRowColumn'
-import { ListColumnData, getDetailsLayoutAttributes } from '../CustomListTypes'
-import { IInputData } from '../../shared/types/types'
+import { ItemData, ListColumnData, getDetailsLayoutAttributes } from '../CustomListTypes'
 
-interface ListRowProps {
+interface ListRowProps<ItemType = any> {
 	/** Настройки строки (обязательно) */
 	/** Параметры отображения колонки */
 	columnsSettings: ListColumnData[]
 	/** Данные строки */
-	data: { [key: string]: IInputData }
+	data: ItemType
 
 	/** Настройки открытия детальной информации по строке (Необязательно) */
 	/** Показать детальную информацию */
@@ -28,7 +27,7 @@ interface ListRowProps {
 }
 
 /** Строка таблицы */
-function CustomListRow(props: ListRowProps) {
+function CustomListRow<ItemType = any>(props: ListRowProps<ItemType>) {
 	const { isShowDetails, columnsSettings, data, getDetailsLayout, setOpenRowIndex, isOpen, isClickable, reloadData } = props;
 
 	/** Получение значения класса строки */
@@ -47,10 +46,9 @@ function CustomListRow(props: ListRowProps) {
 				<div className={getRowClassname()} onClick={setOpenRowIndex}>
 					{columnsSettings.map(settings => {
 						if (data == undefined) {
-							console.log(data)
 							return;
 						}
-						const columnData = data[settings.code];
+						const columnData: ItemData<any> = data[settings.code];
 
 						return (
 							<CustomListRowColumn data={columnData} {...settings} />

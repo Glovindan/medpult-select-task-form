@@ -1,8 +1,8 @@
 import React from 'react'
-import { ListColumnData } from '../CustomListTypes'
+import { ItemData, ListColumnData } from '../CustomListTypes'
 
 interface ListColumnProps extends ListColumnData {
-	data: string
+	data: ItemData<any>
 }
 
 /** Столбец одной строки таблицы */
@@ -17,8 +17,8 @@ function CustomListRowColumn(props: ListColumnProps) {
 				? "custom-list-row-column custom-list-row-column__link"
 				: "custom-list-row-column"
 		} style={{ flex: fr }}>
-			<span title={data} onClick={onClickColumn}>
-				{data}
+			<span title={data.value} onClick={onClickColumn}>
+				{data.value}
 			</span>
 		</div>
 	)

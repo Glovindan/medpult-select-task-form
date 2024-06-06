@@ -12,6 +12,12 @@ interface FilterItemWrapperProps {
 /** Обертка панели фильтров */
 export default function FilterItemWrapper({ title, children, isOpenInit, setIsOpenInit }: PropsWithChildren<FilterItemWrapperProps>) {
     const [isOpen, setIsOpen] = useState<boolean>(isOpenInit || false);
+
+    // Первая заглваная
+    const capitalize = (str: string) => {
+        return str[0].toUpperCase() + str.toLowerCase().slice(1);
+    }
+
     const toggleIsOpen = () => {
         const newValue = !isOpen;
 
@@ -22,7 +28,7 @@ export default function FilterItemWrapper({ title, children, isOpenInit, setIsOp
     return (
         <div className="filter-item-wrapper">
             <div className="filter-item-wrapper__header" onClick={toggleIsOpen}>
-                <div className="filter-item-wrapper__title">{title}</div>
+                <div className="filter-item-wrapper__title">{capitalize(title)}</div>
                 <div className={`filter-item-wrapper__arrow ${isOpen ? "filter-item-wrapper__arrow_open" : null}`}>{icons.filterItemArrow}</div>
             </div>
             {isOpen && <div className="filter-item-wrapper__content">{children}</div>}

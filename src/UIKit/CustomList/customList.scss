@@ -1,14 +1,18 @@
 .custom-list {
 	&__header {
-		display: flex;
-		gap: 8px;
-		flex-direction: row;
-
 		background: #f9f9fa;
 		border-bottom: 2px solid var(--medpult-bg-color);
 		height: 52px;
 		align-items: center;
-		padding: 0px 20px;
+
+		& > div {
+			padding: 0px 20px;
+			height: 52px;
+			align-items: center;
+			display: flex;
+			gap: 8px;
+			flex-direction: row;
+		}
 
 		&::-webkit-scrollbar {
 			visibility: hidden;
@@ -16,12 +20,18 @@
 
 		&_scrollable {
 			overflow-y: scroll;
+			overflow-x: hidden;
 		}
 	}
 
 	&__body {
 		&_scrollable {
+			overflow-x: auto;
 			overflow-y: scroll;
 		}
+	}
+
+	&__wrapper {
+		overflow-y: hidden;
 	}
 }

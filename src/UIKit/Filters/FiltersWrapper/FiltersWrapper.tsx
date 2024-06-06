@@ -4,7 +4,7 @@ import { ButtonType } from '../../Button/ButtonTypes'
 
 interface FiltersWrapperProps {
 	resetHandler?: () => void
-	searchHandler?: () => void
+	searchHandler?: () => Promise<void>
 }
 
 /** Обертка панели фильтров */

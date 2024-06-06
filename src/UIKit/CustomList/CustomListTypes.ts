@@ -1,4 +1,4 @@
-/** Атрибуты функции получения разметки деталей строки динамического списка */
+/** Атрибуты функции получения разметки деталей строки списка */
 export interface getDetailsLayoutAttributes {
 	/** Сокращенные данные строки */
 	rowData: any
@@ -10,7 +10,9 @@ export interface getDetailsLayoutAttributes {
 
 /** Данные сортировки */
 export class SortData {
+	/** Код колонки списка */
 	code: string
+	/** Флажок по возрастанию */
 	isAscending: boolean
 
 	constructor({ code, isAscending }: { code?: string; isAscending?: boolean }) {
@@ -32,7 +34,7 @@ export class ListColumnData {
 	/** Код значения */
 	code: string
 	/** Обработчик нажатия */
-	onClick?: (props: any) => any
+	onClick?: (props: ItemData) => any
 
 	constructor({
 		name,
@@ -60,8 +62,40 @@ export class ListColumnData {
 	}
 }
 
+/** Значение колонки */
+export class ItemData<InfoType = string> {
+	/** Значение */
+	value: string
+	/** Дополнительная информация */
+	info?: InfoType
+
+	constructor({ value, info }: { value?: string; info?: InfoType }) {
+		this.value = value ?? ''
+		if (info) this.info = info
+	}
+}
+
+/** Строковое значение колонки */
+export class ItemDataString extends ItemData<undefined> {
+	value: string
+
+	constructor(value: string) {
+		super({ value: value })
+	}
+}
+
+/** Значение элемента списка */
+export interface FetchItem<DataType = any> {
+	/** Идентификатор элемента */
+	id: string
+	/** Данные элемента */
+	data: DataType
+}
+
 /** Ответ запроса данных с сервера */
-export interface FetchData<ItemType = any> {
-	data: ItemType[]
+export interface FetchData<DataType> {
+	/** Данные */
+	items: FetchItem<DataType>[]
+	/** Доступны ли еще данные для подгрузки? */
 	hasMore: boolean
 }
