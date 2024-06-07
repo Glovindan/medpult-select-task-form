@@ -6,7 +6,6 @@ import InputButton from '../InputButton/InputButton';
 import icons from '../shared/icons';
 import { CustomInputProps, FetchInputData } from '../shared/types/types';
 import { ObjectItem } from '../Filters/FiltersTypes';
-import { setDebounce } from '../shared/utils/utils';
 import useDebounce from '../shared/utils/hooks';
 
 interface CustomInputSearchProps<DataType = string> extends CustomInputProps {
@@ -23,7 +22,6 @@ interface CustomInputSearchProps<DataType = string> extends CustomInputProps {
 }
 
 /** Выпадающий список с поиском */
-// TODO: Пагинация
 function CustomInputSearch<DataType>(props: CustomInputSearchProps<DataType>) {
 	const { value, setValue, optionClickHandler, getDataHandler, ...restProps } = props;
 
@@ -68,16 +66,16 @@ function CustomInputSearch<DataType>(props: CustomInputSearchProps<DataType>) {
 	}
 
 	/** Перезагрузка данных списка */
-	const reloadData = () => {
+	const reloadData = (query?: string) => {
 		setValues([]);
 
-		loadData()
+		loadData(query)
 	}
 
 	// debounce
 	useEffect(() => {
 		// Загрузить элементы по введенной строке
-		reloadData();
+		reloadData(query);
 	}, [deferredQuery])
 
 
@@ -116,7 +114,7 @@ function CustomInputSearch<DataType>(props: CustomInputSearchProps<DataType>) {
 
 		// Установить значение
 		setValue(value, data)
-		setQuery(value)
+		setQuery("")
 
 		// Скрыть список
 		closeCallback()
