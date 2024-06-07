@@ -49,10 +49,6 @@ export default function SelectTaskFiltersForm({ }: SelectTaskFiltersProps) {
 		setValue("filters", data.filters)
 	}
 
-	// useEffect(() => {
-	// 	alert("updateFilters")
-	// }, [data])
-
 	return (
 		<FiltersWrapper searchHandler={data.onClickSearch} resetHandler={resetFilters}>
 			<FilterItemString title={data.filters.number.fieldName} filterValue={data.filters.number} setFilterValue={changeValueConstructor(data.filters.number.fieldCode)} />
@@ -61,8 +57,8 @@ export default function SelectTaskFiltersForm({ }: SelectTaskFiltersProps) {
 			<FilterItemCategory title={data.filters.sort.fieldName} variants={sorts} filterValue={data.filters.sort} setFilterValue={changeValueConstructor(data.filters.sort.fieldCode)} />
 			<FilterItemDates title={data.filters.createdAt.fieldName} filterValue={data.filters.createdAt} setFilterValue={changeValueConstructor(data.filters.createdAt.fieldCode)} />
 			<FilterItemDates title={data.filters.controledAt.fieldName} filterValue={data.filters.controledAt} setFilterValue={changeValueConstructor(data.filters.controledAt.fieldCode)} />
-			<FilterItemSearch title={data.filters.author.fieldName} filterValue={data.filters.author} getDataHandler={Scripts.getSorts} setFilterValue={changeValueConstructor(data.filters.author.fieldCode)} />
-			<FilterItemSearch title={data.filters.executor.fieldName} filterValue={data.filters.executor} getDataHandler={Scripts.getSorts} setFilterValue={changeValueConstructor(data.filters.executor.fieldCode)} />
+			<FilterItemSearch title={data.filters.author.fieldName} filterValue={data.filters.author} getDataHandler={Scripts.getUsers} setFilterValue={changeValueConstructor(data.filters.author.fieldCode)} />
+			<FilterItemSearch title={data.filters.executor.fieldName} filterValue={data.filters.executor} getDataHandler={Scripts.getUsers} setFilterValue={changeValueConstructor(data.filters.executor.fieldCode)} />
 			<FilterItemString title={data.filters.request.fieldName} filterValue={data.filters.request} setFilterValue={changeValueConstructor(data.filters.request.fieldCode)} />
 			<FilterItemString title={data.filters.insured.fieldName} filterValue={data.filters.insured} setFilterValue={changeValueConstructor(data.filters.insured.fieldCode)} />
 		</FiltersWrapper>

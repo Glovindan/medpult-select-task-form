@@ -167,7 +167,7 @@ function CustomList<SearchDataType = any, ItemType = any>(props: ListProps<Searc
 							setOpenRowIndex(item.id)
 						}
 
-						return <CustomListRow
+						return <CustomListRow<ItemType>
 							key={item.id}
 							data={item.data}
 							columnsSettings={columnsSettings}

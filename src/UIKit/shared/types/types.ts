@@ -1,3 +1,5 @@
+import { ObjectItem } from '../../Filters/FiltersTypes'
+
 export interface CustomInputProps extends React.ComponentProps<'input'> {
 	/** Значение состояния */
 	value: string
@@ -25,4 +27,12 @@ export interface CustomInputProps extends React.ComponentProps<'input'> {
 	isInvalid?: boolean
 	/** Кастомные классы */
 	customClassname?: string
+}
+
+/** Ответ запроса данных с сервера */
+export interface FetchInputData {
+	/** Данные */
+	items: ObjectItem[]
+	/** Доступны ли еще данные для подгрузки? */
+	hasMore: boolean
 }

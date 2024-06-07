@@ -5,6 +5,7 @@ import {
 	SortData,
 } from '../../../UIKit/CustomList/CustomListTypes'
 import { ObjectItem } from '../../../UIKit/Filters/FiltersTypes'
+import { FetchInputData } from '../../../UIKit/shared/types/types'
 import { SelectTaskFilters } from '../../stores/SelectTaskContext'
 import { SelectTaskData } from '../types'
 
@@ -102,9 +103,35 @@ async function getSorts(): Promise<ObjectItem[]> {
 	return sorts
 }
 
+/** Получение пользователей */
+async function getUsers(page: number, query?: string | undefined): Promise<FetchInputData> {
+	await randomDelay()
+
+	/** Статусы */
+	const sorts: ObjectItem[] = [
+		new ObjectItem({ code: 'test', value: 'Согласование услуг' }),
+		new ObjectItem({ code: 'test1', value: 'Запись к врачу' }),
+		new ObjectItem({ code: 'test2', value: 'Помощь на дому' }),
+		new ObjectItem({ code: 'test3', value: 'Скорая медицинская помощь' }),
+		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
+		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
+		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
+		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
+		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
+		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
+		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
+	]
+
+	return {
+		items: sorts,
+		hasMore: true,
+	}
+}
+
 export default {
 	getTasks,
 	getStatuses,
 	getTypes,
 	getSorts,
+	getUsers,
 }

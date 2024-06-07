@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect } from 'react'
+import React, { PropsWithChildren, useEffect, useRef } from 'react'
 import Loader from '../../Loader/Loader';
 
 interface CustomSelectListProps {
@@ -7,6 +7,8 @@ interface CustomSelectListProps {
 	closeHandler: () => void,
 	isLoading: boolean,
 	listWidth: number
+	/** Функция обратного вызова при скролле */
+	scrollCallback?: () => void
 }
 
 /** Список элементов выпадающего списка */
@@ -15,8 +17,12 @@ function CustomSelectList({
 	closeHandler,
 	isLoading,
 	listWidth,
-	children
+	children,
+	scrollCallback
 }: PropsWithChildren<CustomSelectListProps>) {
+
+	// Ссылка на обертку поля
+	const bodyRef = useRef<HTMLDivElement>(null);
 
 	/** Клик снаружи списка */
 	useEffect(() => {
@@ -38,6 +44,18 @@ function CustomSelectList({
 		};
 	}, [])
 
+
+	/** Обработчик скролла по вертикали */
+	const onScroll = () => {
+		const body = bodyRef.current!;
+		const height = body.scrollHeight - body.offsetHeight;
+		const scrollPosition = body.scrollTop;
+
+		if ((height - scrollPosition) / height < 0.05 && !isLoading) {
+			if (scrollCallback) scrollCallback()
+		}
+	}
+
 	return (
 		<div
 			className='custom-select-list'
@@ -46,7 +64,7 @@ function CustomSelectList({
 				width: listWidth + "px"
 			}}
 		>
-			<div className="custom-select-list__content">
+			<div ref={bodyRef} onScroll={onScroll} className="custom-select-list__content">
 				{children}
 				{isLoading && <Loader />}
 			</div>

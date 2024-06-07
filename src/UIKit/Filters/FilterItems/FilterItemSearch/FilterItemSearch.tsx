@@ -3,12 +3,13 @@ import FilterItemWrapper from '../FilterItemWrapper/FilterItemWrapper';
 import { FilterItemProps, ObjectItem, ListFilter } from '../../FiltersTypes';
 import CustomInputSearch from '../../../CustomInputSearch/CustomInputSearch';
 import FilterItemSearchElement from './FilterItemSearchElement/FilterItemSearchElement';
+import { FetchInputData } from '../../../shared/types/types';
 
 interface FilterItemSearchProps extends FilterItemProps<ListFilter> {
 	/** Название фильтра */
 	title: string
-	/** Функция поиска элементов */
-	getDataHandler: (query?: string) => Promise<ObjectItem[]>
+	/** Получение данных выпадающего списка */
+	getDataHandler: (page: number, query?: string) => Promise<FetchInputData>,
 }
 
 /** Обертка элемента фильтров со строкой поиска */
@@ -40,11 +41,11 @@ export default function FilterItemSearch({ title, filterValue, setFilterValue, g
 	}
 
 	/** Получение данных без дубликатов */
-	const getDataFiltered = async (query?: string): Promise<ObjectItem[]> => {
-		const data = await getDataHandler(query);
-		const dataFiltered = data.filter(value => !Boolean(filterValue.values.find(item => item.code === value.code)))
+	const getDataFiltered = async (page: number, query?: string): Promise<FetchInputData> => {
+		const data = await getDataHandler(page, query);
+		data.items = data.items.filter(value => !Boolean(filterValue.values.find(item => item.code === value.code)))
 
-		return dataFiltered;
+		return data;
 	}
 
 	return (

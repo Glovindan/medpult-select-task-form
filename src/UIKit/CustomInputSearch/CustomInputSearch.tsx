@@ -4,7 +4,7 @@ import CustomSelectList from '../CustomSelect/CustomSelectList/CustomSelectList'
 import CustomSelectRow from '../CustomSelect/CustomSelectRow/CustomSelectRow';
 import InputButton from '../InputButton/InputButton';
 import icons from '../shared/icons';
-import { CustomInputProps } from '../shared/types/types';
+import { CustomInputProps, FetchInputData } from '../shared/types/types';
 import { ObjectItem } from '../Filters/FiltersTypes';
 import { setDebounce } from '../shared/utils/utils';
 import useDebounce from '../shared/utils/hooks';
@@ -13,7 +13,7 @@ interface CustomInputSearchProps<DataType = string> extends CustomInputProps {
 	/** Измение состояния */
 	setValue: (value: string, data?: DataType) => any
 	/** Получение данных выпадающего списка */
-	getDataHandler: (query?: string) => Promise<ObjectItem[]>,
+	getDataHandler: (page: number, query?: string) => Promise<FetchInputData>,
 	/** Дополнительные данные (напр. идентификатор) */
 	data?: DataType
 	/** Флажок режима просмотра */
@@ -27,25 +27,42 @@ interface CustomInputSearchProps<DataType = string> extends CustomInputProps {
 function CustomInputSearch<DataType>(props: CustomInputSearchProps<DataType>) {
 	const { value, setValue, optionClickHandler, getDataHandler, ...restProps } = props;
 
-	/** Флажок открытости списка */
+	// Страница
+	const [page, setPage] = useState<number>(0);
+	// Параметр остановки подгрузки элементов
+	const [hasMore, setHasMore] = useState<boolean>(true);
+	// Флажок открытости списка
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	/** Флажок загрузки */
+	// Флажок загрузки
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	// Ширина списка
 	const [listWidth, setListWidth] = useState<number>(0);
+	// Значения списка
 	const [values, setValues] = useState<ObjectItem[]>([]);
+	// Ссылка на обертку поля
 	const rootRef = useRef<HTMLDivElement>(null);
+	// Ссылка на поле
 	const wrapperRef = useRef<HTMLDivElement>(null);
+	// Значение поискового запроса
 	const [query, setQuery] = useState<string>("");
+	// Значение поискового запроса с debounce
 	const deferredQuery = useDebounce(query, 500);
 
 	/** Загрузка данных списка */
-	const loadData = async (query?: string) => {
+	const loadData = async (query?: string, values: ObjectItem[] = [], page: number = 0, hasMore: boolean = true) => {
+		if (isLoading) return;
+		if (!hasMore) return;
+
 		// Показать лоадер
 		setIsLoading(true)
+
 		// Получение данных
-		const data = await getDataHandler(query);
+		const fetchData = await getDataHandler(page, query);
+		setHasMore(fetchData.hasMore)
+
 		// Запись данных
-		setValues(data);
+		setValues([...values, ...fetchData.items])
+
 		// Скрыть лоадер
 		setIsLoading(false)
 	}
@@ -53,6 +70,7 @@ function CustomInputSearch<DataType>(props: CustomInputSearchProps<DataType>) {
 	/** Перезагрузка данных списка */
 	const reloadData = () => {
 		setValues([]);
+
 		loadData()
 	}
 
@@ -99,7 +117,6 @@ function CustomInputSearch<DataType>(props: CustomInputSearchProps<DataType>) {
 		// Установить значение
 		setValue(value, data)
 		setQuery(value)
-		// setBuffer(value)
 
 		// Скрыть список
 		closeCallback()
@@ -110,6 +127,11 @@ function CustomInputSearch<DataType>(props: CustomInputSearchProps<DataType>) {
 		const wrapper = wrapperRef.current!;
 		setListWidth(wrapper.getBoundingClientRect().width);
 	}, [isOpen])
+
+	/** Обработчик скролла по вертикали */
+	const scrollCallback = () => {
+		loadData(query, values, page, hasMore)
+	}
 
 	return (
 		<div className="custom-select" ref={rootRef}>
@@ -131,6 +153,7 @@ function CustomInputSearch<DataType>(props: CustomInputSearchProps<DataType>) {
 					closeHandler={closeHandler}
 					isLoading={isLoading}
 					listWidth={listWidth}
+					scrollCallback={scrollCallback}
 				>
 					{values.map(item =>
 						<CustomSelectRow
