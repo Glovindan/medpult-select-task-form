@@ -60,6 +60,7 @@ function CustomInputSearch<DataType>(props: CustomInputSearchProps<DataType>) {
 
 		// Запись данных
 		setValues([...values, ...fetchData.items])
+		setPage(page + 1);
 
 		// Скрыть лоадер
 		setIsLoading(false)
