@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import CustomList from '../../../UIKit/CustomList/CustomList';
-import { ListColumnData } from '../../../UIKit/CustomList/CustomListTypes';
+import { ItemData, ListColumnData } from '../../../UIKit/CustomList/CustomListTypes';
 import Scripts from '../../shared/utils/clientScripts';
 import { SelectTaskFilters, selectTaskContext } from '../../stores/SelectTaskContext';
 import { SelectTaskData } from '../../shared/types';
+import utils from '../../shared/utils/utils';
 
 interface SelectTaskListProps {
 	/** Ширина списка */
@@ -21,13 +22,30 @@ export default function SelectTaskList({ width }: SelectTaskListProps) {
 	}
 
 	/** Обработчик нажатия на номер задачи */
-	const onClickTaskNumber = (props) => {
-		console.log(props);
+	const onClickTaskNumber = async (props: ItemData) => {
+		const taskId = props.info;
+		if (!taskId) return
+		// Установка обращения
+		const requestId = await Scripts.getRequestIdByTaskId(taskId)
+		utils.setRequest(requestId)
+
+		localStorage.setItem("taskId", taskId);
+
+		// Переход
+		const link = await Scripts.getRequestLink()
+		utils.redirectSPA(link)
 	}
 
-	/** Обработчик нажатия на номер задачи */
-	const onClickRequest = (props) => {
-		console.log(props);
+	/** Обработчик нажатия на номер обращения */
+	const onClickRequest = async (props: ItemData) => {
+		const requestId = props.info;
+		if (!requestId) return
+		// Установка обращения
+		utils.setRequest(requestId)
+
+		// Переход
+		const link = await Scripts.getRequestLink()
+		utils.redirectSPA(link)
 	}
 
 	/** Колонки списка */

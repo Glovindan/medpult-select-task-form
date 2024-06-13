@@ -128,10 +128,22 @@ async function getUsers(page: number, query?: string | undefined): Promise<Fetch
 	}
 }
 
+/** Получение id обращения по id задачи */
+async function getRequestIdByTaskId(taskId: string): Promise<string> {
+	return 'test'
+}
+
+/** Получение ссылки для перехода на страницу обращения */
+async function getRequestLink(): Promise<string> {
+	return '#test'
+}
+
 export default {
 	getTasks,
 	getStatuses,
 	getTypes,
 	getSorts,
 	getUsers,
+	getRequestIdByTaskId,
+	getRequestLink,
 }
