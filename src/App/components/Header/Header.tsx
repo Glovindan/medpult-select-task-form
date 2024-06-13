@@ -44,12 +44,16 @@ function Header({ title, elementsCount = 0, clickFilterHandler, children }: Prop
 		if (clickFilterHandler) clickFilterHandler()
 	}
 
+	/** Нажатие на кнопку назад */
+	const onClickReturn = () => {
+		history.back();
+	}
 
 	React.useLayoutEffect(() => setIsShowIndicator(checkHasActiveFilters()), [data])
 
 	return (
 		<div className="header">
-			<div className="header__returnButton">
+			<div className="header__returnButton" onClick={onClickReturn}>
 				{icons.ReturnButton}
 			</div>
 			<div className="header__filterButton">

@@ -12,19 +12,19 @@ export class SelectTaskData {
 	status?: ItemData
 	// Тип задачи - флажки
 	type?: ItemData
-	// Вид задачи - хрень какая-то
+	// Вид задачи - поиск по названию
 	sort?: ItemData
 	// Дата создания - дата с по
 	createdAt?: ItemDataString
 	// Дата контроля - дата с по
 	controledAt?: ItemDataString
-	// Автор - хрень какая-то
+	// Автор - поиск по названию
 	author?: ItemData
-	// Исполнитель - хрень какая-то
+	// Исполнитель - поиск по названию
 	executor?: ItemData
-	// Обращение - ваще хз спросить надо
+	// Обращение - формы отбора
 	request?: ItemData
-	// Застрахованный - ваще хз спросить надо
+	// Застрахованный - формы отбора
 	insured?: ItemData
 
 	constructor({
