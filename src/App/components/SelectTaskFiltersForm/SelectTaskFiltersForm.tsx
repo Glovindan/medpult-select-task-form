@@ -8,6 +8,7 @@ import FilterItemCategory from '../../../UIKit/Filters/FilterItems/FilterItemCat
 import Scripts from '../../shared/utils/clientScripts';
 import FilterItemDates from '../../../UIKit/Filters/FilterItems/FilterItemDates/FilterItemDates';
 import FilterItemSearch from '../../../UIKit/Filters/FilterItems/FilterItemSearch/FilterItemSearch';
+import { FetchInputData } from '../../../UIKit/shared/types/types';
 
 interface SelectTaskFiltersProps {
 
@@ -59,12 +60,28 @@ export default function SelectTaskFiltersForm({ }: SelectTaskFiltersProps) {
 		data.onClickSearch()
 	}
 
+	const searchSorts = async (page: number, query?: string): Promise<FetchInputData> => {
+		const sortsValues = sorts;
+
+		if (!query) return {
+			items: sorts,
+			hasMore: false
+		};
+
+		const filterSorts = sortsValues.filter(sort => sort.value.toLowerCase().indexOf(query.toLowerCase()) != -1);
+		return {
+			items: filterSorts,
+			hasMore: false
+		};
+	}
+
 	return (
 		<FiltersWrapper searchHandler={searchHandler} resetHandler={resetFilters}>
 			<FilterItemString title={data.filters.number.fieldName} filterValue={data.filters.number} setFilterValue={changeValueConstructor(data.filters.number.fieldCode)} />
 			<FilterItemCategory title={data.filters.status.fieldName} variants={statuses} filterValue={data.filters.status} setFilterValue={changeValueConstructor(data.filters.status.fieldCode)} />
 			<FilterItemCategory title={data.filters.type.fieldName} variants={types} filterValue={data.filters.type} setFilterValue={changeValueConstructor(data.filters.type.fieldCode)} />
-			<FilterItemCategory title={data.filters.sort.fieldName} variants={sorts} filterValue={data.filters.sort} setFilterValue={changeValueConstructor(data.filters.sort.fieldCode)} />
+			{/* <FilterItemCategory title={data.filters.sort.fieldName} variants={sorts} filterValue={data.filters.sort} setFilterValue={changeValueConstructor(data.filters.sort.fieldCode)} /> */}
+			<FilterItemSearch title={data.filters.sort.fieldName} filterValue={data.filters.sort} getDataHandler={searchSorts} setFilterValue={changeValueConstructor(data.filters.sort.fieldCode)} />
 			<FilterItemDates title={data.filters.createdAt.fieldName} filterValue={data.filters.createdAt} setFilterValue={changeValueConstructor(data.filters.createdAt.fieldCode)} />
 			<FilterItemDates title={data.filters.controledAt.fieldName} filterValue={data.filters.controledAt} setFilterValue={changeValueConstructor(data.filters.controledAt.fieldCode)} />
 			<FilterItemSearch title={data.filters.author.fieldName} filterValue={data.filters.author} getDataHandler={Scripts.getUsers} setFilterValue={changeValueConstructor(data.filters.author.fieldCode)} />
