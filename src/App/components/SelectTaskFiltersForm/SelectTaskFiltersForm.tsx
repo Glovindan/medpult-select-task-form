@@ -49,8 +49,18 @@ export default function SelectTaskFiltersForm({ }: SelectTaskFiltersProps) {
 		setValue("filters", data.filters)
 	}
 
+	/** Обработчик нажатия на кнопку поиска */
+	const searchHandler = async () => {
+		// Количество отобранных элементов
+		const elementsCount = await Scripts.getTasksCount(data.filters);
+		setValue("elementsCount", elementsCount)
+
+		// Поиск
+		data.onClickSearch()
+	}
+
 	return (
-		<FiltersWrapper searchHandler={data.onClickSearch} resetHandler={resetFilters}>
+		<FiltersWrapper searchHandler={searchHandler} resetHandler={resetFilters}>
 			<FilterItemString title={data.filters.number.fieldName} filterValue={data.filters.number} setFilterValue={changeValueConstructor(data.filters.number.fieldCode)} />
 			<FilterItemCategory title={data.filters.status.fieldName} variants={statuses} filterValue={data.filters.status} setFilterValue={changeValueConstructor(data.filters.status.fieldCode)} />
 			<FilterItemCategory title={data.filters.type.fieldName} variants={types} filterValue={data.filters.type} setFilterValue={changeValueConstructor(data.filters.type.fieldCode)} />

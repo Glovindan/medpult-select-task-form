@@ -37,7 +37,7 @@ export default function SelectTaskForm() {
 		<selectTaskContext.Provider value={{ data, setValue }}>
 			<div className="select-task-form">
 				<div className="select-task-form__header">
-					<Header clickFilterHandler={toggleShowFilters} title='Форма отбора задач' />
+					<Header clickFilterHandler={toggleShowFilters} elementsCount={data.elementsCount} title='Форма отбора задач' />
 				</div>
 				<div className="select-task-form__content" ref={contentWrapperRef}>
 					<div className={`select-task-form__filters${!isShowFilters ? " select-task-form__filters_hidden" : ""}`}>

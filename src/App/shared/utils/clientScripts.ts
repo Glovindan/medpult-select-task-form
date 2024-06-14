@@ -55,6 +55,11 @@ async function getTasks(
 	}
 }
 
+/** Получение количества задач по фильтрам */
+async function getTasksCount(searchData?: SelectTaskFilters): Promise<number> {
+	return 1235
+}
+
 /** Получение статусов задач */
 async function getStatuses(): Promise<ObjectItem[]> {
 	await randomDelay()
@@ -140,6 +145,7 @@ async function getRequestLink(): Promise<string> {
 
 export default {
 	getTasks,
+	getTasksCount,
 	getStatuses,
 	getTypes,
 	getSorts,

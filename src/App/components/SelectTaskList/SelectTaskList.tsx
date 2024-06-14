@@ -48,6 +48,11 @@ export default function SelectTaskList({ width }: SelectTaskListProps) {
 		utils.redirectSPA(link)
 	}
 
+	// Вычислить количество отобранных элементов
+	useEffect(() => {
+		Scripts.getTasksCount(data.filters).then(count => setValue("elementsCount", count))
+	}, [])
+
 	/** Колонки списка */
 	const columns = [
 		new ListColumnData({ name: data.filters.number.fieldName, code: data.filters.number.fieldCode, fr: 1, isSortable: true, isLink: true, onClick: onClickTaskNumber }),

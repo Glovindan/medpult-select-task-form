@@ -15,6 +15,8 @@ export class SelectTaskData {
 	filterStates: SelectTaskFiltersStates
 	/** Обработчик нажатия на кнопку поиск */
 	onClickSearch: () => Promise<void>
+	/** Количество отобранных элементов */
+	elementsCount: number
 
 	constructor() {
 		this.filters = new SelectTaskFilters()
@@ -22,6 +24,7 @@ export class SelectTaskData {
 		this.onClickSearch = async () => {
 			alert('test')
 		}
+		this.elementsCount = 0
 	}
 }
 
