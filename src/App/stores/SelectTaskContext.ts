@@ -67,25 +67,29 @@ export class SelectTaskFiltersStates {
 
 /** Значения фильтров формы отбора задач */
 export class SelectTaskFilters implements IFiltersData {
-	// Номер задачи
+	/** Номер задачи */
 	number: StringFilter
-	// Статус задачи
+	/** Статус задачи */
 	status: ListFilter
-	// Тип задачи
+	/** Тип задачи */
 	type: ListFilter
-	// Вид задачи
+	/** Вид задачи */
 	sort: ListFilter
-	// Дата создания
+	/** Дата создания */
 	createdAt: DateFilter
-	// Дата контроля
+	/** Дата контроля */
 	controledAt: DateFilter
-	// Автор
+	/** Автор */
 	author: ListFilter
-	// Исполнитель
+	/** Группа автора */
+	authorGroup: ListFilter
+	/** Исполнитель */
 	executor: ListFilter
-	// Обращение
+	/** Группа исполнителя */
+	executorGroup: ListFilter
+	/** Обращение */
 	request: StringFilter
-	// Застрахованный
+	/** Застрахованный */
 	insured: StringFilter
 
 	constructor() {
@@ -96,7 +100,9 @@ export class SelectTaskFilters implements IFiltersData {
 		this.createdAt = new DateFilter('createdAt', 'дата создания')
 		this.controledAt = new DateFilter('controledAt', 'дата контроля')
 		this.author = new ListFilter('author', 'автор')
+		this.authorGroup = new ListFilter('authorGroup', 'группа автора')
 		this.executor = new ListFilter('executor', 'исполнитель')
+		this.executorGroup = new ListFilter('executorGroup', 'группа исполнителя')
 		this.request = new StringFilter('request', 'обращение')
 		this.insured = new StringFilter('insured', 'застрахованный')
 	}

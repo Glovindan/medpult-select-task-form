@@ -5,10 +5,10 @@ import FilterItemString from '../../../UIKit/Filters/FilterItems/FilterItemStrin
 import { selectTaskContext } from '../../stores/SelectTaskContext';
 import { ObjectItem, IFilter, StringFilter } from '../../../UIKit/Filters/FiltersTypes';
 import FilterItemCategory from '../../../UIKit/Filters/FilterItems/FilterItemCategory/FilterItemCategory';
-import Scripts from '../../shared/utils/clientScripts';
 import FilterItemDates from '../../../UIKit/Filters/FilterItems/FilterItemDates/FilterItemDates';
 import FilterItemSearch from '../../../UIKit/Filters/FilterItems/FilterItemSearch/FilterItemSearch';
 import { FetchInputData } from '../../../UIKit/shared/types/types';
+import Scripts from '../../shared/utils/clientScripts';
 
 interface SelectTaskFiltersProps {
 
@@ -76,7 +76,7 @@ export default function SelectTaskFiltersForm({ }: SelectTaskFiltersProps) {
 	}
 
 	return (
-		<FiltersWrapper searchHandler={searchHandler} resetHandler={resetFilters}>
+		<FiltersWrapper searchHandler={searchHandler} resetHandler={resetFilters} isSearchButtonDisabled={Scripts.getSelectTaskAccessSettings().searchButton < 2}>
 			<FilterItemString title={data.filters.number.fieldName} filterValue={data.filters.number} setFilterValue={changeValueConstructor(data.filters.number.fieldCode)} />
 			<FilterItemCategory title={data.filters.status.fieldName} variants={statuses} filterValue={data.filters.status} setFilterValue={changeValueConstructor(data.filters.status.fieldCode)} />
 			<FilterItemCategory title={data.filters.type.fieldName} variants={types} filterValue={data.filters.type} setFilterValue={changeValueConstructor(data.filters.type.fieldCode)} />
@@ -85,7 +85,9 @@ export default function SelectTaskFiltersForm({ }: SelectTaskFiltersProps) {
 			<FilterItemDates title={data.filters.createdAt.fieldName} filterValue={data.filters.createdAt} setFilterValue={changeValueConstructor(data.filters.createdAt.fieldCode)} />
 			<FilterItemDates title={data.filters.controledAt.fieldName} filterValue={data.filters.controledAt} setFilterValue={changeValueConstructor(data.filters.controledAt.fieldCode)} />
 			<FilterItemSearch title={data.filters.author.fieldName} filterValue={data.filters.author} getDataHandler={Scripts.getUsers} setFilterValue={changeValueConstructor(data.filters.author.fieldCode)} />
+			<FilterItemSearch title={data.filters.authorGroup.fieldName} filterValue={data.filters.authorGroup} getDataHandler={Scripts.getUserGroups} setFilterValue={changeValueConstructor(data.filters.authorGroup.fieldCode)} />
 			<FilterItemSearch title={data.filters.executor.fieldName} filterValue={data.filters.executor} getDataHandler={Scripts.getUsers} setFilterValue={changeValueConstructor(data.filters.executor.fieldCode)} />
+			<FilterItemSearch title={data.filters.executorGroup.fieldName} filterValue={data.filters.executorGroup} getDataHandler={Scripts.getUserGroups} setFilterValue={changeValueConstructor(data.filters.executorGroup.fieldCode)} />
 			<FilterItemString title={data.filters.request.fieldName} filterValue={data.filters.request} setFilterValue={changeValueConstructor(data.filters.request.fieldCode)} />
 			<FilterItemString title={data.filters.insured.fieldName} filterValue={data.filters.insured} setFilterValue={changeValueConstructor(data.filters.insured.fieldCode)} />
 		</FiltersWrapper>

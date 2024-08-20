@@ -30,4 +30,12 @@
 	&:active {
 		opacity: 0.6;
 	}
+
+	&:disabled {
+		border: none;
+		color: white;
+		opacity: 1;
+		cursor: not-allowed !important;
+		background-color: #ebebe4 !important;
+	}
 }

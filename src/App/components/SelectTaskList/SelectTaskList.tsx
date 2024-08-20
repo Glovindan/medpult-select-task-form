@@ -53,17 +53,20 @@ export default function SelectTaskList({ width }: SelectTaskListProps) {
 		Scripts.getTasksCount(data.filters).then(count => setValue("elementsCount", count))
 	}, [])
 
+	/** Доступ к поиску */
+	const searchAccess = Scripts.getSelectTaskAccessSettings().searchButton == 2;
+
 	/** Колонки списка */
 	const columns = [
-		new ListColumnData({ name: data.filters.number.fieldName, code: data.filters.number.fieldCode, fr: 1, isSortable: true, isLink: true, onClick: onClickTaskNumber }),
-		new ListColumnData({ name: data.filters.status.fieldName, code: data.filters.status.fieldCode, fr: 1, isSortable: true }),
-		new ListColumnData({ name: data.filters.type.fieldName, code: data.filters.type.fieldCode, fr: 1, isSortable: true }),
-		new ListColumnData({ name: data.filters.sort.fieldName, code: data.filters.sort.fieldCode, fr: 1, isSortable: true }),
-		new ListColumnData({ name: data.filters.createdAt.fieldName, code: data.filters.createdAt.fieldCode, fr: 1, isSortable: true }),
-		new ListColumnData({ name: data.filters.controledAt.fieldName, code: data.filters.controledAt.fieldCode, fr: 1, isSortable: true }),
-		new ListColumnData({ name: data.filters.author.fieldName, code: data.filters.author.fieldCode, fr: 1, isSortable: true }),
-		new ListColumnData({ name: data.filters.executor.fieldName, code: data.filters.executor.fieldCode, fr: 1, isSortable: true }),
-		new ListColumnData({ name: data.filters.request.fieldName, code: data.filters.request.fieldCode, fr: 1, isSortable: true, isLink: true, onClick: onClickRequest }),
+		new ListColumnData({ name: data.filters.number.fieldName, code: data.filters.number.fieldCode, fr: 1, isSortable: searchAccess, isLink: true, onClick: onClickTaskNumber }),
+		new ListColumnData({ name: data.filters.status.fieldName, code: data.filters.status.fieldCode, fr: 1, isSortable: searchAccess }),
+		new ListColumnData({ name: data.filters.type.fieldName, code: data.filters.type.fieldCode, fr: 1, isSortable: searchAccess }),
+		new ListColumnData({ name: data.filters.sort.fieldName, code: data.filters.sort.fieldCode, fr: 1, isSortable: searchAccess }),
+		new ListColumnData({ name: data.filters.createdAt.fieldName, code: data.filters.createdAt.fieldCode, fr: 1, isSortable: searchAccess }),
+		new ListColumnData({ name: data.filters.controledAt.fieldName, code: data.filters.controledAt.fieldCode, fr: 1, isSortable: searchAccess }),
+		new ListColumnData({ name: data.filters.author.fieldName, code: data.filters.author.fieldCode, fr: 1, isSortable: searchAccess }),
+		new ListColumnData({ name: data.filters.executor.fieldName, code: data.filters.executor.fieldCode, fr: 1, isSortable: searchAccess }),
+		new ListColumnData({ name: data.filters.request.fieldName, code: data.filters.request.fieldCode, fr: 1, isSortable: searchAccess, isLink: true, onClick: onClickRequest }),
 	]
 
 	return (

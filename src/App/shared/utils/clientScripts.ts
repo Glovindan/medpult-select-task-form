@@ -133,6 +133,31 @@ async function getUsers(page: number, query?: string | undefined): Promise<Fetch
 	}
 }
 
+/** Получение групп пользователей */
+async function getUserGroups(page: number, query?: string | undefined): Promise<FetchInputData> {
+	await randomDelay()
+
+	/** Статусы */
+	const sorts: ObjectItem[] = [
+		new ObjectItem({ code: 'test', value: 'Согласование услуг' }),
+		new ObjectItem({ code: 'test1', value: 'Запись к врачу' }),
+		new ObjectItem({ code: 'test2', value: 'Помощь на дому' }),
+		new ObjectItem({ code: 'test3', value: 'Скорая медицинская помощь' }),
+		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
+		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
+		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
+		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
+		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
+		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
+		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
+	]
+
+	return {
+		items: sorts,
+		hasMore: true,
+	}
+}
+
 /** Получение id обращения по id задачи */
 async function getRequestIdByTaskId(taskId: string): Promise<string> {
 	return 'test'
@@ -143,6 +168,32 @@ async function getRequestLink(): Promise<string> {
 	return '#test'
 }
 
+/** Уровни доступа */
+enum AccessLevel {
+	/** Нет доступа, даже не видим */
+	noAccess = 0,
+	/** Только видим, не можем писать или менять */
+	readOnly = 1,
+	/** Видим, читаем и можем писать или нажимать на кнопку/ссылку */
+	writeRead = 2,
+}
+
+/** Настройки доступа формы отбора задач */
+interface ISelectTaskAccessSettings {
+	searchButton: AccessLevel
+	appendResponsible: AccessLevel
+}
+
+/** Получить настройки доступа формы отбора задач */
+function getSelectTaskAccessSettings(): ISelectTaskAccessSettings {
+	return {
+		'searchButton': 1,
+		'appendResponsible': 2,
+	}
+}
+
+function test() {}
+
 export default {
 	getTasks,
 	getTasksCount,
@@ -150,6 +201,9 @@ export default {
 	getTypes,
 	getSorts,
 	getUsers,
+	getUserGroups,
 	getRequestIdByTaskId,
 	getRequestLink,
+	getSelectTaskAccessSettings,
+	test,
 }
