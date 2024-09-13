@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState } from 'react'
+import React, { PropsWithChildren, useEffect, useState } from 'react'
 import icons from '../../../shared/icons'
 import Button from '../../../Button/Button'
 
@@ -13,7 +13,7 @@ interface FilterItemWrapperProps {
 /** Обертка панели фильтров */
 export default function FilterItemWrapper({ title, children, isOpenInit, setIsOpenInit }: PropsWithChildren<FilterItemWrapperProps>) {
     const [isOpen, setIsOpen] = useState<boolean>(isOpenInit || false);
-
+    useEffect(() => { setIsOpen(isOpenInit ?? false) }, [isOpenInit])
     // Первая заглваная
     const capitalize = (str: string) => {
         return str[0].toUpperCase() + str.toLowerCase().slice(1);

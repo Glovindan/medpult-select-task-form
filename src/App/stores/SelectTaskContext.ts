@@ -1,6 +1,7 @@
 import React from 'react'
 import { initGlobalContext } from './GlobalContext'
 import {
+	AppFilter,
 	DateFilter,
 	IFiltersData,
 	ListFilter,
@@ -30,26 +31,30 @@ export class SelectTaskData {
 
 /** Состояние оберток фильтров */
 export class SelectTaskFiltersStates {
-	// Номер задачи
+	/** Номер задачи */
 	number: boolean
-	// Статус задачи
+	/** Статус задачи */
 	status: boolean
-	// Тип задачи
+	/** Тип задачи */
 	type: boolean
-	// Вид задачи
+	/** Вид задачи */
 	sort: boolean
-	// Дата создания
+	/** Дата создания */
 	createdAt: boolean
-	// Дата контроля
+	/** Дата контроля */
 	controledAt: boolean
-	// Автор
+	/** Автор */
 	author: boolean
-	// Исполнитель
+	/** Исполнитель */
 	executor: boolean
-	// Обращение
+	/** Обращение */
 	request: boolean
-	// Застрахованный
+	/** Застрахованный */
 	insured: boolean
+	/** Группа автора */
+	authorGroup: boolean
+	/** Группа исполнителя */
+	executorGroup: boolean
 
 	constructor() {
 		this.number = false
@@ -62,6 +67,8 @@ export class SelectTaskFiltersStates {
 		this.executor = false
 		this.request = false
 		this.insured = false
+		this.authorGroup = false
+		this.executorGroup = false
 	}
 }
 
@@ -88,9 +95,9 @@ export class SelectTaskFilters implements IFiltersData {
 	/** Группа исполнителя */
 	executorGroup: ListFilter
 	/** Обращение */
-	request: StringFilter
+	request: AppFilter
 	/** Застрахованный */
-	insured: StringFilter
+	insured: AppFilter
 
 	constructor() {
 		this.number = new StringFilter('number', 'номер задачи')
@@ -103,8 +110,8 @@ export class SelectTaskFilters implements IFiltersData {
 		this.authorGroup = new ListFilter('authorGroup', 'группа автора')
 		this.executor = new ListFilter('executor', 'исполнитель')
 		this.executorGroup = new ListFilter('executorGroup', 'группа исполнителя')
-		this.request = new StringFilter('request', 'обращение')
-		this.insured = new StringFilter('insured', 'застрахованный')
+		this.request = new AppFilter('request', 'обращение')
+		this.insured = new AppFilter('insured', 'застрахованный')
 	}
 
 	reset() {

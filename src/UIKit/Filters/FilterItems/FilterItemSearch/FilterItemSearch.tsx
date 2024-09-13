@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import FilterItemWrapper from '../FilterItemWrapper/FilterItemWrapper';
-import { FilterItemProps, ObjectItem, ListFilter } from '../../FiltersTypes';
+import { FilterItemProps, ObjectItem, ListFilter, FilterItemWrapperProps } from '../../FiltersTypes';
 import CustomInputSearch from '../../../CustomInputSearch/CustomInputSearch';
 import FilterItemSearchElement from './FilterItemSearchElement/FilterItemSearchElement';
 import { FetchInputData } from '../../../shared/types/types';
 
-interface FilterItemSearchProps extends FilterItemProps<ListFilter> {
-	/** Название фильтра */
-	title: string
+interface FilterItemSearchProps extends FilterItemProps<ListFilter>, FilterItemWrapperProps {
 	/** Получение данных выпадающего списка */
 	getDataHandler: (page: number, query?: string) => Promise<FetchInputData>,
 }
 
 /** Обертка элемента фильтров со строкой поиска */
-export default function FilterItemSearch({ title, filterValue, setFilterValue, getDataHandler }: FilterItemSearchProps) {
+export default function FilterItemSearch(props: FilterItemSearchProps) {
+	const { filterValue, setFilterValue, getDataHandler } = props
+
 	/** Добавление значения в фильтр */
 	const addValue = (value: string, data?: string) => {
 		const values = filterValue.values;
@@ -49,7 +49,7 @@ export default function FilterItemSearch({ title, filterValue, setFilterValue, g
 	}
 
 	return (
-		<FilterItemWrapper title={title}>
+		<FilterItemWrapper {...props}>
 			<CustomInputSearch data={''} setValue={addValue} getDataHandler={getDataFiltered} isViewMode={false} value={selectedItemsLabel} />
 			<div className="filter-item-search-variants">
 				{filterValue.values.map(item => <FilterItemSearchElement name={item.value} deleteHandler={() => deleteHandler(item.code)} />)}

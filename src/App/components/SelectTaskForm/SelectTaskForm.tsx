@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { selectTaskContext } from '../../stores/SelectTaskContext';
+import { selectTaskContext, SelectTaskData } from '../../stores/SelectTaskContext';
 import Header from '../Header/Header';
 import SelectTaskFiltersForm from '../SelectTaskFiltersForm/SelectTaskFiltersForm';
 import SelectTaskList from '../SelectTaskList/SelectTaskList';
+import { getDataFromDraft } from '../../shared/utils/utils';
 
 /** Форма отбора задач */
 export default function SelectTaskForm() {
@@ -11,7 +12,23 @@ export default function SelectTaskForm() {
 
 	// Подгрузка данных
 	React.useLayoutEffect(() => {
+		// Данные формы из черновика
+		let draftData: SelectTaskData;
+		try {
+			draftData = getDataFromDraft()
+		} catch (e) {
+			throw new Error("Ошибка получения данных из черновика: " + e)
+		}
+
+		if (!draftData) return;
+
+		// Установка фильтров
+		setValue("filters", draftData.filters);
+		// Установка состояния оберток фильтров
+		setValue("filterStates", draftData.filterStates);
 	}, [])
+
+	useEffect(() => { console.log(data) }, [data])
 
 	const [isShowFilters, setIsShowFilters] = useState<boolean>(true);
 	const toggleShowFilters = () => setIsShowFilters(!isShowFilters);

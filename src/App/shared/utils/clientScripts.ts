@@ -192,7 +192,15 @@ function getSelectTaskAccessSettings(): ISelectTaskAccessSettings {
 	}
 }
 
-function test() {}
+/** Получить ссылку формы отбора обращений */
+function getSelectRequestLink(): string {
+	return '#selectRequestTest'
+}
+
+/** Получить ссылку формы отбора застрахованных */
+function getSelectInsuredLink(): string {
+	return '#selectRequestTest'
+}
 
 export default {
 	getTasks,
@@ -205,5 +213,7 @@ export default {
 	getRequestIdByTaskId,
 	getRequestLink,
 	getSelectTaskAccessSettings,
-	test,
+
+	getSelectRequestLink,
+	getSelectInsuredLink,
 }

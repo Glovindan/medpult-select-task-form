@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import FilterItemWrapper from '../FilterItemWrapper/FilterItemWrapper';
-import { FilterItemProps, ObjectItem, ListFilter } from '../../FiltersTypes';
+import { FilterItemProps, ObjectItem, ListFilter, FilterItemWrapperProps } from '../../FiltersTypes';
 import CustomInputCheckbox from '../../../CustomInputCheckbox/CustomInputCheckbox';
 import Loader from '../../../Loader/Loader';
 
-interface FilterItemCategoryProps extends FilterItemProps<ListFilter> {
-	/** Название фильтра */
-	title: string
+interface FilterItemCategoryProps extends FilterItemProps<ListFilter>, FilterItemWrapperProps {
 	/** Список вариантов */
 	variants: ObjectItem[]
 }
 
 /** Обертка элемента фильтров для строчного поиска */
-export default function FilterItemCategory({ title, filterValue, setFilterValue, variants }: FilterItemCategoryProps) {
+export default function FilterItemCategory(props: FilterItemCategoryProps) {
+	const { title, filterValue, setFilterValue, variants } = props;
+
 	/** Разметка чекбоксов */
 	const [checkboxes, setCheckboxes] = useState<React.JSX.Element[]>([]);
 
@@ -48,7 +48,7 @@ export default function FilterItemCategory({ title, filterValue, setFilterValue,
 	}
 
 	return (
-		<FilterItemWrapper title={title}>
+		<FilterItemWrapper {...props}>
 			<div className="filter-item-variants">
 				{checkboxes.length
 					? checkboxes

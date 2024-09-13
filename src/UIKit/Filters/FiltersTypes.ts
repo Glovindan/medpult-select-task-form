@@ -40,6 +40,25 @@ export class StringFilter implements IFilter {
 	}
 }
 
+/** Фильтр по элементу приложения */
+export class AppFilter implements IFilter {
+	/** Значение */
+	value: ObjectItem
+	fieldCode: string
+	fieldName: string
+
+	constructor(code: string, name: string, value?: ObjectItem) {
+		this.reset()
+		this.fieldCode = code
+		this.fieldName = name
+		if (value) this.value = value
+	}
+
+	reset(): void {
+		this.value = new ObjectItem({})
+	}
+}
+
 /** Значение элемента списка */
 export class ObjectItem {
 	/** Значение */
@@ -103,4 +122,14 @@ export interface FilterItemProps<FilterType> {
 	filterValue: FilterType
 	/** Изменение значения фильтра */
 	setFilterValue: (value: FilterType, ...args: any) => any
+}
+
+/** Пропсы обертки фильтров */
+export interface FilterItemWrapperProps {
+	/** Название фильтра */
+	title: string
+	/** Изначальное значение открытости обертки */
+	isOpenInit?: boolean
+	/** Изменение изначального значения открытости обертки */
+	setIsOpenInit?: (isOpen: boolean) => void
 }

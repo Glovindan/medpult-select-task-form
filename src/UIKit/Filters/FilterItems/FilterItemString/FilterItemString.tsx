@@ -1,15 +1,13 @@
 import React, { PropsWithChildren, useState } from 'react'
 import CustomInput from '../../../CustomInput/CustomInput'
 import FilterItemWrapper from '../FilterItemWrapper/FilterItemWrapper';
-import { FilterItemProps, StringFilter } from '../../FiltersTypes';
+import { FilterItemProps, FilterItemWrapperProps, StringFilter } from '../../FiltersTypes';
 
-interface FilterItemStringProps extends FilterItemProps<StringFilter> {
-    title: string
-}
+interface FilterItemStringProps extends FilterItemProps<StringFilter>, FilterItemWrapperProps { };
 
 /** Обертка панели фильтров */
-export default function FilterItemString({ title, filterValue, setFilterValue }: FilterItemStringProps) {
-
+export default function FilterItemString(props: FilterItemStringProps) {
+    const { filterValue, setFilterValue } = props
     const inputHandler = (value: string) => {
         const currentValue: StringFilter = filterValue;
         currentValue.value = value;
@@ -17,7 +15,7 @@ export default function FilterItemString({ title, filterValue, setFilterValue }:
     }
 
     return (
-        <FilterItemWrapper title={title}>
+        <FilterItemWrapper {...props}>
             <CustomInput value={filterValue.value} setValue={inputHandler} />
         </FilterItemWrapper>
     )

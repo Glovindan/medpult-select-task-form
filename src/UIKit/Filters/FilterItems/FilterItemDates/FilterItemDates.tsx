@@ -1,17 +1,16 @@
 import React from 'react';
 import FilterItemWrapper from '../FilterItemWrapper/FilterItemWrapper';
-import { FilterItemProps, DateFilter } from '../../FiltersTypes';
+import { FilterItemProps, DateFilter, FilterItemWrapperProps } from '../../FiltersTypes';
 import CustomInputDate from '../../../CustomInputDate/CustomInputDate';
 import { InputDateType } from '../../../CustomInputDate/CustomInputDateTypes';
 import masks from '../../../shared/utils/masks';
 
-interface FilterItemDatesProps extends FilterItemProps<DateFilter> {
-	/** Название фильтра */
-	title: string
-}
+interface FilterItemDatesProps extends FilterItemProps<DateFilter>, FilterItemWrapperProps { }
 
 /** Обертка элемента фильтров для строчного поиска */
-export default function FilterItemDates({ title, filterValue, setFilterValue }: FilterItemDatesProps) {
+export default function FilterItemDates(props: FilterItemDatesProps) {
+	const { filterValue, setFilterValue } = props;
+
 	/** Установить дату после */
 	const setFromDate = (dateStr?: string) => {
 		filterValue.valueFrom = dateStr;
@@ -25,7 +24,7 @@ export default function FilterItemDates({ title, filterValue, setFilterValue }: 
 	}
 
 	return (
-		<FilterItemWrapper title={title}>
+		<FilterItemWrapper {...props}>
 			<div className="filter-item-variants">
 				<CustomInputDate type={InputDateType.date} value={masks.applyDateMask(filterValue.valueFrom ?? "")} setValue={setFromDate} />
 				<CustomInputDate type={InputDateType.date} value={masks.applyDateMask(filterValue.valueTo ?? "")} setValue={setToDate} />

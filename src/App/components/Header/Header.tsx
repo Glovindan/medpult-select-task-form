@@ -26,13 +26,15 @@ function Header({ title, elementsCount = 0, clickFilterHandler, children }: Prop
 		if (data.filters.sort.values.length) return true;
 
 		// Строковый поиск
-		if (data.filters.insured.value) return true;
-		if (data.filters.request.value) return true;
 		if (data.filters.number.value) return true;
 
 		// Поиск по датам
 		if (data.filters.createdAt.valueFrom || data.filters.createdAt.valueTo) return true;
 		if (data.filters.controledAt.valueFrom || data.filters.controledAt.valueTo) return true;
+
+		// Поиск по Элементам приложения
+		if (data.filters.insured.value.code) return true;
+		if (data.filters.request.value.code) return true;
 
 		return false
 	}
