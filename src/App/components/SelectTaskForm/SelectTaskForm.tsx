@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { selectTaskContext, SelectTaskData } from '../../stores/SelectTaskContext';
+import { selectTaskContext, SelectTaskData, SelectTaskFilters } from '../../stores/SelectTaskContext';
 import Header from '../Header/Header';
 import SelectTaskFiltersForm from '../SelectTaskFiltersForm/SelectTaskFiltersForm';
 import SelectTaskList from '../SelectTaskList/SelectTaskList';
@@ -23,7 +23,7 @@ export default function SelectTaskForm() {
 		if (!draftData) return;
 
 		// Установка фильтров
-		setValue("filters", draftData.filters);
+		setValue("filters", new SelectTaskFilters(draftData.filters));
 		// Установка состояния оберток фильтров
 		setValue("filterStates", draftData.filterStates);
 	}, [])

@@ -15,6 +15,8 @@ interface SelectTaskListProps {
 export default function SelectTaskList({ width }: SelectTaskListProps) {
 	const { data, setValue } = selectTaskContext.useContext();
 
+	useEffect(() => { data.onClickSearch() }, [data.onClickSearch])
+
 	/** Установка обработчика нажатия на поиск */
 	const setSearchHandler = (callback: () => void) => {
 		console.log("setSearchHandler")

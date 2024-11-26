@@ -23,7 +23,7 @@ export class SelectTaskData {
 		this.filters = new SelectTaskFilters()
 		this.filterStates = new SelectTaskFiltersStates()
 		this.onClickSearch = async () => {
-			alert('test')
+			console.log('onClickSearch is not mounted')
 		}
 		this.elementsCount = 0
 	}
@@ -99,19 +99,36 @@ export class SelectTaskFilters implements IFiltersData {
 	/** Застрахованный */
 	insured: AppFilter
 
-	constructor() {
-		this.number = new StringFilter('number', 'номер задачи')
-		this.status = new ListFilter('status', 'статус задачи')
-		this.type = new ListFilter('type', 'тип задачи')
-		this.sort = new ListFilter('sort', 'вид задачи')
-		this.createdAt = new DateFilter('createdAt', 'дата создания')
-		this.controledAt = new DateFilter('controledAt', 'дата контроля')
-		this.author = new ListFilter('author', 'автор')
-		this.authorGroup = new ListFilter('authorGroup', 'группа автора')
-		this.executor = new ListFilter('executor', 'исполнитель')
-		this.executorGroup = new ListFilter('executorGroup', 'группа исполнителя')
-		this.request = new AppFilter('request', 'обращение')
-		this.insured = new AppFilter('insured', 'застрахованный')
+	constructor(selectTaskFilters?: SelectTaskFilters) {
+		this.number = new StringFilter('number', 'номер задачи', selectTaskFilters?.number.value)
+		this.status = new ListFilter('status', 'статус задачи', selectTaskFilters?.status.values)
+		this.type = new ListFilter('type', 'тип задачи', selectTaskFilters?.type.values)
+		this.sort = new ListFilter('sort', 'вид задачи', selectTaskFilters?.sort.values)
+
+		this.createdAt = new DateFilter('createdAt', 'дата создания', {
+			valueFrom: selectTaskFilters?.createdAt.valueFrom,
+			valueTo: selectTaskFilters?.createdAt.valueTo,
+		})
+
+		this.controledAt = new DateFilter('controledAt', 'дата контроля', {
+			valueFrom: selectTaskFilters?.controledAt.valueFrom,
+			valueTo: selectTaskFilters?.controledAt.valueTo,
+		})
+
+		this.author = new ListFilter('author', 'автор', selectTaskFilters?.author.values)
+		this.authorGroup = new ListFilter(
+			'authorGroup',
+			'группа автора',
+			selectTaskFilters?.authorGroup.values
+		)
+		this.executor = new ListFilter('executor', 'исполнитель', selectTaskFilters?.executor.values)
+		this.executorGroup = new ListFilter(
+			'executorGroup',
+			'группа исполнителя',
+			selectTaskFilters?.executorGroup.values
+		)
+		this.request = new AppFilter('request', 'обращение', selectTaskFilters?.request.value)
+		this.insured = new AppFilter('insured', 'застрахованный', selectTaskFilters?.insured.value)
 	}
 
 	reset() {
@@ -122,7 +139,9 @@ export class SelectTaskFilters implements IFiltersData {
 		this.createdAt.reset()
 		this.controledAt.reset()
 		this.author.reset()
+		this.authorGroup.reset()
 		this.executor.reset()
+		this.executorGroup.reset()
 		this.request.reset()
 		this.insured.reset()
 	}

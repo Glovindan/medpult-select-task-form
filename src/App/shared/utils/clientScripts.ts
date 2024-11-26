@@ -187,7 +187,7 @@ interface ISelectTaskAccessSettings {
 /** Получить настройки доступа формы отбора задач */
 function getSelectTaskAccessSettings(): ISelectTaskAccessSettings {
 	return {
-		'searchButton': 1,
+		'searchButton': 2,
 		'appendResponsible': 2,
 	}
 }
