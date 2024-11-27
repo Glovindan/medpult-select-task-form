@@ -96,6 +96,8 @@ export class SelectTaskFilters implements IFiltersData {
 	executorGroup: ListFilter
 	/** Обращение */
 	request: AppFilter
+	/** Согласованные услуги */
+	servicesApproved: StringFilter
 	/** Застрахованный */
 	insured: StringFilter
 
@@ -128,6 +130,11 @@ export class SelectTaskFilters implements IFiltersData {
 			selectTaskFilters?.executorGroup.values
 		)
 		this.request = new AppFilter('request', 'обращение', selectTaskFilters?.request.value)
+		this.servicesApproved = new StringFilter(
+			'servicesApproved',
+			'согласованные услуги',
+			selectTaskFilters?.servicesApproved.value
+		)
 		this.insured = new StringFilter('insured', 'застрахованный', selectTaskFilters?.insured.value)
 	}
 
