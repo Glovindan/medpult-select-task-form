@@ -41,6 +41,9 @@ async function getTasks(
 		author: new ItemData({ value: 'Юрасов Сергей Олегович', info: 'test' }),
 		executor: new ItemData({ value: 'Юрасов Сергей Олегович', info: 'test' }),
 		request: new ItemData({ value: 'RQ00000025/23', info: 'test' }),
+		servicesApproved: new ItemDataString(
+			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo nulla omnis sint dignissimos, eum ipsum inventore asperiores qui itaque velit quod sapiente excepturi debitis consectetur iusto nemo dolorem soluta quas!'
+		),
 	}
 	return {
 		items: Array(20)
@@ -201,6 +204,9 @@ function getSelectRequestLink(): string {
 function getSelectInsuredLink(): string {
 	return '#selectRequestTest'
 }
+async function OnInit(): Promise<void> {
+	await randomDelay()
+}
 
 export default {
 	getTasks,
@@ -216,4 +222,5 @@ export default {
 
 	getSelectRequestLink,
 	getSelectInsuredLink,
+	OnInit,
 }

@@ -26,6 +26,8 @@ export class SelectTaskData {
 	request?: ItemData
 	// Застрахованный - формы отбора
 	insured?: ItemData
+	// Согласованные услуги
+	servicesApproved?: ItemDataString
 
 	constructor({
 		number,
@@ -38,6 +40,7 @@ export class SelectTaskData {
 		executor,
 		request,
 		insured,
+		servicesApproved,
 	}: SelectTaskData) {
 		this.number = number
 		this.status = status
@@ -49,5 +52,6 @@ export class SelectTaskData {
 		this.executor = executor
 		this.request = request
 		this.insured = insured
+		this.servicesApproved = servicesApproved
 	}
 }
