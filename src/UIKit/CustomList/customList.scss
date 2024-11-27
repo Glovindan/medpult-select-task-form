@@ -29,6 +29,10 @@
 			overflow-x: auto;
 			overflow-y: scroll;
 		}
+
+		&-wrapper {
+			position: relative;
+		}
 	}
 
 	&__wrapper {

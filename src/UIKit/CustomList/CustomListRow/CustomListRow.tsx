@@ -24,11 +24,13 @@ interface ListRowProps<ItemType = any> {
 	isClickable?: boolean
 
 	reloadData: () => void
+
+	listRef: React.RefObject<HTMLDivElement>
 }
 
 /** Строка таблицы */
 function CustomListRow<ItemType = any>(props: ListRowProps<ItemType>) {
-	const { isShowDetails, columnsSettings, data, getDetailsLayout, setOpenRowIndex, isOpen, isClickable, reloadData } = props;
+	const { isShowDetails, columnsSettings, data, getDetailsLayout, setOpenRowIndex, isOpen, isClickable, reloadData, listRef } = props;
 
 	/** Получение значения класса строки */
 	const getRowClassname = (): string => {
@@ -51,7 +53,7 @@ function CustomListRow<ItemType = any>(props: ListRowProps<ItemType>) {
 						const columnData: ItemData<any> = data[settings.code];
 
 						return (
-							<CustomListRowColumn data={columnData} {...settings} />
+							<CustomListRowColumn listRef={listRef} data={columnData} {...settings} />
 						)
 					})}
 				</div>
