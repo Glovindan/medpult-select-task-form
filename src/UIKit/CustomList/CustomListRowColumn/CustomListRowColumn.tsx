@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ItemData, ListColumnData } from '../CustomListTypes'
 
 interface ListColumnProps extends ListColumnData {
@@ -28,7 +28,38 @@ function CustomListRowColumn(props: ListColumnProps) {
 		if (!listRef.current) return
 
 		spanRef.current.style.width = wrapperRef.current.getBoundingClientRect().width + "px"
+
+		// const moreWrapperBottom = spanRef.current.getBoundingClientRect().bottom;
+		// const listWrapperBottom = listRef.current.getBoundingClientRect().bottom
+
+		// console.log(moreWrapperBottom)
+		// console.log(listWrapperBottom)
+		// console.log(spanRef.current.getBoundingClientRect())
+
+		// if (moreWrapperBottom > listWrapperBottom) {
+		// 	console.log("иди ты нахуй сука")
+		// 	// spanRef.current.style.removeProperty("margin-top")
+		// 	// spanRef.current.style.marginBottom = "0"
+		// }
 	}
+
+	useEffect(() => {
+		if (!isShowMore) return;
+		if (!spanRef.current) return
+		if (!wrapperRef.current) return
+		if (!listRef.current) return
+
+		const moreWrapperBottom = spanRef.current.getBoundingClientRect().bottom;
+		const listWrapperBottom = listRef.current.getBoundingClientRect().bottom
+
+		console.log(moreWrapperBottom)
+		console.log(listWrapperBottom)
+		console.log(spanRef.current.getBoundingClientRect())
+
+		if (moreWrapperBottom > listWrapperBottom) {
+			spanRef.current.style.marginTop = 52 - (spanRef.current.getBoundingClientRect().height) + "px";
+		}
+	}, [isShowMore])
 
 	const hideMore = () => {
 		setIsShowMore(false);
@@ -43,7 +74,7 @@ function CustomListRowColumn(props: ListColumnProps) {
 				? "custom-list-row-column custom-list-row-column__link"
 				: "custom-list-row-column"
 		} style={{ flex: fr }} ref={wrapperRef}>
-			<span onMouseOver={showMore} onMouseOut={hideMore} ref={spanRef} title={data.value} onClick={onClickColumn} className={isShowMore ? 'custom-list-row-column__more' : 'custom-list-row-column__less'}>
+			<span onMouseEnter={showMore} onMouseOut={hideMore} ref={spanRef} title={isRollable ? "" : data.value} onClick={onClickColumn} className={isShowMore ? 'custom-list-row-column__more' : 'custom-list-row-column__less'}>
 				{data.value}
 			</span>
 		</div>
