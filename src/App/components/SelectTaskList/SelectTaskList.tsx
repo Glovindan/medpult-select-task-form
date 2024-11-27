@@ -69,6 +69,7 @@ export default function SelectTaskList({ width }: SelectTaskListProps) {
 		new ListColumnData({ name: data.filters.author.fieldName, code: data.filters.author.fieldCode, fr: 1, isSortable: searchAccess }),
 		new ListColumnData({ name: data.filters.executor.fieldName, code: data.filters.executor.fieldCode, fr: 1, isSortable: searchAccess }),
 		new ListColumnData({ name: data.filters.request.fieldName, code: data.filters.request.fieldCode, fr: 1, isSortable: searchAccess, isLink: true, onClick: onClickRequest }),
+		new ListColumnData({ name: data.filters.servicesApproved.fieldName, code: data.filters.servicesApproved.fieldCode, fr: 1, isSortable: false, isLink: false }),
 	]
 
 	return (
