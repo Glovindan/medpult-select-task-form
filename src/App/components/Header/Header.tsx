@@ -5,41 +5,46 @@ import { selectTaskContext } from '../../stores/SelectTaskContext'
 
 interface HeaderProps {
 	/** Заголовок */
-	title: string,
+	title: string
 	/** Количество элементов */
-	elementsCount?: number,
+	elementsCount?: number
 	/** Обработчик нажатия на кнопку Фильтры */
 	clickFilterHandler?: () => void
 }
 
 /** Шапка страницы */
-function Header({ title, elementsCount = 0, clickFilterHandler, children }: PropsWithChildren<HeaderProps>) {
-	const { data, setValue } = selectTaskContext.useContext();
+function Header({
+	title,
+	elementsCount = 0,
+	clickFilterHandler,
+	children,
+}: PropsWithChildren<HeaderProps>) {
+	const { data, setValue } = selectTaskContext.useContext()
 
 	/** Проверка имеются ли активные фильтры */
 	const checkHasActiveFilters = (): boolean => {
 		// Поиск по категориям
-		if (data.filters.author.values.length) return true;
-		if (data.filters.executor.values.length) return true;
-		if (data.filters.status.values.length) return true;
-		if (data.filters.type.values.length) return true;
-		if (data.filters.sort.values.length) return true;
+		if (data.filters.author.values.length) return true
+		if (data.filters.executor.values.length) return true
+		if (data.filters.status.values.length) return true
+		if (data.filters.type.values.length) return true
+		if (data.filters.sort.values.length) return true
 
 		// Строковый поиск
-		if (data.filters.number.value) return true;
+		if (data.filters.number.value) return true
+		if (data.filters.insured.value) return true
 
 		// Поиск по датам
-		if (data.filters.createdAt.valueFrom || data.filters.createdAt.valueTo) return true;
-		if (data.filters.controledAt.valueFrom || data.filters.controledAt.valueTo) return true;
+		if (data.filters.createdAt.valueFrom || data.filters.createdAt.valueTo) return true
+		if (data.filters.controledAt.valueFrom || data.filters.controledAt.valueTo) return true
 
 		// Поиск по Элементам приложения
-		if (data.filters.insured.value.code) return true;
-		if (data.filters.request.value.code) return true;
+		if (data.filters.request.value.code) return true
 
 		return false
 	}
 
-	const [isShowIndicator, setIsShowIndicator] = useState<boolean>(checkHasActiveFilters());
+	const [isShowIndicator, setIsShowIndicator] = useState<boolean>(checkHasActiveFilters())
 
 	/** Обработчик нажатия на кнопку */
 	const clickHandler = () => {
@@ -48,7 +53,7 @@ function Header({ title, elementsCount = 0, clickFilterHandler, children }: Prop
 
 	/** Нажатие на кнопку назад */
 	const onClickReturn = () => {
-		history.back();
+		history.back()
 	}
 
 	React.useLayoutEffect(() => setIsShowIndicator(checkHasActiveFilters()), [data])
@@ -61,15 +66,11 @@ function Header({ title, elementsCount = 0, clickFilterHandler, children }: Prop
 			<div className="header__filterButton">
 				<FilterButton isShowIndicator={isShowIndicator} clickHandler={clickHandler} />
 			</div>
-			<div className="header__title">
-				{title}
-			</div>
+			<div className="header__title">{title}</div>
 			<div className="header__count">
 				Отобрано: <span>{elementsCount}</span>
 			</div>
-			<div className="header__buttons">
-				{children}
-			</div>
+			<div className="header__buttons">{children}</div>
 		</div>
 	)
 }
