@@ -99,7 +99,7 @@ export class SelectTaskFilters implements IFiltersData {
 	/** Согласованные услуги */
 	servicesApproved: StringFilter
 	/** Застрахованный */
-	insured: AppFilter
+	insured: StringFilter
 
 	constructor(selectTaskFilters?: SelectTaskFilters) {
 		this.number = new StringFilter('number', 'номер задачи', selectTaskFilters?.number.value)
@@ -130,12 +130,12 @@ export class SelectTaskFilters implements IFiltersData {
 			selectTaskFilters?.executorGroup.values
 		)
 		this.request = new AppFilter('request', 'обращение', selectTaskFilters?.request.value)
-		this.insured = new AppFilter('insured', 'застрахованный', selectTaskFilters?.insured.value)
 		this.servicesApproved = new StringFilter(
 			'servicesApproved',
 			'согласованные услуги',
 			selectTaskFilters?.servicesApproved.value
 		)
+		this.insured = new StringFilter('insured', 'застрахованный', selectTaskFilters?.insured.value)
 	}
 
 	reset() {
