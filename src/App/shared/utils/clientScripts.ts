@@ -201,6 +201,9 @@ function getSelectRequestLink(): string {
 function getSelectInsuredLink(): string {
 	return '#selectRequestTest'
 }
+async function OnInit(): Promise<void> {
+	await randomDelay()
+}
 
 export default {
 	getTasks,
@@ -216,4 +219,5 @@ export default {
 
 	getSelectRequestLink,
 	getSelectInsuredLink,
+	OnInit,
 }
