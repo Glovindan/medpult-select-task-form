@@ -32,6 +32,8 @@ async function getTasks(
 	})
 
 	const mockData = {
+		insured: new ItemData({ value: 'Иванов Иван Иванович', info: 'test' }),
+		dataBt: new ItemDataString('10.05.1990'),
 		number: new ItemData({ value: 'TS00000001/23', info: 'test' }),
 		status: new ItemData({ value: 'В работе', info: 'test' }),
 		type: new ItemData({ value: 'Медицинское', info: 'test' }),
@@ -41,6 +43,7 @@ async function getTasks(
 		author: new ItemData({ value: 'Юрасов Сергей Олегович', info: 'test' }),
 		executor: new ItemData({ value: 'Юрасов Сергей Олегович', info: 'test' }),
 		request: new ItemData({ value: 'RQ00000025/23', info: 'test' }),
+		insurer: new ItemData({ value: 'Петров Петр Петрович', info: 'test' }),
 		servicesApproved: new ItemDataString(
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo nulla omnis sint dignissimos, eum ipsum inventore asperiores qui itaque velit quod sapiente excepturi debitis consectetur iusto nemo dolorem soluta quas!'
 		),

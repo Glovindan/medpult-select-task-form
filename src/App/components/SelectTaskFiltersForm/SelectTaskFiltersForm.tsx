@@ -199,6 +199,13 @@ export default function SelectTaskFiltersForm({}: SelectTaskFiltersProps) {
 				filterValue={data.filters.insured}
 				setFilterValue={changeValueConstructor(data.filters.insured.fieldCode)}
 			/>
+			<FilterItemString
+				setIsOpenInit={setIsOpenFactory(data.filters.insurer.fieldCode)}
+				isOpenInit={data.filterStates.insurer}
+				title={data.filters.insurer.fieldName}
+				filterValue={data.filters.insurer}
+				setFilterValue={changeValueConstructor(data.filters.insurer.fieldCode)}
+			/>
 			{/* <FilterItemString setIsOpenInit={setIsOpenFactory(data.filters.request.fieldCode)} isOpenInit={data.filterStates.request} title={data.filters.request.fieldName} filterValue={data.filters.request} setFilterValue={changeValueConstructor(data.filters.request.fieldCode)} /> */}
 			{/* <FilterItemString isOpenInit={data.filterStates.insured} title={data.filters.insured.fieldName} filterValue={data.filters.insured} setFilterValue={changeValueConstructor(data.filters.insured.fieldCode)} /> */}
 		</FiltersWrapper>
