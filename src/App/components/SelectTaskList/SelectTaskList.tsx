@@ -5,6 +5,8 @@ import Scripts from '../../shared/utils/clientScripts'
 import { SelectTaskFilters, selectTaskContext } from '../../stores/SelectTaskContext'
 import { SelectTaskData } from '../../shared/types'
 import utils from '../../shared/utils/utils'
+import { icon } from '../../shared/iconsCol'
+import { localStorageDraftKey } from '../../shared/utils/constants'
 
 interface SelectTaskListProps {
 	/** Ширина списка */
@@ -34,6 +36,7 @@ export default function SelectTaskList({ width }: SelectTaskListProps) {
 		utils.setRequest(requestId)
 
 		localStorage.setItem('taskId', taskId)
+		localStorage.setItem(localStorageDraftKey, JSON.stringify(data))
 
 		// Переход
 		const link = await Scripts.getRequestLink()
@@ -62,6 +65,13 @@ export default function SelectTaskList({ width }: SelectTaskListProps) {
 
 	/** Колонки списка */
 	const columns = [
+		// Новый столбец с изображением
+		new ListColumnData({
+			name: data.filters.isCollective.fieldName,
+			code: data.filters.isCollective.fieldCode,
+			fr: 0.5,
+			isIcon: true,
+		}),
 		new ListColumnData({
 			name: data.filters.number.fieldName,
 			code: data.filters.number.fieldCode,
@@ -129,7 +139,7 @@ export default function SelectTaskList({ width }: SelectTaskListProps) {
 		new ListColumnData({
 			name: data.filters.insurer.fieldName,
 			code: data.filters.insurer.fieldCode,
-			fr: 1,
+			fr: 1.5,
 			isSortable: searchAccess,
 			isLink: false,
 		}),

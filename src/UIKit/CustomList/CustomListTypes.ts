@@ -35,6 +35,8 @@ export class ListColumnData {
 	code: string
 	/** Обработчик нажатия */
 	onClick?: (props: ItemData) => any
+	/** Хранит ли по столбец иконку */
+	isIcon?: boolean
 
 	constructor({
 		name,
@@ -43,6 +45,7 @@ export class ListColumnData {
 		isSortable,
 		isLink,
 		onClick,
+		isIcon,
 	}: {
 		name: string
 		code: string
@@ -50,10 +53,12 @@ export class ListColumnData {
 		isSortable?: boolean
 		isLink?: boolean
 		onClick?: (props: any) => any
+		isIcon?: boolean
 	}) {
 		this.fr = fr ?? 1
 		this.isSortable = isSortable ?? false
 		this.isLink = isLink ?? false
+		this.isIcon = isIcon ?? false
 
 		if (onClick) this.onClick = onClick
 
@@ -65,11 +70,11 @@ export class ListColumnData {
 /** Значение колонки */
 export class ItemData<InfoType = string> {
 	/** Значение */
-	value: string
+	value: string | React.ReactNode
 	/** Дополнительная информация */
 	info?: InfoType
 
-	constructor({ value, info }: { value?: string; info?: InfoType }) {
+	constructor({ value, info }: { value?: string | React.ReactNode; info?: InfoType }) {
 		this.value = value ?? ''
 		if (info) this.info = info
 	}

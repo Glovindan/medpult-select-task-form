@@ -33,6 +33,8 @@ export class SelectTaskData {
 	// Согласованные услуги
 	servicesApproved?: ItemDataString
 
+	isCollective?: ItemData
+
 	constructor({
 		dataBt,
 		number,
@@ -47,6 +49,7 @@ export class SelectTaskData {
 		insured,
 		insurer,
 		servicesApproved,
+		isCollective,
 	}: SelectTaskData) {
 		this.dataBt = dataBt
 		this.number = number
@@ -61,5 +64,6 @@ export class SelectTaskData {
 		this.insured = insured
 		this.insurer = insurer
 		this.servicesApproved = servicesApproved
+		this.isCollective = isCollective
 	}
 }

@@ -107,6 +107,8 @@ export class SelectTaskFilters implements IFiltersData {
 	insured: StringFilter
 	/**Страхователь */
 	insurer: StringFilter
+	/** */
+	isCollective: ListFilter
 
 	constructor(selectTaskFilters?: SelectTaskFilters) {
 		this.dataBt = new DateFilter('dataBt', 'дата рождения', {
@@ -148,6 +150,7 @@ export class SelectTaskFilters implements IFiltersData {
 		)
 		this.insured = new StringFilter('insured', 'застрахованный', selectTaskFilters?.insured.value)
 		this.insurer = new StringFilter('insurer', 'страхователь', selectTaskFilters?.insurer.value)
+		this.isCollective = new ListFilter('isCollective', '', selectTaskFilters?.isCollective?.values)
 	}
 
 	reset() {

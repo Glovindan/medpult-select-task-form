@@ -28,36 +28,49 @@ interface ListRowProps<ItemType = any> {
 
 /** Строка таблицы */
 function CustomListRow<ItemType = any>(props: ListRowProps<ItemType>) {
-	const { isShowDetails, columnsSettings, data, getDetailsLayout, setOpenRowIndex, isOpen, isClickable, reloadData } = props;
+	const {
+		isShowDetails,
+		columnsSettings,
+		data,
+		getDetailsLayout,
+		setOpenRowIndex,
+		isOpen,
+		isClickable,
+		reloadData,
+	} = props
 
 	/** Получение значения класса строки */
 	const getRowClassname = (): string => {
 		// Показана детальная информация
-		if (getDetailsLayout && isShowDetails || isOpen) return "custom-list-row custom-list-row_open"
+		if ((getDetailsLayout && isShowDetails) || isOpen) return 'custom-list-row custom-list-row_open'
 		// Скрыта детальная информация, можно развернуть
-		if (getDetailsLayout || isClickable) return "custom-list-row custom-list-row_openable"
+		if (getDetailsLayout || isClickable) return 'custom-list-row custom-list-row_openable'
 		// Нельзя развернуть детальную информацию
-		return "custom-list-row"
+		return 'custom-list-row'
 	}
 
 	return (
 		<>
-			{!isShowDetails &&
+			{!isShowDetails && (
 				<div className={getRowClassname()} onClick={setOpenRowIndex}>
-					{columnsSettings.map(settings => {
+					{columnsSettings.map((settings) => {
 						if (data == undefined) {
-							return;
+							return
 						}
-						const columnData: ItemData<any> = data[settings.code];
+						const columnData: ItemData<any> = data[settings.code]
 
-						return (
-							<CustomListRowColumn data={columnData} {...settings} />
-						)
+						return <CustomListRowColumn data={columnData} {...settings} />
 					})}
 				</div>
-			}
+			)}
 			{/* Заменять строку на разметку деталей строки списка */}
-			{isShowDetails && getDetailsLayout && getDetailsLayout({ rowData: data, reloadData: reloadData, onClickRowHandler: setOpenRowIndex })}
+			{isShowDetails &&
+				getDetailsLayout &&
+				getDetailsLayout({
+					rowData: data,
+					reloadData: reloadData,
+					onClickRowHandler: setOpenRowIndex,
+				})}
 		</>
 	)
 }
