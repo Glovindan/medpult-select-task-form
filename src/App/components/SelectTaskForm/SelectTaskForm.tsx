@@ -27,69 +27,11 @@ export default function SelectTaskForm() {
 		try {
 			const draftData: SelectTaskData | undefined = getDataFromDraft()
 			if (draftData) {
-				filtersData.filters.number = new StringFilter(
-					'number',
-					'номер задачи',
-					draftData.filters.number?.value
-				)
-				filtersData.filters.status = new ListFilter(
-					'status',
-					'статус задачи',
-					draftData.filters.status?.values
-				)
-				filtersData.filters.type = new ListFilter(
-					'type',
-					'тип задачи',
-					draftData.filters.type?.values
-				)
-				filtersData.filters.sort = new ListFilter(
-					'sort',
-					'вид задачи',
-					draftData.filters.sort?.values
-				)
-				filtersData.filters.createdAt = new DateFilter('createdAt', 'дата создания', {
-					valueFrom: draftData.filters.createdAt?.valueFrom,
-					valueTo: draftData.filters.createdAt?.valueTo,
-				})
-				filtersData.filters.controledAt = new DateFilter('controledAt', 'дата контроля', {
-					valueFrom: draftData.filters.controledAt?.valueFrom,
-					valueTo: draftData.filters.controledAt?.valueTo,
-				})
-				filtersData.filters.author = new ListFilter(
-					'author',
-					'автор',
-					draftData.filters.author?.values
-				)
-				filtersData.filters.authorGroup = new ListFilter(
-					'authorGroup',
-					'группа автора',
-					draftData.filters.authorGroup?.values
-				)
-				filtersData.filters.executor = new ListFilter(
-					'executor',
-					'исполнитель',
-					draftData.filters.executor?.values
-				)
-				filtersData.filters.executorGroup = new ListFilter(
-					'executorGroup',
-					'группа исполнителя',
-					draftData.filters.executorGroup?.values
-				)
-				filtersData.filters.request = new AppFilter(
-					'request',
-					'обращение',
-					draftData.filters.request?.value
-				)
-				filtersData.filters.insured = new StringFilter(
-					'insured',
-					'застрахованный',
-					draftData.filters.insured?.value
-				)
-				filtersData.filters.insurer = new StringFilter(
-					'insurer',
-					'страхователь',
-					draftData.filters.insurer?.value
-				)
+				for(const key of Object.keys(draftData.filters)) {
+				  const resetBuffer = filtersData.filters[key].reset;
+				  filtersData.filters[key] = draftData.filters[key];
+				  filtersData.filters[key].reset = resetBuffer;
+				}
 
 				filtersData.filterStates = draftData.filterStates
 			}
@@ -139,9 +81,14 @@ export default function SelectTaskForm() {
 
 	// Обработчик изменения размера
 	const handleResizeWrapper = () => {
-		const width = contentWrapperRef.current?.getBoundingClientRect().width ?? 0
-		setListWidth(width)
+		const element = document.querySelector(".select-task-form__content");
+		const width = element?.getBoundingClientRect().width ?? 0;
+		setListWidth(width);
 	}
+
+	const setContentWrapperRef = (element: HTMLDivElement) => {
+	  handleResizeWrapper()
+	};
 
 	return (
 		<selectTaskContext.Provider value={{ data, setValue }}>
@@ -160,7 +107,7 @@ export default function SelectTaskForm() {
 								title="Форма отбора задач"
 							/>
 						</div>
-						<div className="select-task-form__content" ref={contentWrapperRef}>
+						<div className="select-task-form__content" ref={setContentWrapperRef}>
 							<div
 								className={`select-task-form__filters${
 									!isShowFilters ? ' select-task-form__filters_hidden' : ''

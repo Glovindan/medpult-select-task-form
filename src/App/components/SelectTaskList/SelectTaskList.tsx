@@ -156,7 +156,7 @@ export default function SelectTaskList({ width }: SelectTaskListProps) {
 			code: data.filters.servicesApproved.fieldCode,
 			fr: 1.5,
 			isSortable: false,
-      isRollable: true
+      		isRollable: true,
 			isLink: false,
 		}),
 	]
