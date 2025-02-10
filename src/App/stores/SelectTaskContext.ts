@@ -51,6 +51,8 @@ export class SelectTaskFiltersStates {
 	request: boolean
 	/** Застрахованный */
 	insured: boolean
+	/** Страхователь */
+	insurer: boolean
 	/** Группа автора */
 	authorGroup: boolean
 	/** Группа исполнителя */
@@ -67,6 +69,7 @@ export class SelectTaskFiltersStates {
 		this.executor = false
 		this.request = false
 		this.insured = false
+		this.insurer = false
 		this.authorGroup = false
 		this.executorGroup = false
 	}
@@ -74,6 +77,8 @@ export class SelectTaskFiltersStates {
 
 /** Значения фильтров формы отбора задач */
 export class SelectTaskFilters implements IFiltersData {
+	/** Дата рождения */
+	dataBt: DateFilter
 	/** Номер задачи */
 	number: StringFilter
 	/** Статус задачи */
@@ -100,8 +105,16 @@ export class SelectTaskFilters implements IFiltersData {
 	servicesApproved: StringFilter
 	/** Застрахованный */
 	insured: StringFilter
+	/**Страхователь */
+	insurer: StringFilter
+	/** */
+	isCollective: ListFilter
 
 	constructor(selectTaskFilters?: SelectTaskFilters) {
+		this.dataBt = new DateFilter('dataBt', 'дата рождения', {
+			valueFrom: selectTaskFilters?.dataBt.valueFrom,
+			valueTo: selectTaskFilters?.dataBt.valueTo,
+		})
 		this.number = new StringFilter('number', 'номер задачи', selectTaskFilters?.number.value)
 		this.status = new ListFilter('status', 'статус задачи', selectTaskFilters?.status.values)
 		this.type = new ListFilter('type', 'тип задачи', selectTaskFilters?.type.values)
@@ -136,9 +149,12 @@ export class SelectTaskFilters implements IFiltersData {
 			selectTaskFilters?.servicesApproved.value
 		)
 		this.insured = new StringFilter('insured', 'застрахованный', selectTaskFilters?.insured.value)
+		this.insurer = new StringFilter('insurer', 'страхователь', selectTaskFilters?.insurer.value)
+		this.isCollective = new ListFilter('isCollective', '', selectTaskFilters?.isCollective?.values)
 	}
 
 	reset() {
+		this.dataBt.reset()
 		this.number.reset()
 		this.status.reset()
 		this.type.reset()
@@ -151,6 +167,7 @@ export class SelectTaskFilters implements IFiltersData {
 		this.executorGroup.reset()
 		this.request.reset()
 		this.insured.reset()
+		this.insurer.reset()
 	}
 }
 

@@ -10,6 +10,12 @@ import SelectTaskList from '../SelectTaskList/SelectTaskList'
 import { getDataFromDraft } from '../../shared/utils/utils'
 import Loader from '../../../UIKit/Loader/Loader'
 import Scripts from '../../shared/utils/clientScripts'
+import {
+	DateFilter,
+	StringFilter,
+	ListFilter,
+	AppFilter,
+} from '../../../UIKit/Filters/FiltersTypes'
 
 /** Форма отбора задач */
 export default function SelectTaskForm() {
@@ -21,7 +27,70 @@ export default function SelectTaskForm() {
 		try {
 			const draftData: SelectTaskData | undefined = getDataFromDraft()
 			if (draftData) {
-				filtersData.filters = draftData.filters
+				filtersData.filters.number = new StringFilter(
+					'number',
+					'номер задачи',
+					draftData.filters.number?.value
+				)
+				filtersData.filters.status = new ListFilter(
+					'status',
+					'статус задачи',
+					draftData.filters.status?.values
+				)
+				filtersData.filters.type = new ListFilter(
+					'type',
+					'тип задачи',
+					draftData.filters.type?.values
+				)
+				filtersData.filters.sort = new ListFilter(
+					'sort',
+					'вид задачи',
+					draftData.filters.sort?.values
+				)
+				filtersData.filters.createdAt = new DateFilter('createdAt', 'дата создания', {
+					valueFrom: draftData.filters.createdAt?.valueFrom,
+					valueTo: draftData.filters.createdAt?.valueTo,
+				})
+				filtersData.filters.controledAt = new DateFilter('controledAt', 'дата контроля', {
+					valueFrom: draftData.filters.controledAt?.valueFrom,
+					valueTo: draftData.filters.controledAt?.valueTo,
+				})
+				filtersData.filters.author = new ListFilter(
+					'author',
+					'автор',
+					draftData.filters.author?.values
+				)
+				filtersData.filters.authorGroup = new ListFilter(
+					'authorGroup',
+					'группа автора',
+					draftData.filters.authorGroup?.values
+				)
+				filtersData.filters.executor = new ListFilter(
+					'executor',
+					'исполнитель',
+					draftData.filters.executor?.values
+				)
+				filtersData.filters.executorGroup = new ListFilter(
+					'executorGroup',
+					'группа исполнителя',
+					draftData.filters.executorGroup?.values
+				)
+				filtersData.filters.request = new AppFilter(
+					'request',
+					'обращение',
+					draftData.filters.request?.value
+				)
+				filtersData.filters.insured = new StringFilter(
+					'insured',
+					'застрахованный',
+					draftData.filters.insured?.value
+				)
+				filtersData.filters.insurer = new StringFilter(
+					'insurer',
+					'страхователь',
+					draftData.filters.insurer?.value
+				)
+
 				filtersData.filterStates = draftData.filterStates
 			}
 		} catch (e) {

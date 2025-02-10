@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ItemData, ListColumnData } from '../CustomListTypes'
+import { icon } from '../../../App/shared/iconsCol'
 
 interface ListColumnProps extends ListColumnData {
 	data: ItemData<any>
@@ -9,9 +10,16 @@ interface ListColumnProps extends ListColumnData {
 
 /** Столбец одной строки таблицы */
 function CustomListRowColumn(props: ListColumnProps) {
-	const { fr, data, isLink, onClick, listRef, isRollable } = props;
+const { fr, data, isLink, onClick, listRef, isIcon, isRollable } = props;
 
-	const onClickColumn = isLink && onClick ? () => { onClick(data) } : () => { };
+	const onClickColumn =
+		isLink && onClick
+			? () => {
+					onClick(data)
+			  }
+			: () => {}
+
+	const iconToShow = data.value === 'collective' ? icon.collective : icon.individ
 
 	const wrapperRef = useRef<HTMLDivElement>(null);
 	const spanRef = useRef<HTMLSpanElement>(null);
@@ -69,13 +77,16 @@ function CustomListRowColumn(props: ListColumnProps) {
 	}
 
 	return (
-		<div className={
-			isLink
-				? "custom-list-row-column custom-list-row-column__link"
-				: "custom-list-row-column"
-		} style={{ flex: fr }} ref={wrapperRef}>
+		<div
+			className={
+				isLink ? 'custom-list-row-column custom-list-row-column__link' : 'custom-list-row-column'
+			}
+			style={{ flex: fr }}
+      ref={wrapperRef}
+		>
 			<span onMouseEnter={showMore} onMouseOut={hideMore} ref={spanRef} title={isRollable ? "" : data.value} onClick={onClickColumn} className={isShowMore ? 'custom-list-row-column__more' : 'custom-list-row-column__less'}>
-				{data.value}
+				{isIcon && iconToShow}
+				{!isIcon && data.value}
 			</span>
 		</div>
 	)
