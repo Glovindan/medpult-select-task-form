@@ -175,6 +175,7 @@ function CustomList<SearchDataType = any, ItemType = any>(props: ListProps<Searc
 							isShowDetails={getDetailsLayout && item.id === openRowIndex}
 							setOpenRowIndex={toggleShowDetails}
 							reloadData={reloadData}
+							listRef={bodyRef}
 						/>
 					})}
 					{isLoading && <Loader />}

@@ -35,6 +35,8 @@ export class ListColumnData {
 	code: string
 	/** Обработчик нажатия */
 	onClick?: (props: ItemData) => any
+	/** Разворачиваемый ли столбец */
+	isRollable: boolean
 	/** Хранит ли по столбец иконку */
 	isIcon?: boolean
 
@@ -45,6 +47,7 @@ export class ListColumnData {
 		isSortable,
 		isLink,
 		onClick,
+		isRollable,
 		isIcon,
 	}: {
 		name: string
@@ -53,6 +56,7 @@ export class ListColumnData {
 		isSortable?: boolean
 		isLink?: boolean
 		onClick?: (props: any) => any
+		isRollable?: boolean
 		isIcon?: boolean
 	}) {
 		this.fr = fr ?? 1
@@ -64,6 +68,7 @@ export class ListColumnData {
 
 		this.name = name
 		this.code = code
+		this.isRollable = isRollable ?? false
 	}
 }
 
