@@ -33,6 +33,7 @@ function Header({
 		// Строковый поиск
 		if (data.filters.number.value) return true
 		if (data.filters.insured.value) return true
+		if (data.filters.insurer.value) return true
 
 		// Поиск по датам
 		if (data.filters.createdAt.valueFrom || data.filters.createdAt.valueTo) return true

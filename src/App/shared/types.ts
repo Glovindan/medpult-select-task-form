@@ -6,6 +6,8 @@ export interface IInputData<DataType = any> {
 }
 
 export class SelectTaskData {
+	// Дата рождения
+	dataBt?: ItemDataString
 	// Номер задачи - строчька
 	number?: ItemData
 	// Статус задачи - флажки
@@ -26,10 +28,15 @@ export class SelectTaskData {
 	request?: ItemData
 	// Застрахованный - формы отбора
 	insured?: ItemData
+	// Страхователь
+	insurer?: ItemData
 	// Согласованные услуги
 	servicesApproved?: ItemDataString
 
+	isCollective?: ItemData
+
 	constructor({
+		dataBt,
 		number,
 		status,
 		type,
@@ -40,8 +47,11 @@ export class SelectTaskData {
 		executor,
 		request,
 		insured,
+		insurer,
 		servicesApproved,
+		isCollective,
 	}: SelectTaskData) {
+		this.dataBt = dataBt
 		this.number = number
 		this.status = status
 		this.type = type
@@ -52,6 +62,8 @@ export class SelectTaskData {
 		this.executor = executor
 		this.request = request
 		this.insured = insured
+		this.insurer = insurer
 		this.servicesApproved = servicesApproved
+		this.isCollective = isCollective
 	}
 }
