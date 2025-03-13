@@ -24,7 +24,7 @@ export class SortData {
 /** Данные столбца таблицы */
 export class ListColumnData {
 	/** Коэффициент соотношения ширины столбца */
-	fr: number
+	fr?: number
 	/** Можно ли по этому столбцу сортировать */
 	isSortable: boolean
 	/** Хранит ли по столбец ссылки */

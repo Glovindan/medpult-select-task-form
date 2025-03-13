@@ -1,6 +1,5 @@
 import React, { PropsWithChildren, useState } from 'react'
 import icons from '../../shared/icons'
-import FilterButton from '../../../UIKit/Filters/FilterButton/FilterButton'
 import { selectTaskContext } from '../../stores/SelectTaskContext'
 
 interface HeaderProps {
@@ -32,15 +31,11 @@ function Header({
 
 		// Строковый поиск
 		if (data.filters.number.value) return true
-		if (data.filters.insured.value) return true
 		if (data.filters.insurer.value) return true
 
 		// Поиск по датам
 		if (data.filters.createdAt.valueFrom || data.filters.createdAt.valueTo) return true
 		if (data.filters.controledAt.valueFrom || data.filters.controledAt.valueTo) return true
-
-		// Поиск по Элементам приложения
-		if (data.filters.request.value.code) return true
 
 		return false
 	}
@@ -64,12 +59,9 @@ function Header({
 			<div className="header__returnButton" onClick={onClickReturn}>
 				{icons.ReturnButton}
 			</div>
-			<div className="header__filterButton">
-				<FilterButton isShowIndicator={isShowIndicator} clickHandler={clickHandler} />
-			</div>
 			<div className="header__title">{title}</div>
 			<div className="header__count">
-				Отобрано: <span>{elementsCount}</span>
+				Всего: <span>{elementsCount}</span>
 			</div>
 			<div className="header__buttons">{children}</div>
 		</div>

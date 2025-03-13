@@ -16,6 +16,8 @@ import {
 	ListFilter,
 	AppFilter,
 } from '../../../UIKit/Filters/FiltersTypes'
+import Button from '../../../UIKit/Button/Button'
+import icons from '../../shared/icons'
 
 /** Форма отбора задач */
 export default function SelectTaskForm() {
@@ -27,10 +29,10 @@ export default function SelectTaskForm() {
 		try {
 			const draftData: SelectTaskData | undefined = getDataFromDraft()
 			if (draftData) {
-				for(const key of Object.keys(draftData.filters)) {
-				  const resetBuffer = filtersData.filters[key].reset;
-				  filtersData.filters[key] = draftData.filters[key];
-				  filtersData.filters[key].reset = resetBuffer;
+				for (const key of Object.keys(draftData.filters)) {
+					const resetBuffer = filtersData.filters[key].reset
+					filtersData.filters[key] = draftData.filters[key]
+					filtersData.filters[key].reset = resetBuffer
 				}
 
 				filtersData.filterStates = draftData.filterStates
@@ -81,14 +83,14 @@ export default function SelectTaskForm() {
 
 	// Обработчик изменения размера
 	const handleResizeWrapper = () => {
-		const element = document.querySelector(".select-task-form__content");
-		const width = element?.getBoundingClientRect().width ?? 0;
-		setListWidth(width);
+		const element = document.querySelector('.select-task-form__content')
+		const width = element?.getBoundingClientRect().width ?? 0
+		setListWidth(width)
 	}
 
 	const setContentWrapperRef = (element: HTMLDivElement) => {
-	  handleResizeWrapper()
-	};
+		handleResizeWrapper()
+	}
 
 	return (
 		<selectTaskContext.Provider value={{ data, setValue }}>
@@ -101,11 +103,7 @@ export default function SelectTaskForm() {
 				{!isInitializing && (
 					<>
 						<div className="select-task-form__header">
-							<Header
-								clickFilterHandler={toggleShowFilters}
-								elementsCount={data.elementsCount}
-								title="Форма отбора задач"
-							/>
+							<Header elementsCount={data.elementsCount} title="Задачи" />
 						</div>
 						<div className="select-task-form__content" ref={setContentWrapperRef}>
 							<div
@@ -113,8 +111,21 @@ export default function SelectTaskForm() {
 									!isShowFilters ? ' select-task-form__filters_hidden' : ''
 								}`}
 							>
-								<SelectTaskFiltersForm />
+								<SelectTaskFiltersForm clickFilterHandler={toggleShowFilters} />
 							</div>
+							{/* Кнопка для отображения фильтров */}
+							{!isShowFilters && (
+								<Button
+									title={icons.FilterButtonSwow}
+									clickHandler={toggleShowFilters}
+									style={{
+										backgroundColor: '#FFFFFF',
+										padding: '6px',
+										height: '40px',
+										width: '40px',
+									}}
+								/>
+							)}
 							<div className="select-task-form__list">
 								<div>
 									<SelectTaskList width={listWidth} />

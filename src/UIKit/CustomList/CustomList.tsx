@@ -2,20 +2,30 @@ import React, { useEffect, useRef, useState } from 'react'
 import CustomListColumn from './CustomListHeaderColumn/CustomListHeaderColumn'
 import Loader from '../Loader/Loader'
 import CustomListRow from './CustomListRow/CustomListRow'
-import { FetchData, FetchItem, ListColumnData, SortData, getDetailsLayoutAttributes } from './CustomListTypes'
+import {
+	FetchData,
+	FetchItem,
+	ListColumnData,
+	SortData,
+	getDetailsLayoutAttributes,
+} from './CustomListTypes'
 
 type ListProps<SearchDataType = any, ItemType = any> = {
 	/** Основные настройки */
 	/** Настройки отображения колонок */
 	columnsSettings: ListColumnData[]
 	/** Получение данных */
-	getDataHandler: (page: number, sortData?: SortData, searchData?: SearchDataType) => Promise<FetchData<ItemType>>
+	getDataHandler: (
+		page: number,
+		sortData?: SortData,
+		searchData?: SearchDataType
+	) => Promise<FetchData<ItemType>>
 	/** Есть прокрутка? */
 	isScrollable?: boolean
 	/** Высота */
-	height?: string;
+	height?: string
 	/** Ширина списка в пикселях */
-	listWidth?: number;
+	listWidth?: number
 
 	/** Настройки поиска */
 	/** Данные поиска */
@@ -28,70 +38,81 @@ type ListProps<SearchDataType = any, ItemType = any> = {
 }
 
 /** Список данных в виде таблицы */
-function CustomList<SearchDataType = any, ItemType = any>(props: ListProps<SearchDataType, ItemType>) {
-	const { height = "100%", listWidth, columnsSettings, getDataHandler, searchData, setSearchHandler, isScrollable = true, getDetailsLayout } = props;
+function CustomList<SearchDataType = any, ItemType = any>(
+	props: ListProps<SearchDataType, ItemType>
+) {
+	const {
+		height = '100%',
+		listWidth,
+		columnsSettings,
+		getDataHandler,
+		searchData,
+		setSearchHandler,
+		isScrollable = true,
+		getDetailsLayout,
+	} = props
 
 	// Страница
-	const [page, setPage] = useState<number>(0);
+	const [page, setPage] = useState<number>(0)
 	// Показать лоадер
-	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false)
 	// Параметр остановки подгрузки элементов
-	const [hasMore, setHasMore] = useState<boolean>(true);
+	const [hasMore, setHasMore] = useState<boolean>(true)
 	// Данные сортировки
-	const [sortData, setSortData] = useState<SortData>();
+	const [sortData, setSortData] = useState<SortData>()
 	// Элементы списка
-	const [items, setItems] = useState<FetchItem<ItemType>[]>([]);
+	const [items, setItems] = useState<FetchItem<ItemType>[]>([])
 	// Индекс раскрытой строки
-	const [openRowIndex, setOpenRowIndex] = useState<string>();
+	const [openRowIndex, setOpenRowIndex] = useState<string>()
 	// Ссылка на тело списка
-	const bodyRef = useRef<HTMLDivElement>(null);
+	const bodyRef = useRef<HTMLDivElement>(null)
 	// Ссылка на шапку списка
-	const headerRef = useRef<HTMLDivElement>(null);
+	const headerRef = useRef<HTMLDivElement>(null)
 
 	/** Перезагрузка данных */
 	const reloadData = () => {
-		setIsLoading(false);
+		setIsLoading(false)
 		setItems([])
 
-		loadData();
+		loadData()
 	}
 
 	/** Обработка скролла по горизонтали */
 	useEffect(() => {
 		// Обработка скролла
 		const handleScroll = () => {
-			if (!bodyRef.current) return;
-			if (!headerRef.current) return;
+			if (!bodyRef.current) return
+			if (!headerRef.current) return
 
 			// Синхронизация скролла шапки и тела
-			headerRef.current.scrollLeft = bodyRef.current.scrollLeft;
+			headerRef.current.scrollLeft = bodyRef.current.scrollLeft
 		}
 
-		bodyRef.current?.addEventListener("scroll", handleScroll)
+		bodyRef.current?.addEventListener('scroll', handleScroll)
 
-		return () => bodyRef.current?.removeEventListener("scroll", handleScroll)
+		return () => bodyRef.current?.removeEventListener('scroll', handleScroll)
 	}, [])
 
 	/** Загрузка данных списка */
 	const loadData = async (items: any[] = [], page: number = 0, hasMore: boolean = true) => {
-		if (isLoading) return;
-		if (!hasMore) return;
+		if (isLoading) return
+		if (!hasMore) return
 
-		setIsLoading(true);
+		setIsLoading(true)
 
-		const fetchData = await getDataHandler(page, sortData, searchData);
+		const fetchData = await getDataHandler(page, sortData, searchData)
 		setHasMore(fetchData.hasMore)
 
 		setItems([...items, ...fetchData.items])
-		setPage(page + 1);
-		setIsLoading(false);
+		setPage(page + 1)
+		setIsLoading(false)
 	}
 
 	/** Обработчик скролла по вертикали */
 	const onScroll = () => {
-		const body = bodyRef.current!;
-		const height = body.scrollHeight - body.offsetHeight;
-		const scrollPosition = body.scrollTop;
+		const body = bodyRef.current!
+		const height = body.scrollHeight - body.offsetHeight
+		const scrollPosition = body.scrollTop
 
 		if ((height - scrollPosition) / height < 0.05 && !isLoading) {
 			loadData(items, page, hasMore)
@@ -100,64 +121,79 @@ function CustomList<SearchDataType = any, ItemType = any>(props: ListProps<Searc
 
 	/** Установить обработчик нажатия на кнопку поиск */
 	useEffect(() => {
-		if (!setSearchHandler) return;
+		if (!setSearchHandler) return
 
-		setSearchHandler(() => { reloadData() });
+		setSearchHandler(() => {
+			reloadData()
+		})
 	}, [searchData, sortData])
 
 	/** Обновление оглавления при изменении сортировки */
 	useEffect(() => {
-		reloadData();
+		reloadData()
 	}, [sortData])
 
 	/** Нажатие на сортировку */
 	const handleSortClick = (sortDataNew: SortData | undefined) => {
-		setSortData(sortDataNew);
+		setSortData(sortDataNew)
 	}
 
 	/** Получение ширины скроллбара */
 	const getScrollbarWidth = (ref: React.RefObject<HTMLDivElement>) => {
-		const element = ref.current;
-		if (!element) return 0;
+		const element = ref.current
+		if (!element) return 0
 
-		return element.offsetWidth - element.clientWidth;
+		return element.offsetWidth - element.clientWidth
+	}
+
+	/** Рассчитать ширину списка */
+	const calculateListWidth = () => {
+		const MIN_WIDTH = 3262 // Минимальная ширина списка
+		const scrollbarWidth = getScrollbarWidth(bodyRef)
+
+		// Если listWidth задан и больше минимальной ширины, используем его
+		if (listWidth && listWidth >= MIN_WIDTH) {
+			return listWidth - scrollbarWidth
+		}
+
+		// Иначе используем минимальную ширину
+		return MIN_WIDTH - scrollbarWidth
 	}
 
 	return (
-		<div className='custom-list'>
+		<div className="custom-list">
 			<div
 				className={
 					isScrollable
-						? "custom-list__header custom-list__header_scrollable"
-						: "custom-list__header"
+						? 'custom-list__header custom-list__header_scrollable'
+						: 'custom-list__header'
 				}
 				ref={headerRef}
 			>
-				<div style={listWidth ? { width: `${listWidth - getScrollbarWidth(headerRef)}px` } : {}}>
-					{columnsSettings.map(columnSettings =>
+				<div style={{ width: `${calculateListWidth()}px`, minWidth: '3262px' }}>
+					{columnsSettings.map((columnSettings) => (
 						<CustomListColumn
 							sortData={sortData}
 							handleSortClick={handleSortClick}
 							{...columnSettings}
 						/>
-					)}
+					))}
 				</div>
 			</div>
 			<div
-				className={
-					isScrollable
-						? "custom-list__body_scrollable"
-						: "custom-list__body"
-				}
+				className={isScrollable ? 'custom-list__body_scrollable' : 'custom-list__body'}
 				style={{ height: height }}
 				ref={bodyRef}
 				onScroll={onScroll}
 			>
-				<div className='custom-list__body-wrapper' style={listWidth ? { width: `${listWidth - getScrollbarWidth(bodyRef)}px` } : {}}>
-					{items.map(item => {
+				<div
+					className="custom-list__body-wrapper"
+					style={{ width: `${calculateListWidth()}px`, minWidth: '3262px' }}
+				>
+					{items.map((item) => {
 						/** Обработчик нажатия на строку */
 						const toggleShowDetails = () => {
-							if (item.id === undefined) return;
+							if (item.id === undefined) return
 
 							if (item.id === openRowIndex) {
 								setOpenRowIndex(undefined)
@@ -167,16 +203,18 @@ function CustomList<SearchDataType = any, ItemType = any>(props: ListProps<Searc
 							setOpenRowIndex(item.id)
 						}
 
-						return <CustomListRow<ItemType>
-							key={item.id}
-							data={item.data}
-							columnsSettings={columnsSettings}
-							getDetailsLayout={getDetailsLayout}
-							isShowDetails={getDetailsLayout && item.id === openRowIndex}
-							setOpenRowIndex={toggleShowDetails}
-							reloadData={reloadData}
-							listRef={bodyRef}
-						/>
+						return (
+							<CustomListRow<ItemType>
+								key={item.id}
+								data={item.data}
+								columnsSettings={columnsSettings}
+								getDetailsLayout={getDetailsLayout}
+								isShowDetails={getDetailsLayout && item.id === openRowIndex}
+								setOpenRowIndex={toggleShowDetails}
+								reloadData={reloadData}
+								listRef={bodyRef}
+							/>
+						)
 					})}
 					{isLoading && <Loader />}
 				</div>

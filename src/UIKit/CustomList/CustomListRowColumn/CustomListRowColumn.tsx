@@ -10,7 +10,7 @@ interface ListColumnProps extends ListColumnData {
 
 /** Столбец одной строки таблицы */
 function CustomListRowColumn(props: ListColumnProps) {
-const { fr, data, isLink, onClick, listRef, isIcon, isRollable } = props;
+	const { fr, data, isLink, onClick, listRef, isIcon, isRollable } = props
 
 	const onClickColumn =
 		isLink && onClick
@@ -21,21 +21,21 @@ const { fr, data, isLink, onClick, listRef, isIcon, isRollable } = props;
 
 	const iconToShow = data.value === 'collective' ? icon.collective : icon.individ
 
-	const wrapperRef = useRef<HTMLDivElement>(null);
-	const spanRef = useRef<HTMLSpanElement>(null);
+	const wrapperRef = useRef<HTMLDivElement>(null)
+	const spanRef = useRef<HTMLSpanElement>(null)
 
-	const [isShowMore, setIsShowMore] = useState<boolean>(false);
+	const [isShowMore, setIsShowMore] = useState<boolean>(false)
 
 	const showMore = () => {
-		if (!isRollable) return;
+		if (!isRollable) return
 
-		setIsShowMore(true);
+		setIsShowMore(true)
 
 		if (!spanRef.current) return
 		if (!wrapperRef.current) return
 		if (!listRef.current) return
 
-		spanRef.current.style.width = wrapperRef.current.getBoundingClientRect().width + "px"
+		spanRef.current.style.width = wrapperRef.current.getBoundingClientRect().width + 'px'
 
 		// const moreWrapperBottom = spanRef.current.getBoundingClientRect().bottom;
 		// const listWrapperBottom = listRef.current.getBoundingClientRect().bottom
@@ -52,12 +52,12 @@ const { fr, data, isLink, onClick, listRef, isIcon, isRollable } = props;
 	}
 
 	useEffect(() => {
-		if (!isShowMore) return;
+		if (!isShowMore) return
 		if (!spanRef.current) return
 		if (!wrapperRef.current) return
 		if (!listRef.current) return
 
-		const moreWrapperBottom = spanRef.current.getBoundingClientRect().bottom;
+		const moreWrapperBottom = spanRef.current.getBoundingClientRect().bottom
 		const listWrapperBottom = listRef.current.getBoundingClientRect().bottom
 
 		console.log(moreWrapperBottom)
@@ -65,15 +65,15 @@ const { fr, data, isLink, onClick, listRef, isIcon, isRollable } = props;
 		console.log(spanRef.current.getBoundingClientRect())
 
 		if (moreWrapperBottom > listWrapperBottom) {
-			spanRef.current.style.marginTop = 52 - (spanRef.current.getBoundingClientRect().height) + "px";
+			spanRef.current.style.marginTop = 52 - spanRef.current.getBoundingClientRect().height + 'px'
 		}
 	}, [isShowMore])
 
 	const hideMore = () => {
-		setIsShowMore(false);
+		setIsShowMore(false)
 
 		if (!spanRef.current) return
-		spanRef.current.style.removeProperty("margin-top")
+		spanRef.current.style.removeProperty('margin-top')
 	}
 
 	return (
@@ -81,10 +81,17 @@ const { fr, data, isLink, onClick, listRef, isIcon, isRollable } = props;
 			className={
 				isLink ? 'custom-list-row-column custom-list-row-column__link' : 'custom-list-row-column'
 			}
-			style={{ flex: fr }}
-      ref={wrapperRef}
+			style={{ width: fr }}
+			ref={wrapperRef}
 		>
-			<span onMouseEnter={showMore} onMouseOut={hideMore} ref={spanRef} title={isRollable ? "" : data.value} onClick={onClickColumn} className={isShowMore ? 'custom-list-row-column__more' : 'custom-list-row-column__less'}>
+			<span
+				onMouseEnter={showMore}
+				onMouseOut={hideMore}
+				ref={spanRef}
+				title={isRollable ? '' : data.value}
+				onClick={onClickColumn}
+				className={isShowMore ? 'custom-list-row-column__more' : 'custom-list-row-column__less'}
+			>
 				{isIcon && iconToShow}
 				{!isIcon && data.value}
 			</span>

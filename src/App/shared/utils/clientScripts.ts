@@ -32,22 +32,26 @@ async function getTasks(
 	})
 
 	const mockData = {
-		isCollective: new ItemData({ value: 'collective' }),
-		insured: new ItemData({ value: 'Иванов Иван Иванович', info: 'test' }),
-		dataBt: new ItemDataString('10.05.1990'),
+		isCollective: new ItemData({ value: 'individual' }),
+		fio: new ItemData({ value: 'Иванов Иван Иванович', info: 'test' }),
+		policу: new ItemData({ value: '008WS0000000000/1', info: 'test' }),
+		dataBt: new ItemDataString('01.01.1990'),
 		number: new ItemData({ value: 'TS00000001/23', info: 'test' }),
 		status: new ItemData({ value: 'В работе', info: 'test' }),
-		type: new ItemData({ value: 'Медицинское', info: 'test' }),
 		sort: new ItemData({ value: 'Запись к врачу', info: 'test' }),
-		createdAt: new ItemDataString('06.12.2023 12:22'),
-		controledAt: new ItemDataString('06.12.2023 12:22'),
+		type: new ItemData({ value: 'Медицинское', info: 'test' }),
+		urgency: new ItemData({ value: 'Экстренно', info: 'test' }),
+		createdAt: new ItemDataString('06.12.2023'),
+		controledAt: new ItemDataString('06.12.2023'),
+		channel: new ItemData({ value: 'Телефон', info: 'test' }),
 		author: new ItemData({ value: 'Юрасов Сергей Олегович', info: 'test' }),
+		authorGroup: new ItemData({ value: 'Врачи консультанты МедКЦ (2 линия)', info: 'test' }),
 		executor: new ItemData({ value: 'Юрасов Сергей Олегович', info: 'test' }),
-		request: new ItemData({ value: 'RQ00000025/23', info: 'test' }),
+		executorGroup: new ItemData({ value: 'Врачи консультанты МедКЦ (2 линия)', info: 'test' }),
 		insurer: new ItemData({ value: 'Петров Петр Петрович', info: 'test' }),
-		servicesApproved: new ItemDataString(
-			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo nulla omnis sint dignissimos, eum ipsum inventore asperiores qui itaque velit quod sapiente excepturi debitis consectetur iusto nemo dolorem soluta quas!'
-		),
+		formApproval: new ItemData({ value: 'ГП на бланке', info: 'test' }),
+		statusApproval: new ItemData({ value: 'Выпущено', info: 'test' }),
+		termApproval: new ItemDataString('06.12.2023-07.12.2023'),
 	}
 	return {
 		items: Array(20)
@@ -64,7 +68,7 @@ async function getTasks(
 
 /** Получение количества задач по фильтрам */
 async function getTasksCount(searchData?: SelectTaskFilters): Promise<number> {
-	return 1235
+	return 0
 }
 
 /** Получение статусов задач */
@@ -110,59 +114,95 @@ async function getSorts(): Promise<ObjectItem[]> {
 		new ObjectItem({ code: 'test2', value: 'Помощь на дому' }),
 		new ObjectItem({ code: 'test3', value: 'Скорая медицинская помощь' }),
 		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
+		new ObjectItem({ code: 'test5', value: 'Изменение записи ' }),
+		new ObjectItem({ code: 'test6', value: 'Информация о страховом событии ' }),
+		new ObjectItem({ code: 'test7', value: 'Консультация по ранее оформленному договору ' }),
 	]
 
 	return sorts
 }
-
-/** Получение пользователей */
-async function getUsers(page: number, query?: string | undefined): Promise<FetchInputData> {
+/** Получение срочности задач */
+async function getUrgency(): Promise<ObjectItem[]> {
 	await randomDelay()
 
-	/** Статусы */
-	const sorts: ObjectItem[] = [
-		new ObjectItem({ code: 'test', value: 'Согласование услуг' }),
-		new ObjectItem({ code: 'test1', value: 'Запись к врачу' }),
-		new ObjectItem({ code: 'test2', value: 'Помощь на дому' }),
-		new ObjectItem({ code: 'test3', value: 'Скорая медицинская помощь' }),
-		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
-		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
-		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
-		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
-		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
-		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
-		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
+	const urgency: ObjectItem[] = [
+		new ObjectItem({ code: 'test', value: 'Экстренно' }),
+		new ObjectItem({ code: 'test1', value: 'Планово' }),
 	]
 
-	return {
-		items: sorts,
-		hasMore: true,
-	}
+	return urgency
 }
 
-/** Получение групп пользователей */
-async function getUserGroups(page: number, query?: string | undefined): Promise<FetchInputData> {
+/** Получение пользователей */
+async function getUsers(): Promise<ObjectItem[]> {
 	await randomDelay()
 
-	/** Статусы */
-	const sorts: ObjectItem[] = [
-		new ObjectItem({ code: 'test', value: 'Согласование услуг' }),
-		new ObjectItem({ code: 'test1', value: 'Запись к врачу' }),
-		new ObjectItem({ code: 'test2', value: 'Помощь на дому' }),
-		new ObjectItem({ code: 'test3', value: 'Скорая медицинская помощь' }),
-		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
-		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
-		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
-		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
-		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
-		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
-		new ObjectItem({ code: 'test4', value: 'Госпитализация ' }),
+	const authors: ObjectItem[] = [
+		new ObjectItem({ code: 'test', value: 'Иванов Иван Иванович' }),
+		new ObjectItem({ code: 'test1', value: 'Петров Петр Петрович' }),
+		new ObjectItem({ code: 'test2', value: 'Сидоров Сидр Сидрович' }),
+		new ObjectItem({ code: 'test3', value: 'Васильев Василий Васильевич' }),
+		new ObjectItem({ code: 'test4', value: 'Иванов Олег Михайлович' }),
+		new ObjectItem({ code: 'test5', value: 'Петрова Ольга Ивановна' }),
 	]
 
-	return {
-		items: sorts,
-		hasMore: true,
-	}
+	return authors
+}
+
+/** Получение групп */
+async function getUserGroups(): Promise<ObjectItem[]> {
+	await randomDelay()
+
+	const authors: ObjectItem[] = [
+		new ObjectItem({ code: 'test', value: 'Группа записи' }),
+		new ObjectItem({ code: 'test1', value: 'Врачи кураторы МедКЦ (3 линия)' }),
+		new ObjectItem({ code: 'test2', value: 'Операторы (дев)' }),
+		new ObjectItem({ code: 'test3', value: 'Врачи кураторы МедКЦ (2 линия)' }),
+		new ObjectItem({ code: 'test4', value: 'Супервайзеры (дев)' }),
+		new ObjectItem({ code: 'test5', value: 'Экперты по претензиям (4 линия)' }),
+	]
+
+	return authors
+}
+/** Получение каналов */
+async function getChannels(): Promise<ObjectItem[]> {
+	await randomDelay()
+
+	const channels: ObjectItem[] = [
+		new ObjectItem({ code: 'test', value: 'Телефон' }),
+		new ObjectItem({ code: 'test1', value: 'Email (103@sberins.ru)' }),
+		new ObjectItem({ code: 'test2', value: 'Email (911@sberins.ru)' }),
+		new ObjectItem({ code: 'test3', value: 'Email (dms.kurators@sberins.ru)' }),
+		new ObjectItem({ code: 'test4', value: 'СМС' }),
+		new ObjectItem({ code: 'test5', value: 'Ручной ввод' }),
+	]
+
+	return channels
+}
+/** Получение формы согласования */
+async function getFormApproval(): Promise<ObjectItem[]> {
+	await randomDelay()
+
+	const forms: ObjectItem[] = [
+		new ObjectItem({ code: 'test', value: 'Устное' }),
+		new ObjectItem({ code: 'test1', value: 'Email' }),
+		new ObjectItem({ code: 'test2', value: 'ГП на бланке' }),
+	]
+
+	return forms
+}
+/** Получение статусов согласования */
+async function getStatusApproval(): Promise<ObjectItem[]> {
+	await randomDelay()
+
+	const status: ObjectItem[] = [
+		new ObjectItem({ code: 'test', value: 'В оформлении' }),
+		new ObjectItem({ code: 'test1', value: 'Выпущено' }),
+		new ObjectItem({ code: 'test2', value: 'Выпущено (отправлено)' }),
+		new ObjectItem({ code: 'test3', value: 'Отозвано' }),
+	]
+
+	return status
 }
 
 /** Получение id обращения по id задачи */
@@ -218,8 +258,13 @@ export default {
 	getStatuses,
 	getTypes,
 	getSorts,
+	getUrgency,
 	getUsers,
 	getUserGroups,
+	getChannels,
+	getFormApproval,
+	getStatusApproval,
+
 	getRequestIdByTaskId,
 	getRequestLink,
 	getSelectTaskAccessSettings,

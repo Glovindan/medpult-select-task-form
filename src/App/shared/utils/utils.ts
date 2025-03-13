@@ -77,6 +77,17 @@ export function saveState<ValueType>(state: ValueType) {
 	localStorage.setItem(localStorageDraftKey, stateStr)
 }
 
+/** Показать уведомление об ошибке */
+export const showError = (text: string) => {
+	if ((window as any).showError) {
+		;(window as any).showError(text)
+
+		return
+	}
+
+	alert(text)
+}
+
 export default {
 	redirectSPA,
 	setRequest,
