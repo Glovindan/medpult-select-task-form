@@ -11,7 +11,7 @@ export class SelectTaskData {
 	// ФИО
 	fio?: ItemData
 	// Полис
-	policу?: ItemData
+	policy?: ItemData
 	// Дата рождения
 	dataBt?: ItemDataString
 
@@ -51,7 +51,7 @@ export class SelectTaskData {
 	constructor({
 		isCollective,
 		fio,
-		policу,
+		policy,
 		dataBt,
 		number,
 		status,
@@ -72,7 +72,7 @@ export class SelectTaskData {
 	}: SelectTaskData) {
 		this.isCollective = isCollective
 		this.fio = fio
-		this.policу = policу
+		this.policy = policy
 		this.dataBt = dataBt
 		this.number = number
 		this.status = status

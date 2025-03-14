@@ -35,7 +35,7 @@ export class SelectTaskFiltersStates {
 	/** ФИО */
 	fio: boolean
 	/** Полис */
-	policу: boolean
+	policy: boolean
 	/** Дата рождения */
 	dataBt: boolean
 
@@ -77,7 +77,7 @@ export class SelectTaskFiltersStates {
 
 	constructor() {
 		this.fio = true
-		this.policу = true
+		this.policy = true
 		this.dataBt = true
 
 		this.number = true
@@ -109,7 +109,7 @@ export class SelectTaskFilters implements IFiltersData {
 	/** ФИО */
 	fio: StringFilter
 	/**Полис */
-	policу: StringFilter
+	policy: StringFilter
 	/** Дата рождения */
 	dataBt: DateFilter
 
@@ -153,7 +153,7 @@ export class SelectTaskFilters implements IFiltersData {
 		this.isCollective = new ListFilter('isCollective', '', selectTaskFilters?.isCollective?.values)
 
 		this.fio = new StringFilter('fio', 'ФИО', selectTaskFilters?.fio.value)
-		this.policу = new StringFilter('policу', 'Полис', selectTaskFilters?.policу.value)
+		this.policy = new StringFilter('policy', 'Полис', selectTaskFilters?.policy.value)
 		this.dataBt = new DateFilter('dataBt', 'Дата рождения', {
 			valueFrom: selectTaskFilters?.dataBt.valueFrom,
 			valueTo: selectTaskFilters?.dataBt.valueTo,
@@ -206,7 +206,7 @@ export class SelectTaskFilters implements IFiltersData {
 
 	reset() {
 		this.fio.reset()
-		this.policу.reset()
+		this.policy.reset()
 		this.dataBt.reset()
 
 		this.number.reset()

@@ -24,18 +24,28 @@ function Header({
 	const checkHasActiveFilters = (): boolean => {
 		// Поиск по категориям
 		if (data.filters.author.values.length) return true
+		if (data.filters.authorGroup.values.length) return true
 		if (data.filters.executor.values.length) return true
+		if (data.filters.executorGroup.values.length) return true
 		if (data.filters.status.values.length) return true
 		if (data.filters.type.values.length) return true
 		if (data.filters.sort.values.length) return true
+		if (data.filters.urgency.values.length) return true
+		if (data.filters.channel.values.length) return true
+		if (data.filters.formApproval.values.length) return true
+		if (data.filters.statusApproval.values.length) return true
 
 		// Строковый поиск
 		if (data.filters.number.value) return true
 		if (data.filters.insurer.value) return true
+		if (data.filters.fio.value) return true
+		if (data.filters.policy.value) return true
 
 		// Поиск по датам
 		if (data.filters.createdAt.valueFrom || data.filters.createdAt.valueTo) return true
 		if (data.filters.controledAt.valueFrom || data.filters.controledAt.valueTo) return true
+		if (data.filters.dataBt.valueFrom || data.filters.dataBt.valueTo) return true
+		if (data.filters.termApproval.valueFrom || data.filters.termApproval.valueTo) return true
 
 		return false
 	}

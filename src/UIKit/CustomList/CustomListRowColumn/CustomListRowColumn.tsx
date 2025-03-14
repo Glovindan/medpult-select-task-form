@@ -19,7 +19,12 @@ function CustomListRowColumn(props: ListColumnProps) {
 			  }
 			: () => {}
 
-	const iconToShow = data.value === 'collective' ? icon.collective : icon.individ
+	const iconToShow =
+		data.value === 'collective'
+			? icon.collective
+			: data.value === 'individual'
+			? icon.individ
+			: undefined
 
 	const wrapperRef = useRef<HTMLDivElement>(null)
 	const spanRef = useRef<HTMLSpanElement>(null)

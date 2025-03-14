@@ -156,11 +156,11 @@ export default function SelectTaskFiltersForm({ clickFilterHandler }: SelectTask
 					setFilterValue={changeValueConstructor(data.filters.fio.fieldCode)}
 				/>
 				<FilterItemString
-					setIsOpenInit={setIsOpenFactory(data.filters.policу.fieldCode)}
-					isOpenInit={data.filterStates.policу}
-					title={data.filters.policу.fieldName}
-					filterValue={data.filters.policу}
-					setFilterValue={changeValueConstructor(data.filters.policу.fieldCode)}
+					setIsOpenInit={setIsOpenFactory(data.filters.policy.fieldCode)}
+					isOpenInit={data.filterStates.policy}
+					title={data.filters.policy.fieldName}
+					filterValue={data.filters.policy}
+					setFilterValue={changeValueConstructor(data.filters.policy.fieldCode)}
 				/>
 				<FilterItemDates
 					setIsOpenInit={setIsOpenFactory(data.filters.dataBt.fieldCode)}

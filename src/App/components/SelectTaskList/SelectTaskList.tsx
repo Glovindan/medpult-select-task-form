@@ -79,8 +79,8 @@ export default function SelectTaskList({ width }: SelectTaskListProps) {
 			isSortable: searchAccess,
 		}),
 		new ListColumnData({
-			name: data.filters.policу.fieldName,
-			code: data.filters.policу.fieldCode,
+			name: data.filters.policy.fieldName,
+			code: data.filters.policy.fieldCode,
 			fr: 180,
 			isSortable: searchAccess,
 		}),
