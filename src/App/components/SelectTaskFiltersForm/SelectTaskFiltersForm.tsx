@@ -147,7 +147,7 @@ export default function SelectTaskFiltersForm({ clickFilterHandler }: SelectTask
 			isSearchButtonDisabled={Scripts.getSelectTaskAccessSettings().searchButton < 2}
 			clickFilterHandler={clickFilterHandler}
 		>
-			<FilterItemWrapperHeader title="Застрахованный">
+			<FilterItemWrapperHeader title="Застрахованный" isOpenInit={true}>
 				<FilterItemString
 					setIsOpenInit={setIsOpenFactory(data.filters.fio.fieldCode)}
 					isOpenInit={data.filterStates.fio}
@@ -170,7 +170,7 @@ export default function SelectTaskFiltersForm({ clickFilterHandler }: SelectTask
 					setFilterValue={changeValueConstructor(data.filters.dataBt.fieldCode)}
 				/>
 			</FilterItemWrapperHeader>
-			<FilterItemWrapperHeader title="Задачи">
+			<FilterItemWrapperHeader title="Задачи" isOpenInit={true}>
 				<FilterItemString
 					setIsOpenInit={setIsOpenFactory(data.filters.number.fieldCode)}
 					isOpenInit={data.filterStates.number}
@@ -259,7 +259,7 @@ export default function SelectTaskFiltersForm({ clickFilterHandler }: SelectTask
 					setFilterValue={changeValueConstructor(data.filters.executorGroup.fieldCode)}
 				/>
 			</FilterItemWrapperHeader>
-			<FilterItemWrapperHeader title="Прочее">
+			<FilterItemWrapperHeader title="Прочее" isOpenInit={true}>
 				<FilterItemCategory
 					setIsOpenInit={setIsOpenFactory(data.filters.channel.fieldCode)}
 					isOpenInit={data.filterStates.channel}

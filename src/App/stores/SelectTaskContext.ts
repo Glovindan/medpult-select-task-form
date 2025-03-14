@@ -76,27 +76,27 @@ export class SelectTaskFiltersStates {
 	termApproval: boolean
 
 	constructor() {
-		this.fio = false
-		this.policу = false
-		this.dataBt = false
+		this.fio = true
+		this.policу = true
+		this.dataBt = true
 
-		this.number = false
-		this.status = false
-		this.sort = false
-		this.type = false
-		this.urgency = false
-		this.createdAt = false
-		this.controledAt = false
-		this.author = false
-		this.authorGroup = false
-		this.executor = false
-		this.executorGroup = false
+		this.number = true
+		this.status = true
+		this.sort = true
+		this.type = true
+		this.urgency = true
+		this.createdAt = true
+		this.controledAt = true
+		this.author = true
+		this.authorGroup = true
+		this.executor = true
+		this.executorGroup = true
 
-		this.channel = false
-		this.insurer = false
-		this.formApproval = false
-		this.statusApproval = false
-		this.termApproval = false
+		this.channel = true
+		this.insurer = true
+		this.formApproval = true
+		this.statusApproval = true
+		this.termApproval = true
 	}
 }
 
