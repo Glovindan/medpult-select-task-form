@@ -182,10 +182,25 @@ function CustomList<SearchDataType = any, ItemType = any>(
 			</div>
 			<div
 				className={isScrollable ? 'custom-list__body_scrollable' : 'custom-list__body'}
-				style={{ height: height }}
+				style={{ height: height, position: 'relative' }}
 				ref={bodyRef}
 				onScroll={onScroll}
 			>
+				{isLoading && items.length === 0 && (
+					<div
+						style={{
+							position: 'sticky',
+							top: '50%',
+							left: '50%',
+							transform: 'translate(-50%, -50%)',
+							zIndex: 1000,
+							textAlign: 'center',
+						}}
+					>
+						<Loader />
+					</div>
+				)}
+
 				<div
 					className="custom-list__body-wrapper"
 					style={{ width: `${calculateListWidth()}px`, minWidth: '3262px' }}
@@ -216,7 +231,19 @@ function CustomList<SearchDataType = any, ItemType = any>(
 							/>
 						)
 					})}
-					{isLoading && <Loader />}
+					{isLoading && items.length > 0 && (
+						<div
+							style={{
+								position: 'sticky',
+								left: '50%',
+								transform: 'translate(-35%, -50%)',
+								zIndex: 1000,
+								textAlign: 'center',
+							}}
+						>
+							<Loader />
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

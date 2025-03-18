@@ -81,6 +81,18 @@ function CustomListRowColumn(props: ListColumnProps) {
 		spanRef.current.style.removeProperty('margin-top')
 	}
 
+	function formatText(text: string): string {
+		if (text.length <= 10) {
+			return text
+		}
+		const prefix = text.slice(0, 2)
+		const suffix = text.slice(-6)
+		return `${prefix}...${suffix}`
+	}
+
+	const displayValue =
+		typeof data.value === 'string' && isLink ? formatText(data.value) : data.value
+
 	return (
 		<div
 			className={
@@ -93,12 +105,12 @@ function CustomListRowColumn(props: ListColumnProps) {
 				onMouseEnter={showMore}
 				onMouseOut={hideMore}
 				ref={spanRef}
-				title={isRollable ? '' : data.value}
+				title={isRollable ? '' : typeof data.value === 'string' ? data.value : ''}
 				onClick={onClickColumn}
 				className={isShowMore ? 'custom-list-row-column__more' : 'custom-list-row-column__less'}
 			>
 				{isIcon && iconToShow}
-				{!isIcon && data.value}
+				{!isIcon && displayValue}
 			</span>
 		</div>
 	)
