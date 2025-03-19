@@ -31,62 +31,99 @@ export class SelectTaskData {
 
 /** Состояние оберток фильтров */
 export class SelectTaskFiltersStates {
+	/**Застрахованные */
+	/** ФИО */
+	fio: boolean
+	/** Полис */
+	policy: boolean
+	/** Дата рождения */
+	dataBt: boolean
+
+	/**Задачи */
 	/** Номер задачи */
 	number: boolean
 	/** Статус задачи */
 	status: boolean
-	/** Тип задачи */
-	type: boolean
 	/** Вид задачи */
 	sort: boolean
+	/** Тип задачи */
+	type: boolean
+	/** Срочность*/
+	urgency: boolean
 	/** Дата создания */
 	createdAt: boolean
 	/** Дата контроля */
 	controledAt: boolean
 	/** Автор */
 	author: boolean
-	/** Исполнитель */
-	executor: boolean
-	/** Обращение */
-	request: boolean
-	/** Застрахованный */
-	insured: boolean
-	/** Страхователь */
-	insurer: boolean
 	/** Группа автора */
 	authorGroup: boolean
+	/** Исполнитель */
+	executor: boolean
 	/** Группа исполнителя */
 	executorGroup: boolean
 
+	/**Прочее */
+	/** Канал */
+	channel: boolean
+	/** Страхователь */
+	insurer: boolean
+	/** Форма согласования */
+	formApproval: boolean
+	/** Статус согласования */
+	statusApproval: boolean
+	/** Срок согласования */
+	termApproval: boolean
+
 	constructor() {
-		this.number = false
-		this.status = false
-		this.type = false
-		this.sort = false
-		this.createdAt = false
-		this.controledAt = false
-		this.author = false
-		this.executor = false
-		this.request = false
-		this.insured = false
-		this.insurer = false
-		this.authorGroup = false
-		this.executorGroup = false
+		this.fio = true
+		this.policy = true
+		this.dataBt = true
+
+		this.number = true
+		this.status = true
+		this.sort = true
+		this.type = true
+		this.urgency = true
+		this.createdAt = true
+		this.controledAt = true
+		this.author = true
+		this.authorGroup = true
+		this.executor = true
+		this.executorGroup = true
+
+		this.channel = true
+		this.insurer = true
+		this.formApproval = true
+		this.statusApproval = true
+		this.termApproval = true
 	}
 }
 
 /** Значения фильтров формы отбора задач */
 export class SelectTaskFilters implements IFiltersData {
+	/** Коллективное?*/
+	isCollective: ListFilter
+
+	/**Застрахованные */
+	/** ФИО */
+	fio: StringFilter
+	/**Полис */
+	policy: StringFilter
 	/** Дата рождения */
 	dataBt: DateFilter
+
+	/**Задачи */
 	/** Номер задачи */
 	number: StringFilter
 	/** Статус задачи */
 	status: ListFilter
-	/** Тип задачи */
-	type: ListFilter
 	/** Вид задачи */
 	sort: ListFilter
+	/** Тип задачи */
+	type: ListFilter
+	/** Срочность */
+	urgency: ListFilter
 	/** Дата создания */
 	createdAt: DateFilter
 	/** Дата контроля */
@@ -99,75 +136,96 @@ export class SelectTaskFilters implements IFiltersData {
 	executor: ListFilter
 	/** Группа исполнителя */
 	executorGroup: ListFilter
-	/** Обращение */
-	request: AppFilter
-	/** Согласованные услуги */
-	servicesApproved: StringFilter
-	/** Застрахованный */
-	insured: StringFilter
+
+	/**Прочее */
+	/** Канал */
+	channel: ListFilter
 	/**Страхователь */
 	insurer: StringFilter
-	/** */
-	isCollective: ListFilter
+	/** Форма согласования */
+	formApproval: ListFilter
+	/** Статус согласования */
+	statusApproval: ListFilter
+	/** Срок согласования */
+	termApproval: DateFilter
 
 	constructor(selectTaskFilters?: SelectTaskFilters) {
-		this.dataBt = new DateFilter('dataBt', 'дата рождения', {
+		this.isCollective = new ListFilter('isCollective', '', selectTaskFilters?.isCollective?.values)
+
+		this.fio = new StringFilter('fio', 'ФИО', selectTaskFilters?.fio.value)
+		this.policy = new StringFilter('policy', 'Полис', selectTaskFilters?.policy.value)
+		this.dataBt = new DateFilter('dataBt', 'Дата рождения', {
 			valueFrom: selectTaskFilters?.dataBt.valueFrom,
 			valueTo: selectTaskFilters?.dataBt.valueTo,
 		})
-		this.number = new StringFilter('number', 'номер задачи', selectTaskFilters?.number.value)
-		this.status = new ListFilter('status', 'статус задачи', selectTaskFilters?.status.values)
-		this.type = new ListFilter('type', 'тип задачи', selectTaskFilters?.type.values)
-		this.sort = new ListFilter('sort', 'вид задачи', selectTaskFilters?.sort.values)
 
-		this.createdAt = new DateFilter('createdAt', 'дата создания', {
+		this.number = new StringFilter('number', 'Номер задачи', selectTaskFilters?.number.value)
+		this.status = new ListFilter('status', 'Статус задачи', selectTaskFilters?.status.values)
+		this.sort = new ListFilter('sort', 'Вид задачи', selectTaskFilters?.sort.values)
+		this.type = new ListFilter('type', 'Тип задачи', selectTaskFilters?.type.values)
+		this.urgency = new ListFilter('urgency', 'Срочность', selectTaskFilters?.urgency.values)
+		this.createdAt = new DateFilter('createdAt', 'Дата создания', {
 			valueFrom: selectTaskFilters?.createdAt.valueFrom,
 			valueTo: selectTaskFilters?.createdAt.valueTo,
 		})
-
-		this.controledAt = new DateFilter('controledAt', 'дата контроля', {
+		this.controledAt = new DateFilter('controledAt', 'Дата контроля', {
 			valueFrom: selectTaskFilters?.controledAt.valueFrom,
 			valueTo: selectTaskFilters?.controledAt.valueTo,
 		})
 
-		this.author = new ListFilter('author', 'автор', selectTaskFilters?.author.values)
+		this.author = new ListFilter('author', 'Автор', selectTaskFilters?.author.values)
 		this.authorGroup = new ListFilter(
 			'authorGroup',
-			'группа автора',
+			'Группа автора',
 			selectTaskFilters?.authorGroup.values
 		)
-		this.executor = new ListFilter('executor', 'исполнитель', selectTaskFilters?.executor.values)
+		this.executor = new ListFilter('executor', 'Исполнитель', selectTaskFilters?.executor.values)
 		this.executorGroup = new ListFilter(
 			'executorGroup',
-			'группа исполнителя',
+			'Группа исполнителя',
 			selectTaskFilters?.executorGroup.values
 		)
-		this.request = new AppFilter('request', 'обращение', selectTaskFilters?.request.value)
-		this.servicesApproved = new StringFilter(
-			'servicesApproved',
-			'согласованные услуги',
-			selectTaskFilters?.servicesApproved.value
+
+		this.channel = new ListFilter('channel', 'Канал', selectTaskFilters?.channel.values)
+		this.insurer = new StringFilter('insurer', 'Страхователь', selectTaskFilters?.insurer.value)
+		this.formApproval = new ListFilter(
+			'formApproval',
+			'Форма согласования',
+			selectTaskFilters?.formApproval.values
 		)
-		this.insured = new StringFilter('insured', 'застрахованный', selectTaskFilters?.insured.value)
-		this.insurer = new StringFilter('insurer', 'страхователь', selectTaskFilters?.insurer.value)
-		this.isCollective = new ListFilter('isCollective', '', selectTaskFilters?.isCollective?.values)
+		this.statusApproval = new ListFilter(
+			'statusApproval',
+			'Статус согласования',
+			selectTaskFilters?.statusApproval.values
+		)
+		this.termApproval = new DateFilter('termApproval', 'Срок согласования', {
+			valueFrom: selectTaskFilters?.termApproval.valueFrom,
+			valueTo: selectTaskFilters?.termApproval.valueTo,
+		})
 	}
 
 	reset() {
+		this.fio.reset()
+		this.policy.reset()
 		this.dataBt.reset()
+
 		this.number.reset()
 		this.status.reset()
-		this.type.reset()
 		this.sort.reset()
+		this.type.reset()
+		this.urgency.reset()
 		this.createdAt.reset()
 		this.controledAt.reset()
 		this.author.reset()
 		this.authorGroup.reset()
 		this.executor.reset()
 		this.executorGroup.reset()
-		this.request.reset()
-		this.insured.reset()
+
+		this.channel.reset()
 		this.insurer.reset()
+		this.formApproval.reset()
+		this.statusApproval.reset()
+		this.termApproval.reset()
 	}
 }
 

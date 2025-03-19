@@ -27,6 +27,8 @@ export interface CustomInputProps extends React.ComponentProps<'input'> {
 	isInvalid?: boolean
 	/** Кастомные классы */
 	customClassname?: string
+	style?: React.CSSProperties
+	width?: string | number
 }
 
 /** Ответ запроса данных с сервера */

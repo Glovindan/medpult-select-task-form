@@ -1,37 +1,37 @@
 import React from 'react'
 import icons from '../../shared/icons'
-import { ListColumnData, SortData } from '../CustomListTypes';
+import { ListColumnData, SortData } from '../CustomListTypes'
 
 interface ListColumnProps extends ListColumnData {
-	handleSortClick: any,
+	handleSortClick: any
 	sortData: SortData | undefined
 }
 
 /** Столбец шапки таблицы */
 function CustomListHeaderColumn(props: ListColumnProps) {
-	const { code, fr, isSortable, name, handleSortClick, sortData } = props;
+	const { code, fr, isSortable, name, handleSortClick, sortData } = props
 
 	/** Переключение режима сортировки для колонки */
 	const toggleSortColumn = () => {
-		let data: SortData | undefined = sortData;
+		let data: SortData | undefined = sortData
 
 		if (data?.code != code) {
 			data = new SortData({ code: code })
 		} else if (data.isAscending) {
 			data = new SortData({ code: code, isAscending: false })
 		} else {
-			data = undefined;
+			data = undefined
 		}
 
-		handleSortClick(data);
+		handleSortClick(data)
 	}
 
 	const isShowArrowUp = (): boolean => {
-		return ((sortData?.code == code && sortData.isAscending) || sortData?.code != code);
+		return (sortData?.code == code && sortData.isAscending) || sortData?.code != code
 	}
 
 	const isShowArrowDown = (): boolean => {
-		return ((sortData?.code == code && !sortData.isAscending) || sortData?.code != code);
+		return (sortData?.code == code && !sortData.isAscending) || sortData?.code != code
 	}
 
 	const sortButton = (
@@ -46,10 +46,8 @@ function CustomListHeaderColumn(props: ListColumnProps) {
 	)
 
 	return (
-		<div className="custom-list-header-column" style={{ flex: fr }}>
-			<div className="custom-list-header-column__name">
-				{name}
-			</div>
+		<div className="custom-list-header-column" style={{ width: fr }}>
+			<div className="custom-list-header-column__name">{name}</div>
 			{isSortable && sortButton}
 		</div>
 	)

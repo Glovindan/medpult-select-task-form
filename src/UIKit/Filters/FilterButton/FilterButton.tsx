@@ -11,13 +11,9 @@ interface FilterButtonProps {
 /** Кнопка для открытия панель фильтров */
 function FilterButton({ isShowIndicator = false, clickHandler }: FilterButtonProps) {
 	const buttonTitle = (
-		<span className='filter-button'>
-			<span>
-				фильтр
-			</span>
-			<span>
-				{icons.FilterIcon}
-			</span>
+		<span className="filter-button">
+			<span>фильтр</span>
+			<span>{icons.FilterIcon}</span>
 		</span>
 	)
 
