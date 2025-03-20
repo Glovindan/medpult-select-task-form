@@ -29,8 +29,9 @@
 	}
 
 	&__arrow {
+		transform: rotate(180deg);
 		&_open {
-			transform: rotate(180deg);
+			transform: rotate(360deg);
 		}
 	}
 

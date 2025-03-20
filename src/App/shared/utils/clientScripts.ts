@@ -32,7 +32,7 @@ async function getTasks(
 	})
 
 	const mockData = {
-		isCollective: new ItemData({ value: 'individual' }),
+		isCollective: new ItemData({ value: 'collective' }),
 		fio: new ItemData({ value: 'Иванов Иван Иванович', info: 'test' }),
 		policy: new ItemData({ value: '008WS0000000000/1', info: 'test' }),
 		dataBt: new ItemDataString('01.01.1990'),

@@ -42,10 +42,10 @@ export default function SelectTaskList({ width }: SelectTaskListProps) {
 		const link = await Scripts.getRequestLink()
 		// utils.redirectSPA(link)
 
-		const redirectUrl = new URL(window.location.origin + "/" + link);
-		if(requestId) redirectUrl.searchParams.set("request_id", requestId);
-		if(taskId) redirectUrl.searchParams.set("task_id", taskId);
-		utils.redirectSPA(redirectUrl.toString());
+		const redirectUrl = new URL(window.location.origin + '/' + link)
+		if (requestId) redirectUrl.searchParams.set('request_id', requestId)
+		if (taskId) redirectUrl.searchParams.set('task_id', taskId)
+		utils.redirectSPA(redirectUrl.toString())
 	}
 
 	/** Обработчик нажатия на номер обращения */
@@ -59,9 +59,9 @@ export default function SelectTaskList({ width }: SelectTaskListProps) {
 		const link = await Scripts.getRequestLink()
 		// utils.redirectSPA(link)
 
-		const redirectUrl = new URL(window.location.origin + "/" + link);
-		if(requestId) redirectUrl.searchParams.set("request_id", requestId);
-		utils.redirectSPA(redirectUrl.toString());
+		const redirectUrl = new URL(window.location.origin + '/' + link)
+		if (requestId) redirectUrl.searchParams.set('request_id', requestId)
+		utils.redirectSPA(redirectUrl.toString())
 	}
 
 	// Вычислить количество отобранных элементов
@@ -78,7 +78,7 @@ export default function SelectTaskList({ width }: SelectTaskListProps) {
 		new ListColumnData({
 			name: data.filters.isCollective.fieldName,
 			code: data.filters.isCollective.fieldCode,
-			fr: 56,
+			fr: 36,
 			isIcon: true,
 		}),
 		new ListColumnData({

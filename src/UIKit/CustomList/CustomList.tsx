@@ -170,7 +170,7 @@ function CustomList<SearchDataType = any, ItemType = any>(
 				}
 				ref={headerRef}
 			>
-				<div style={{ width: `${calculateListWidth()}px`, minWidth: '3262px' }}>
+				<div style={{ width: `${calculateListWidth()}px`, minWidth: '3242px' }}>
 					{columnsSettings.map((columnSettings) => (
 						<CustomListColumn
 							sortData={sortData}
@@ -203,7 +203,7 @@ function CustomList<SearchDataType = any, ItemType = any>(
 
 				<div
 					className="custom-list__body-wrapper"
-					style={{ width: `${calculateListWidth()}px`, minWidth: '3262px' }}
+					style={{ width: `${calculateListWidth()}px`, minWidth: '3242px' }}
 				>
 					{items.map((item) => {
 						/** Обработчик нажатия на строку */
