@@ -78,7 +78,7 @@ export default function SelectTaskList({ width }: SelectTaskListProps) {
 		new ListColumnData({
 			name: data.filters.isCollective.fieldName,
 			code: data.filters.isCollective.fieldCode,
-			fr: 36,
+			fr: 26,
 			isIcon: true,
 		}),
 		new ListColumnData({

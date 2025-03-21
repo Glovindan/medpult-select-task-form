@@ -25,14 +25,28 @@ export default function FilterItemCategorySearch(props: FilterItemCategorySearch
 	/** Разметка чекбоксов */
 	const [checkboxes, setCheckboxes] = useState<React.JSX.Element[]>([])
 
+	/** Проверка является ли вариант отмеченным */
+	const isVariantChecked = (variant: ObjectItem): boolean => {
+		return Boolean(filterValue.values.find((value) => value.code == variant.code))
+	}
+
 	/** Фильтрация вариантов на основе поискового запроса */
 	const filteredVariants = variants.filter((variant) =>
 		variant.value.toLowerCase().includes(searchValue.toLowerCase())
 	)
 
+	/** Разделение вариантов на выбранные и невыбранные */
+	const sortedVariants = filteredVariants.sort((a, b) => {
+		const aChecked = isVariantChecked(a)
+		const bChecked = isVariantChecked(b)
+		if (aChecked && !bChecked) return -1
+		if (!aChecked && bChecked) return 1
+		return 0
+	})
+
 	/** Получение чекбоксов по текущим фильтрам и вариантам */
 	const getCheckboxes = () =>
-		filteredVariants.map((variant) => {
+		sortedVariants.map((variant) => {
 			const checked = isVariantChecked(variant)
 
 			return (
@@ -50,17 +64,14 @@ export default function FilterItemCategorySearch(props: FilterItemCategorySearch
 		setCheckboxes(getCheckboxes())
 	}, [filterValue.values.length, variants, searchValue])
 
-	/** Проверка является ли вариант отмеченным */
-	const isVariantChecked = (variant: ObjectItem): boolean => {
-		return Boolean(filterValue.values.find((value) => value.code == variant.code))
-	}
-
 	/** Переключение состояния чекбокса */
 	const toggleChecked = (code: string) => {
 		return (value: boolean) => {
-			const currentValues = filterValue
+			const currentValues = new ListFilter(filterValue.fieldCode, filterValue.fieldName, [
+				...filterValue.values,
+			])
 			if (!value) {
-				currentValues.values = currentValues.values.filter((value) => value.code != code)
+				currentValues.values = currentValues.values.filter((value) => value.code !== code)
 			} else {
 				currentValues.values.push(new ObjectItem({ code: code }))
 			}
