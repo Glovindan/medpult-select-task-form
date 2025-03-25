@@ -10,14 +10,15 @@ interface FilterItemCategorySearchProps
 		FilterItemWrapperProps {
 	/** Список вариантов */
 	variants: ObjectItem[]
+	/** Значение поиска */
+	searchValue: string
+	/** Установка значения поиска */
+	setSearchValue: (value: string) => void
 }
 
 /** Обертка элемента фильтров для строчного поиска */
 export default function FilterItemCategorySearch(props: FilterItemCategorySearchProps) {
-	const { title, filterValue, setFilterValue, variants } = props
-
-	/** Состояние для хранения значения поиска */
-	const [searchValue, setSearchValue] = useState('')
+	const { title, filterValue, setFilterValue, variants, searchValue, setSearchValue } = props
 
 	/** Состояние для отслеживания загрузки данных */
 	const [isLoading, setIsLoading] = useState(false)

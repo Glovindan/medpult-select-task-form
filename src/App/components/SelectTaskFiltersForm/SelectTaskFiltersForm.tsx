@@ -23,6 +23,18 @@ export default function SelectTaskFiltersForm({ clickFilterHandler }: SelectTask
 	const { data, setValue } = selectTaskContext.useContext()
 	const filters = data.filters
 
+	// Состояния для поисковых полей
+	const [searchValues, setSearchValues] = useState<Record<string, string>>({
+		sort: '',
+		author: '',
+		executor: '',
+	})
+
+	// Функция для обновления поискового значения
+	const setSearchValue = (key: string, value: string) => {
+		setSearchValues((prev) => ({ ...prev, [key]: value }))
+	}
+
 	/** Изменение значения конкретного фильтра */
 	const changeFilterValue = (key: string, value: IFilter) => {
 		const currentFilters = filters
@@ -70,6 +82,11 @@ export default function SelectTaskFiltersForm({ clickFilterHandler }: SelectTask
 	const resetFilters = () => {
 		data.filters.reset()
 		setValue('filters', data.filters)
+		setSearchValues({
+			sort: '',
+			author: '',
+			executor: '',
+		})
 	}
 
 	/** Обработчик нажатия на кнопку поиска */
@@ -194,6 +211,8 @@ export default function SelectTaskFiltersForm({ clickFilterHandler }: SelectTask
 					variants={sorts}
 					filterValue={data.filters.sort}
 					setFilterValue={changeValueConstructor(data.filters.sort.fieldCode)}
+					searchValue={searchValues.sort}
+					setSearchValue={(value) => setSearchValue('sort', value)}
 				/>
 				<FilterItemCategory
 					setIsOpenInit={setIsOpenFactory(data.filters.type.fieldCode)}
@@ -233,6 +252,8 @@ export default function SelectTaskFiltersForm({ clickFilterHandler }: SelectTask
 					variants={users}
 					filterValue={data.filters.author}
 					setFilterValue={changeValueConstructor(data.filters.author.fieldCode)}
+					searchValue={searchValues.author}
+					setSearchValue={(value) => setSearchValue('author', value)}
 				/>
 				<FilterItemCategory
 					setIsOpenInit={setIsOpenFactory(data.filters.authorGroup.fieldCode)}
@@ -249,6 +270,8 @@ export default function SelectTaskFiltersForm({ clickFilterHandler }: SelectTask
 					variants={users}
 					filterValue={data.filters.executor}
 					setFilterValue={changeValueConstructor(data.filters.executor.fieldCode)}
+					searchValue={searchValues.executor}
+					setSearchValue={(value) => setSearchValue('executor', value)}
 				/>
 				<FilterItemCategory
 					setIsOpenInit={setIsOpenFactory(data.filters.executorGroup.fieldCode)}
