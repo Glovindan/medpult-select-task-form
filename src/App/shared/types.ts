@@ -29,6 +29,8 @@ export class SelectTaskData {
 	createdAt?: ItemDataString
 	// Дата контроля - дата с по
 	controledAt?: ItemDataString
+	// Согласованные услуги
+	servicesApproved?: ItemData
 	//Канал
 	channel?: ItemData
 	// Автор - поиск по названию
@@ -60,6 +62,7 @@ export class SelectTaskData {
 		urgency,
 		createdAt,
 		controledAt,
+		servicesApproved,
 		channel,
 		author,
 		authorGroup,
@@ -81,6 +84,7 @@ export class SelectTaskData {
 		this.urgency = urgency
 		this.createdAt = createdAt
 		this.controledAt = controledAt
+		this.servicesApproved = servicesApproved
 		this.channel = channel
 		this.author = author
 		this.authorGroup = authorGroup

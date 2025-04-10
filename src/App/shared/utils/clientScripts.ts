@@ -43,6 +43,7 @@ async function getTasks(
 		urgency: new ItemData({ value: 'Экстренно', info: 'test' }),
 		createdAt: new ItemDataString('06.12.2023'),
 		controledAt: new ItemDataString('06.12.2023'),
+		servicesApproved: new ItemData({ value: 'Рентген руки' }),
 		channel: new ItemData({ value: 'Телефон', info: 'test' }),
 		author: new ItemData({ value: 'Юрасов Сергей Олегович', info: 'test' }),
 		authorGroup: new ItemData({ value: 'Врачи консультанты МедКЦ (2 линия)', info: 'test' }),

@@ -128,6 +128,7 @@ export class SelectTaskFilters implements IFiltersData {
 	createdAt: DateFilter
 	/** Дата контроля */
 	controledAt: DateFilter
+	servicesApproved: ListFilter
 	/** Автор */
 	author: ListFilter
 	/** Группа автора */
@@ -172,6 +173,12 @@ export class SelectTaskFilters implements IFiltersData {
 			valueFrom: selectTaskFilters?.controledAt.valueFrom,
 			valueTo: selectTaskFilters?.controledAt.valueTo,
 		})
+
+		this.servicesApproved = new ListFilter(
+			'servicesApproved',
+			'Согласованные услуги',
+			selectTaskFilters?.servicesApproved?.values
+		)
 
 		this.author = new ListFilter('author', 'Автор', selectTaskFilters?.author.values)
 		this.authorGroup = new ListFilter(

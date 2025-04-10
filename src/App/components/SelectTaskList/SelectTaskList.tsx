@@ -145,6 +145,12 @@ export default function SelectTaskList({ width }: SelectTaskListProps) {
 			isSortable: searchAccess,
 		}),
 		new ListColumnData({
+			name: data.filters.servicesApproved.fieldName,
+			code: data.filters.servicesApproved.fieldCode,
+			fr: 202,
+			isSortable: searchAccess,
+		}),
+		new ListColumnData({
 			name: data.filters.channel.fieldName,
 			code: data.filters.channel.fieldCode,
 			fr: 132,
