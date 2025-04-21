@@ -106,7 +106,7 @@ export default function SelectTaskFiltersForm({ clickFilterHandler }: SelectTask
 		})
 
 		if (!isAnyFilterSelected) {
-			showError('Фильтры не выбраны')
+			//showError('Фильтры не выбраны')
 			return
 		}
 		// Количество отобранных элементов
